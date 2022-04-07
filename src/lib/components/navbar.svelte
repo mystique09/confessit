@@ -1,5 +1,6 @@
 <script lang="ts">
     import { session } from '$app/stores';
+import MenuIcon from './menu_icon.svelte';
 
     let isOpen = false;
 </script>
@@ -9,15 +10,11 @@
         <div class="logo">
             <a href="/"><img src="/logo.svg" alt="ConfessIt Logo"></a>
         </div>
-        {#if $session}
+        {#if !$session}
             <a class="login_btn" href="/login">Login</a>
         {:else}
             <div class="menu_btn" on:click={() => isOpen = !isOpen}>
-                <div class="wrap">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+                <MenuIcon />
                 <h4>Menu</h4>
             </div>
             <div class="menu" class:hide={!isOpen}>
@@ -39,13 +36,7 @@ nav {
     @apply bg-secondary px-8 py-2 text-white rounded-md font-semibold;
 }
 .menu_btn {
-    @apply bg-secondary cursor-pointer flex flex-row items-center justify-between px-6 py-2 text-white rounded-md;
-}
-.menu_btn .wrap {
-    @apply flex flex-col gap-2 h-8;
-}
-.wrap > span {
-    @apply w-full h-6 bg-gray-500;
+    @apply h-full bg-secondary cursor-pointer flex flex-row items-center justify-between gap-1 px-6 py-2 text-white rounded-md;
 }
 .menu_btn h4 {
     @apply font-bold text-lg;
