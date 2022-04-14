@@ -12,19 +12,13 @@
 
 <script lang="ts">
 	let loginError = '';
-	const payload = {
+	let payload = {
 		username: '',
 		password: ''
 	};
 
-	async function submitForm() {
-		if (payload.username.length < 8) {
-			loginError = 'Username length must be above 8.';
-			setTimeout(() => (loginError = ''), 2000);
-			return;
-		}
-
-		const response = await fetch('/api/signup', {
+	async function handleLogin() {
+		const response = await fetch('/api/auth', {
 			method: 'POST',
 			body: JSON.stringify(payload),
 			headers: {
@@ -43,39 +37,33 @@
 </script>
 
 <main>
-	<h1 class="heading">Receive message from your secret admirers!</h1>
-	<form on:submit|preventDefault={submitForm}>
-		<h2>Join us, stranger.</h2>
+	<form id="login" on:submit|preventDefault={handleLogin}>
+		<h2>Login to continue</h2>
 		<div class="input_group">
 			<label for="username">Username</label>
-			<input type="text" bind:value={payload.username} required />
+			<input required type="text" bind:value={payload.username} />
 		</div>
 		<div class="input_group">
 			<label for="password">Password</label>
-			<input type="password" bind:value={payload.password} required />
+			<input required type="password" bind:value={payload.password} />
 		</div>
 		<p class="error">{loginError}</p>
-		<div class="btns">
-			<button id="submit" type="submit">Create Account</button>
+		<div class="btn">
+			<button id="login_btn" type="submit">Login</button>
 		</div>
 	</form>
 </main>
 
 <style lang="postcss">
-	h1 {
-		@apply font-semibold text-4xl my-4;
-	}
-
 	main {
-		@apply px-2 bg-gray-100 h-screen;
+		@apply px-2 bg-gray-100 h-screen flex flex-col;
 	}
 
 	form {
-		@apply mt-5 max-w-md md:m-auto;
+		@apply flex flex-col justify-center max-w-md md:m-auto h-full;
 	}
-
 	form h2 {
-		@apply font-semibold text-lg text-secondary;
+		@apply font-semibold text-4xl;
 	}
 
 	.input_group {
@@ -87,15 +75,14 @@
 	input {
 		@apply outline-none rounded-md px-8 w-full text-sm max-w-md py-3 text-gray-600;
 	}
-
-	.btns {
-		@apply flex flex-row w-full items-center justify-end;
+	.btn {
+		@apply flex flex-col items-end p-4;
 	}
-	#submit {
-		@apply mt-2 text-primary font-semibold rounded-md bg-accent px-12 py-3;
+	#login_btn {
+		@apply px-12 rounded-md py-3 bg-accent text-white font-semibold text-base;
 	}
 
 	.error {
-		@apply py-2 text-red-500 font-normal text-sm;
+		@apply font-normal text-sm text-red-500 py-2;
 	}
 </style>
