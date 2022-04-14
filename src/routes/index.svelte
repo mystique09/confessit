@@ -1,55 +1,79 @@
+<script context="module">
+	export async function load({ session }) {
+		if (session) {
+			return {
+				status: 302,
+				redirect: '/dashboard'
+			};
+		}
+		return {};
+	}
+</script>
+
 <script lang="ts">
-	let error = '';
+	let loginError = '';
 	const payload = {
 		username: '',
 		password: ''
 	};
 
-	const submitForm = () => {
+	async function submitForm() {
 		if (payload.username.length < 8) {
-			error = 'Username length must be above 8.';
-			setTimeout(() => (error = ''), 1000);
+			loginError = 'Username length must be above 8.';
+			setTimeout(() => (loginError = ''), 2000);
 			return;
 		}
-	};
+
+		const response = await fetch('/api/signup', {
+			method: 'POST',
+			body: JSON.stringify(payload),
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			}
+		});
+
+		const { message } = await response.json();
+
+		if (response.status !== 200) {
+			loginError = message;
+			return;
+		}
+	}
 </script>
 
-<div class="main">
-	<div class="wrap">
-		<h1 class="heading">Receive message from your secret admirers!</h1>
-		<form on:submit|preventDefault={submitForm}>
-			<h2>Join us, stranger.</h2>
-			<div class="input_group">
-				<label for="username">Username</label>
-				<input type="text" bind:value={payload.username} required />
-			</div>
-			<div class="input_group">
-				<label for="password">Password</label>
-				<input type="password" bind:value={payload.password} required />
-			</div>
-			<p class="error">{error}</p>
-			<div class="btns">
-				<button id="submit" type="submit">Create Account</button>
-			</div>
-		</form>
-	</div>
-</div>
+<main>
+	<h1 class="heading">Receive message from your secret admirers!</h1>
+	<form on:submit|preventDefault={submitForm}>
+		<h2>Join us, stranger.</h2>
+		<div class="input_group">
+			<label for="username">Username</label>
+			<input type="text" bind:value={payload.username} required />
+		</div>
+		<div class="input_group">
+			<label for="password">Password</label>
+			<input type="password" bind:value={payload.password} required />
+		</div>
+		<p class="error">{loginError}</p>
+		<div class="btns">
+			<button id="submit" type="submit">Create Account</button>
+		</div>
+	</form>
+</main>
 
 <style lang="postcss">
 	h1 {
-		@apply mt-10 font-semibold text-4xl my-4;
+		@apply font-semibold text-4xl my-4;
 	}
 
-	.main {
+	main {
 		@apply px-2 bg-gray-100 h-screen;
-	}
-	.wrap {
-		@apply flex flex-col gap-4;
 	}
 
 	form {
 		@apply mt-5 max-w-md md:m-auto;
 	}
+
 	form h2 {
 		@apply font-semibold text-lg text-secondary;
 	}
@@ -72,6 +96,6 @@
 	}
 
 	.error {
-		@apply py-2 text-center text-red-400 font-semibold text-sm;
+		@apply py-2 text-red-500 font-normal text-sm;
 	}
 </style>
