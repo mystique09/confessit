@@ -1,6 +1,6 @@
 <script context="module">
 	export async function load({ session }) {
-		if (session) {
+		if (session !== null) {
 			return {
 				status: 302,
 				redirect: '/dashboard'
@@ -39,13 +39,20 @@
 			loginError = message;
 			return;
 		}
+
+		window.location.replace('/dashboard');
+		return;
 	}
 </script>
 
+<svelte:head>
+	<title>ConfessIt - Get Started</title>
+</svelte:head>
+
 <main>
-	<h1 class="heading">Receive message from your secret admirers!</h1>
 	<form on:submit|preventDefault={submitForm}>
-		<h2>Join us, stranger.</h2>
+		<h1 class="heading">Create an account to get started.</h1>
+		<h2>Messages you will receive are anonymous.</h2>
 		<div class="input_group">
 			<label for="username">Username</label>
 			<input type="text" bind:value={payload.username} required />
@@ -56,18 +63,18 @@
 		</div>
 		<p class="error">{loginError}</p>
 		<div class="btns">
-			<button id="submit" type="submit">Create Account</button>
+			<button id="login" type="submit">Create Account</button>
 		</div>
 	</form>
 </main>
 
 <style lang="postcss">
 	h1 {
-		@apply font-semibold text-4xl my-4;
+		@apply font-semibold text-4xl mb-4;
 	}
 
 	main {
-		@apply px-2 bg-gray-100 h-screen;
+		@apply pt-4 px-2 bg-gray-100 h-screen;
 	}
 
 	form {
@@ -75,7 +82,7 @@
 	}
 
 	form h2 {
-		@apply font-semibold text-lg text-secondary;
+		@apply font-light text-lg text-secondary;
 	}
 
 	.input_group {
@@ -91,8 +98,8 @@
 	.btns {
 		@apply flex flex-row w-full items-center justify-end;
 	}
-	#submit {
-		@apply mt-2 text-primary font-semibold rounded-md bg-accent px-12 py-3;
+	#login {
+		@apply mt-2 text-white font-semibold rounded-md bg-secondary px-12 py-3;
 	}
 
 	.error {
