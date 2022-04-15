@@ -20,6 +20,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>ConfessIt - {slug}</title>
+</svelte:head>
+
 <main>
 	<form on:submit|preventDefault={onSubmit}>
 		<h1>Send your message to <span>{slug}</span></h1>
