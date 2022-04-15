@@ -6,7 +6,7 @@
 				redirect: '/login'
 			};
 		}
-		return {};
+		return { props: {} };
 	}
 </script>
 

@@ -1,12 +1,12 @@
 <script context="module">
 	export async function load({ session }) {
-		if (session !== null) {
+		if (!!session) {
 			return {
 				status: 302,
 				redirect: '/dashboard'
 			};
 		}
-		return {};
+		return { props: {} };
 	}
 </script>
 
@@ -40,7 +40,7 @@
 			return;
 		}
 
-		window.location.replace('/dashboard');
+		location.replace('/dashboard');
 		return;
 	}
 </script>
