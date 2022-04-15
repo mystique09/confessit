@@ -4,11 +4,9 @@ import { parse } from "cookie";
 export async function handle({ event, resolve }) {
   const cookies = parse(event.request.headers.get('cookie') || '');
 
-  event.locals.user = cookies.auth ? cookies.auth : null;
+  event.locals.user = cookies.auth != '' ? cookies.auth : '';
 
   const response = await resolve(event);
-  response.headers.set('x-custom-header', 'confessit-website');
-
   return response;
 }
 
