@@ -1,4 +1,3 @@
-
 import { serialize } from "cookie";
 
 export async function post() {
