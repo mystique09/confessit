@@ -29,12 +29,19 @@
 
 		const { message } = await response.json();
 
-		if (response.status !== 200) {
-			loginError = message;
+		if (response.status === 201) {
+			window.location.replace('/dashboard');
 			return;
 		}
+
+		loginError = message;
+		return;
 	}
 </script>
+
+<svelte:head>
+	<title>ConfessIt - Login</title>
+</svelte:head>
 
 <main>
 	<form id="login" on:submit|preventDefault={handleLogin}>

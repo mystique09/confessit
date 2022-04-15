@@ -1,6 +1,6 @@
 <script context="module">
 	export async function load({ session }) {
-		if (session) {
+		if (session !== null) {
 			return {
 				status: 302,
 				redirect: '/dashboard'
@@ -39,8 +39,15 @@
 			loginError = message;
 			return;
 		}
+
+		window.location.replace('/dashboard');
+		return;
 	}
 </script>
+
+<svelte:head>
+	<title>ConfessIt - Get Started</title>
+</svelte:head>
 
 <main>
 	<form on:submit|preventDefault={submitForm}>
@@ -56,7 +63,7 @@
 		</div>
 		<p class="error">{loginError}</p>
 		<div class="btns">
-			<button id="submit" type="submit">Create Account</button>
+			<button id="login" type="submit">Create Account</button>
 		</div>
 	</form>
 </main>
@@ -91,7 +98,7 @@
 	.btns {
 		@apply flex flex-row w-full items-center justify-end;
 	}
-	#submit {
+	#login {
 		@apply mt-2 text-white font-semibold rounded-md bg-secondary px-12 py-3;
 	}
 

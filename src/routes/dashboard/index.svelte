@@ -1,6 +1,6 @@
 <script context="module">
 	export async function load({ session }) {
-		if (session) {
+		if (!session) {
 			return {
 				status: 302,
 				redirect: '/login'
@@ -31,6 +31,10 @@
 		{ id: 8, content: 'Hello', created_at: date }
 	];
 </script>
+
+<svelte:head>
+	<title>ConfessIt - Dashboard</title>
+</svelte:head>
 
 <main>
 	<div class="wrap">
