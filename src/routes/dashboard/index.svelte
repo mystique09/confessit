@@ -6,30 +6,39 @@
 				redirect: '/login'
 			};
 		}
-		return { props: {} };
+
+		let date = 'April 1, 2022';
+
+		let messages = [
+			{
+				id: 1,
+				content:
+					'Hello, I just want to say that you are so pretty. I have a crush on you since Elementary :) <3. Im too shy to confess personally.',
+				created_at: date
+			},
+			{ id: 2, content: 'Hello', created_at: date },
+			{ id: 3, content: 'Hello, bitch', created_at: date },
+			{ id: 4, content: '<3', created_at: date },
+			{ id: 5, content: 'Hello', created_at: date },
+			{ id: 6, content: 'Hello', created_at: date },
+			{ id: 7, content: 'Hello', created_at: date },
+			{ id: 8, content: 'Hello', created_at: date }
+		];
+
+		return { status: 200, props: { messages } };
 	}
 </script>
 
 <script lang="ts">
+	interface Message {
+		id: number;
+		content: string;
+		created_at: string;
+	}
+
 	import MessageCard from '$lib/components/message_card.svelte';
 
-	let date = 'April 1, 2022';
-
-	let messages = [
-		{
-			id: 1,
-			content:
-				'Hello, I just want to say that you are so pretty. I have a crush on you since Elementary :) <3. Im too shy to confess personally.',
-			created_at: date
-		},
-		{ id: 2, content: 'Hello', created_at: date },
-		{ id: 3, content: 'Hello, bitch', created_at: date },
-		{ id: 4, content: '<3', created_at: date },
-		{ id: 5, content: 'Hello', created_at: date },
-		{ id: 6, content: 'Hello', created_at: date },
-		{ id: 7, content: 'Hello', created_at: date },
-		{ id: 8, content: 'Hello', created_at: date }
-	];
+	export let messages: Array<Message>;
 </script>
 
 <svelte:head>

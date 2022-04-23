@@ -7,7 +7,7 @@ export async function get() {
       "Set-Cookie": serialize('auth', null, {
         maxAge: -1,
         path: '/',
-        httpOnly: true
+        //httpOnly: true
       })
     }
   };

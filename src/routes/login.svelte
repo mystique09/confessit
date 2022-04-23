@@ -30,7 +30,7 @@
 		const { message } = await response.json();
 
 		if (response.status === 201) {
-			window.location.replace('/dashboard');
+			window.location.reload();
 			return;
 		}
 
