@@ -6,7 +6,7 @@
 
 	async function signOut() {
 		const response = await fetch('/api/logout', {
-			method: 'GET',
+			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -15,7 +15,7 @@
 		const data = await response.json();
 
 		if (data) {
-			window.location.reload();
+			window.location.replace('/login');
 		}
 	}
 </script>
