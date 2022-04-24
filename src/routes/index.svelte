@@ -24,7 +24,7 @@
 			return;
 		}
 
-		const response = await fetch('/api/signup', {
+		const response = await fetch('http://localhost:5000/', {
 			method: 'POST',
 			body: JSON.stringify(payload),
 			headers: {
