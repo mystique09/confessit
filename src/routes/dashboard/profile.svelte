@@ -2,8 +2,8 @@
 	export async function load({ session }) {
 		if (!session) {
 			return {
-				redirect: '/login',
-				status: 302
+				status: 302,
+				redirect: '/login'
 			};
 		}
 		return {

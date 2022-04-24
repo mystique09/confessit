@@ -1,14 +1,17 @@
 import { serialize } from "cookie";
 
-export async function get() {
+export async function post() {
   return {
     status: 200,
     headers: {
-      'Set-Cookie': serialize('auth', '', {
+      'Set-Cookie': serialize('auth', null, {
         path: '/',
-        maxAge: 0,
-        expires: new Date(0)
+        maxAge: -1,
+        httpOnly: true
       })
+    },
+    body: {
+      message: "Signed out."
     }
   };
 }

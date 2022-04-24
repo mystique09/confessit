@@ -4,20 +4,22 @@
 
 	let isOpen = false;
 
-	async function logout() {
-		await fetch('/api/logout', {
-			method: 'GET',
+	async function signOut() {
+		const response = await fetch('/api/logout', {
+			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json'
+				'Content-Type': 'application/json'
 			}
 		});
-		window.location.reload();
-		return;
+
+		const data = await response.json();
+
+		if (data) {
+			window.location.replace('/login');
+		}
 	}
 </script>
 
-{$session}
 <nav>
 	<div class="wrap">
 		<div class="logo">
@@ -33,7 +35,7 @@
 			<div class="menu" class:hide={!isOpen}>
 				<ul>
 					<li><a href="/dashboard/profile">My Account</a></li>
-					<li><button on:click={logout} type="button">Sign out</button></li>
+					<li><button on:click={signOut} type="button">Sign out</button></li>
 				</ul>
 			</div>
 		{/if}
