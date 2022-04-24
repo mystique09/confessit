@@ -5,7 +5,7 @@ import { parse } from "cookie";
 export async function handle({ event, resolve }: { event: RequestEvent, resolve: (event: RequestEvent, opts?: RequestOptions) => MaybePromise<Response> }) {
   const cookies = parse(event.request.headers.get('cookie') || '');
 
-  event.locals.user = cookies.auth != '' ? cookies.auth : '';
+  event.locals.user = cookies.auth ? cookies.auth : null;
 
   const response = await resolve(event);
   return response;
