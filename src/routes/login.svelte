@@ -29,13 +29,8 @@
 
 		const message = await response.json();
 
-		if (response.status === 201) {
-			window.location.reload();
-			return;
-		}
-
 		if (response.status === 200) {
-			location.replace('/dashboard');
+			location.reload();
 			return;
 		}
 
