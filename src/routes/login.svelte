@@ -18,7 +18,7 @@
 	};
 
 	async function handleLogin() {
-		const response = await fetch('/api/auth', {
+		const response = await fetch('http://localhost:5000/auth', {
 			method: 'POST',
 			body: JSON.stringify(payload),
 			headers: {
@@ -27,14 +27,20 @@
 			}
 		});
 
-		const { message } = await response.json();
+		const message = await response.json();
 
 		if (response.status === 201) {
 			window.location.reload();
 			return;
 		}
 
+		if (response.status === 200) {
+			location.replace('/dashboard');
+			return;
+		}
+
 		loginError = message;
+		setTimeout(() => (loginError = ''), 2500);
 		return;
 	}
 </script>
