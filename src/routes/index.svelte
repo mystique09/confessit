@@ -1,6 +1,6 @@
 <script context="module">
 	export async function load({ session }) {
-		if (!!session) {
+		if (session) {
 			return {
 				status: 302,
 				redirect: '/dashboard'
@@ -24,7 +24,7 @@
 			return;
 		}
 
-		const response = await fetch('/api/signup', {
+		const response = await fetch('http://localhost:5000/signup', {
 			method: 'POST',
 			body: JSON.stringify(payload),
 			headers: {
@@ -55,7 +55,7 @@
 		<h2>Messages you will receive are anonymous.</h2>
 		<div class="input_group">
 			<label for="username">Username</label>
-			<input type="text" bind:value={payload.username} required />
+			<input type="text" bind:value={payload.username} required placeholder="mystique09" />
 		</div>
 		<div class="input_group">
 			<label for="password">Password</label>

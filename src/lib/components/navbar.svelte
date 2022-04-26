@@ -49,6 +49,12 @@
 	.wrap {
 		@apply px-4 py-2 w-full flex flex-row items-center justify-between;
 	}
+	.logo {
+		@apply w-full h-full;
+	}
+	.logo a img {
+		@apply w-auto h-auto;
+	}
 	.login_btn {
 		@apply bg-secondary px-8 py-2 text-white rounded-md font-semibold;
 	}

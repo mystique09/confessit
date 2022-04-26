@@ -18,7 +18,7 @@
 	};
 
 	async function handleLogin() {
-		const response = await fetch('/api/auth', {
+		const response = await fetch('http://confessit.localhost:5000/auth', {
 			method: 'POST',
 			body: JSON.stringify(payload),
 			headers: {
@@ -27,14 +27,15 @@
 			}
 		});
 
-		const { message } = await response.json();
+		const message = await response.json();
 
-		if (response.status === 201) {
-			window.location.reload();
+		if (response.status === 200) {
+			location.reload();
 			return;
 		}
 
 		loginError = message;
+		setTimeout(() => (loginError = ''), 2500);
 		return;
 	}
 </script>
