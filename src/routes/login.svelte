@@ -18,7 +18,7 @@
 	};
 
 	async function handleLogin() {
-		const response = await fetch('http://confessit.localhost:5000/auth', {
+		const response = await fetch('https://backend-server-confessit.herokuapp.com/auth', {
 			method: 'POST',
 			body: JSON.stringify(payload),
 			headers: {
