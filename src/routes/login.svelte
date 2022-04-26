@@ -18,7 +18,7 @@
 	};
 
 	async function handleLogin() {
-		const response = await fetch('http://api.confessit.localhost:5000/auth', {
+		const response = await fetch('http://confessit.localhost:5000/auth', {
 			method: 'POST',
 			body: JSON.stringify(payload),
 			headers: {
