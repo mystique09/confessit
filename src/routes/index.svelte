@@ -35,7 +35,7 @@
 
 		const { status, message } = await response.json();
 
-		if (status !== 'error') {
+		if (status === 'error') {
 			loginError = message;
 			return;
 		}
