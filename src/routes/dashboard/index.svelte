@@ -17,6 +17,7 @@
 		});
 
 		const data = await response.json();
+    console.log(data)
 		const messages = data.data || [];
 
 		return { status: 200, props: { messages } };
