@@ -1,6 +1,6 @@
 import { serialize } from "cookie";
 
-export async function post({ request, fetch }) {
+export async function post({ request }) {
   const response = await fetch(`${process.env.VITE_BACKEND_URL}/auth`, {
     method: "POST",
     body: request.body,
