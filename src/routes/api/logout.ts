@@ -4,7 +4,7 @@ export async function post() {
   return {
     status: 200,
     headers: {
-      'Set-Cookie': serialize('auth', null, {
+      'Set-Cookie': serialize('session_token', null, {
         path: '/',
         maxAge: -1,
         httpOnly: true
