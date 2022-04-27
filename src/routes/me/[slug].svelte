@@ -1,6 +1,26 @@
 <script context="module">
-	export async function load({ params }) {
-		let { slug } = params;
+	export async function load({ params, fetch }) {
+		const { slug } = params;
+
+		const response = await fetch(`/api/me/${slug}`, {
+			method: 'GET',
+			headers: {
+				'content-type': 'application/json',
+				accept: 'application/json'
+			}
+		});
+
+		const data = await response.json();
+
+		if (data.status === 'error') {
+			return {
+				status: 404,
+				props: {
+					slug: 'Not found'
+				}
+			};
+		}
+
 		return {
 			status: 200,
 			props: {
@@ -14,9 +34,32 @@
 	export let slug: string;
 
 	let message = '';
+	let error = '';
+	let success = false;
 
 	async function onSubmit() {
-		console.log(message);
+		const payload = {
+			to: slug,
+			message
+		};
+
+		const response = await fetch(`/api/me/${slug}`, {
+			method: 'POST',
+			body: JSON.stringify(payload),
+			headers: {
+				'content-type': 'application/json',
+				accept: 'application/json'
+			}
+		});
+
+		const data = await response.json();
+		if (data.status === error) {
+			error = data.message;
+			setTimeout(() => (error = ''), 2500);
+			return;
+		}
+		success = true;
+		setTimeout(() => location.reload(), 2500);
 	}
 </script>
 
@@ -36,6 +79,11 @@
 			required
 			placeholder="Hello, ..."
 		/>
+		{#if success}
+			<span>{'Message sent.'}</span>
+		{:else}
+			<span>{error}</span>
+		{/if}
 		<div class="btns">
 			<button id="submit" type="submit">Submit</button>
 		</div>
