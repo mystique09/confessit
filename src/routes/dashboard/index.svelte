@@ -7,7 +7,7 @@
 			};
 		}
 
-		const response = await fetch('api/dashboard', {
+		const response = await fetch('/api/dashboard', {
 			method: 'GET',
 			headers: {
 				'content-type': 'application/json',
@@ -17,10 +17,12 @@
 		});
 
 		const data = await response.json();
-    console.log(data)
 		const messages = data.data || [];
 
-		return { status: 200, props: { messages } };
+		return {
+			status: 200,
+			props: { messages }
+		};
 	}
 </script>
 
@@ -35,7 +37,7 @@
 
 	import MessageCard from '$lib/components/message_card.svelte';
 
-	export let messages: Array<Message>;
+	export let messages: Message[];
 </script>
 
 <svelte:head>

@@ -34,7 +34,6 @@
 
 <script lang="ts">
 	export let username: string;
-	export let id: string;
 
 	let payload = '';
 	let error = '';
@@ -56,7 +55,6 @@
 	<form on:submit|preventDefault={onSubmit}>
 		<h1>My Acccount</h1>
 		<div class="input_group">
-			{id}
 			<label for="username">Username</label>
 			<input disabled type="text" value={username} />
 		</div>

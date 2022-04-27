@@ -1,5 +1,6 @@
 export async function get(event) {
   const jwt = event.request.headers.get('authorization');
+
   if (!jwt) {
     return {
       status: 403,
