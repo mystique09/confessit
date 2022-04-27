@@ -24,7 +24,7 @@
 			return;
 		}
 
-		const response = await fetch('http://localhost:5000/signup', {
+		const response = await fetch('/api/register', {
 			method: 'POST',
 			body: JSON.stringify(payload),
 			headers: {
@@ -33,14 +33,14 @@
 			}
 		});
 
-		const { message } = await response.json();
+		const { status, message } = await response.json();
 
-		if (response.status !== 200) {
+		if (status !== 'error') {
 			loginError = message;
 			return;
 		}
 
-		location.replace('/dashboard');
+		location.replace('/login');
 		return;
 	}
 </script>
