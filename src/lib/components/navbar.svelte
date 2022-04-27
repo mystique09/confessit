@@ -15,7 +15,7 @@
 		const data = await response.json();
 
 		if (data) {
-			window.location.replace('/login');
+			location.replace('/login');
 		}
 	}
 </script>

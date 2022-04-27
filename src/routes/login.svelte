@@ -18,7 +18,7 @@
 	};
 
 	async function handleLogin() {
-		const response = await fetch('https://backend-server-confessit.herokuapp.com/auth', {
+		const response = await fetch('/api/auth', {
 			method: 'POST',
 			body: JSON.stringify(payload),
 			headers: {
@@ -27,14 +27,14 @@
 			}
 		});
 
-		const message = await response.json();
+		const { status, message } = await response.json();
 
-		if (response.status === 200) {
-			location.reload();
+		if (status === 'success') {
+			location.replace('/dashboard');
 			return;
 		}
 
-		loginError = message;
+		loginError = /Key/.test(message) ? 'Invalid username or password' : message;
 		setTimeout(() => (loginError = ''), 2500);
 		return;
 	}

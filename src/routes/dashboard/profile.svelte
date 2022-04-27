@@ -1,20 +1,40 @@
 <script context="module">
-	export async function load({ session }) {
+	export async function load({ session, fetch }) {
 		if (!session) {
 			return {
 				status: 302,
 				redirect: '/login'
 			};
 		}
+
+		const response = await fetch('/api/profile', {
+			method: 'GET',
+			headers: {
+				'content-type': 'application/json',
+				accept: 'application/json',
+				authorization: `Bearer ${session}`
+			}
+		});
+
+		const data = await response.json();
+
+		if (data.status === 'error') {
+			return {
+				status: response.status,
+				props: {}
+			};
+		}
+
 		return {
 			status: 200,
-			props: { username: 'mystique09' }
+			props: { username: data.data.username, id: data.data.id }
 		};
 	}
 </script>
 
 <script lang="ts">
 	export let username: string;
+	export let id: string;
 
 	let payload = '';
 	let error = '';
@@ -25,7 +45,6 @@
 			setTimeout(() => (error = ''), 2000);
 			return;
 		}
-		console.log({ payload });
 	}
 </script>
 
@@ -38,6 +57,7 @@
 	<form on:submit|preventDefault={onSubmit}>
 		<h1>My Acccount</h1>
 		<div class="input_group">
+			{id}
 			<label for="username">Username</label>
 			<input disabled type="text" value={username} />
 		</div>
