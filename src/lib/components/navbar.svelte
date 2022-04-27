@@ -16,6 +16,7 @@
 
 		if (data) {
 			location.replace('/login');
+      location.reload();
 		}
 	}
 </script>
