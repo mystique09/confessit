@@ -21,7 +21,7 @@
 		if (data.status === 'error') {
 			return {
 				status: response.status,
-				props: {}
+				props: { username: '', id: '' }
 			};
 		}
 
@@ -53,7 +53,6 @@
 </svelte:head>
 
 <main>
-	<a href="/dashboard">Dashboard</a>
 	<form on:submit|preventDefault={onSubmit}>
 		<h1>My Acccount</h1>
 		<div class="input_group">
@@ -104,8 +103,5 @@
 
 	.error {
 		@apply py-2 text-red-500 font-normal text-sm;
-	}
-	a {
-		@apply underline text-accent font-normal;
 	}
 </style>

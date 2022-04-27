@@ -34,6 +34,7 @@
 			</div>
 			<div class="menu" class:hide={!isOpen}>
 				<ul>
+					<li><a href="/dashboard">Dashboard</a></li>
 					<li><a href="/dashboard/profile">My Account</a></li>
 					<li><button on:click={signOut} type="button">Sign out</button></li>
 				</ul>
