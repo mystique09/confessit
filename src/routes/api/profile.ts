@@ -12,7 +12,7 @@ export async function get({ request }) {
     }
   }
 
-  const response = await fetch("http://localhost:5000/users/profile", {
+  const response = await fetch(`${process.env.VITE_BACKEND_URL}/users/profile`, {
     method: "GET",
     headers: {
       "content-type": 'application/json',

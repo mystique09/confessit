@@ -1,7 +1,7 @@
 export async function get(event) {
   const param = event.params.slug;
 
-  const response = await fetch(`http://localhost:5000/public/users/${param}`, {
+  const response = await fetch(`${process.env.VITE_BACKEND_URL}/public/users/${param}`, {
     method: "GET",
     headers: {
       'content-type': 'application/json',
@@ -27,7 +27,7 @@ export async function get(event) {
 export async function post(event) {
   const payload = event.request.body;
 
-  const response = await fetch("http://localhost:5000/confess", {
+  const response = await fetch(`${process.env.VITE_BACKEND_URL}/confess`, {
     method: "POST",
     headers: {
       'content-type': 'application/json',

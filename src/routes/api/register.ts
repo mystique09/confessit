@@ -1,5 +1,5 @@
 export async function post({ request }) {
-  const response = await fetch("http://localhost:5000/signup", {
+  const response = await fetch(`${process.env.VITE_BACKEND_URL}/signup`, {
     method: "POST",
     body: request.body,
     headers: {

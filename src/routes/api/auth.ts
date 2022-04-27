@@ -1,7 +1,7 @@
 import { serialize } from "cookie";
 
 export async function post({ request }) {
-  const response = await fetch("http://localhost:5000/auth", {
+  const response = await fetch(`${process.env.VITE_BACKEND_URL}/auth`, {
     method: "POST",
     body: request.body,
     headers: {

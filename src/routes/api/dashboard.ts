@@ -7,7 +7,7 @@ export async function get(event) {
     }
   }
 
-  const response = await fetch('http://localhost:5000/messages', {
+  const response = await fetch(`${process.env.VITE_BACKEND_URL}/messages`, {
     method: "GET",
     headers: {
       'content-type': 'application/json',
