@@ -1,5 +1,5 @@
 <script context="module">
-	export async function load({ session }) {
+	export async function load({ session, fetch }) {
 		if (!session) {
 			return {
 				status: 302,
@@ -7,34 +7,30 @@
 			};
 		}
 
-		let date = 'April 1, 2022';
+		const response = await fetch('api/dashboard', {
+			method: 'GET',
+			headers: {
+				'content-type': 'application/json',
+				accept: 'application/json',
+				authorization: `Bearer ${session}`
+			}
+		});
 
-		let messages = [
-			{
-				id: 1,
-				content:
-					'Hello, I just want to say that you are so pretty. I have a crush on you since Elementary :) <3. Im too shy to confess personally.',
-				created_at: date
-			},
-			{ id: 2, content: 'Hello', created_at: date },
-			{ id: 3, content: 'Hello, bitch', created_at: date },
-			{ id: 4, content: '<3', created_at: date },
-			{ id: 5, content: 'Hello', created_at: date },
-			{ id: 6, content: 'Hello', created_at: date },
-			{ id: 7, content: 'Hello', created_at: date },
-			{ id: 8, content: 'Hello', created_at: date }
-		];
+		const data = await response.json();
+		const messages = data.data || [];
 
 		return { status: 200, props: { messages } };
 	}
 </script>
 
 <script lang="ts">
-	interface Message {
+	type Message = {
 		id: number;
-		content: string;
+		to: string;
+		message: string;
 		created_at: string;
-	}
+		deleted_at: string;
+	};
 
 	import MessageCard from '$lib/components/message_card.svelte';
 
@@ -58,6 +54,10 @@
 			</div>
 		</div>
 		<div class="message_list">
+			{#if messages.length === 0}
+				<h1>No messages yet.</h1>
+			{/if}
+
 			{#each messages as message (message.id)}
 				<MessageCard {message} />
 			{/each}
