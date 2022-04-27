@@ -18,8 +18,8 @@
 	};
 
 	async function submitForm() {
-		if (payload.username.length < 8) {
-			loginError = 'Username length must be above 8.';
+		if (payload.username.length < 8 || payload.password.length < 8) {
+			loginError = 'Username or password length must be above 8.';
 			setTimeout(() => (loginError = ''), 2000);
 			return;
 		}
@@ -40,6 +40,7 @@
 			return;
 		}
 
+		loginError = 'Registered successfully.';
 		location.replace('/login');
 		return;
 	}

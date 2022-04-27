@@ -3,7 +3,11 @@ export async function get(event) {
   if (!jwt) {
     return {
       status: 403,
-      body: "Forbidden"
+      body: {
+        status: "error",
+        message: "Forbidden",
+        data: null,
+      }
     }
   }
 

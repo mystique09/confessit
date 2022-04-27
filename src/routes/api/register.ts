@@ -7,17 +7,17 @@ export async function post({ request }) {
       'accept': 'application/json'
     }
   });
-  const json = await response.json();
+  const data = await response.json();
 
-  if (json.status === "error") {
+  if (data.status === "error") {
     return {
       status: response.status,
-      body: json
+      body: data
     }
   }
 
   return {
-    status: 302,
-    redirect: "/login"
+    status: 200,
+    body: data
   }
 }
