@@ -37,6 +37,7 @@
 
 		if (status === 'error') {
 			loginError = message;
+			setTimeout(() => (loginError = ''), 2000);
 			return;
 		}
 
