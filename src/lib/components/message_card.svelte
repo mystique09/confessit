@@ -23,6 +23,6 @@
 		@apply font-bold text-xs text-gray-400;
 	}
 	p {
-		@apply overflow-scroll mt-4 font-normal text-gray-300 text-sm;
+		@apply mt-4 font-normal text-gray-300 text-sm;
 	}
 </style>
