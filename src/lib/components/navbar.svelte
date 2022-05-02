@@ -23,6 +23,7 @@
 
 <nav>
 	<div class="wrap">
+		<div class="inner-wrap">
 		<div class="logo">
 			<a href="/"><img src="/logo.svg" alt="ConfessIt Logo" /></a>
 		</div>
@@ -33,6 +34,7 @@
 				<MenuIcon />
 				<h4>Menu</h4>
 			</div>
+		</div>
 			<div class="menu" class:hide={!isOpen}>
 				<ul>
 					<li><a href="/dashboard">Dashboard</a></li>
@@ -49,7 +51,7 @@
 		@apply w-screen max-w-4xl m-auto flex items-center;
 	}
 	.wrap {
-		@apply px-4 py-2 w-full flex flex-row items-center justify-between;
+		@apply px-4 py-2 w-full flex flex-col items-start justify-between;
 	}
 	.logo {
 		@apply w-full h-full;
@@ -70,9 +72,12 @@
 		@apply hidden;
 	}
 	.menu {
-		@apply px-4 py-2 rounded-md absolute top-16 right-0 bg-gray-300 w-1/2;
+		@apply px-4 py-2 bg-gray-300 w-full;
 	}
 	.menu li {
 		@apply text-accent font-normal text-lg;
+	}
+	.inner-wrap {
+		@apply flex flex-row items-center justify-between w-screen;
 	}
 </style>
