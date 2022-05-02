@@ -1,5 +1,5 @@
 <footer>
-    <a href="https://github.com/mystique09/mystique09" rel="noopener" target="_blank">My Github</a>
+    <a href="https://github.com/mystique09" rel="noopener" target="_blank">My Github</a>
 </footer>
     
 <style lang="postcss">
