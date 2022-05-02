@@ -25,11 +25,11 @@
 	<div class="wrap">
 		<div class="iwrap">
 			<div class="logo">
-				<a href="/"><img src="./logo.svg" alt="ConfessIt Logo" /></a>
+				<a href="/"><img src="/logo.svg" alt="ConfessIt Logo" /></a>
 			</div>
 			<div class="github">
 				<a href="https://github.com/mystique09" rel="noopener" target="_blank">
-					<img src="./icons8-github.svg" alt="My github icon" />
+					<img src="/icons8-github.svg" alt="My github icon" />
 				</a>
 			</div>
 			{#if !$session}
