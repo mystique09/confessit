@@ -48,13 +48,6 @@
 	<div class="wrap">
 		<div class="header">
 			<h1>Dashboard</h1>
-			<div class="sort_wrapper">
-				<select name="sort_menu" id="sort_menu">
-					<option value="unsorted">Sort</option>
-					<option value="id">Sort by id</option>
-					<option value="date">Sort by date</option>
-				</select>
-			</div>
 		</div>
 		<div class="message_list">
 			{#if messages.length === 0}
@@ -80,12 +73,6 @@
 	}
 	.header h1 {
 		@apply font-bold text-2xl text-secondary;
-	}
-	.sort_wrapper {
-		@apply flex flex-col items-start justify-center;
-	}
-	#sort_menu {
-		@apply px-4 py-2 bg-gray-500 rounded-md text-white;
 	}
 	.message_list {
 		@apply flex gap-1 flex-wrap;
