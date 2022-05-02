@@ -48,10 +48,10 @@
 
 <style lang="postcss">
 	nav {
-		@apply w-screen max-w-4xl m-auto flex items-center;
+		@apply max-w-4xl m-auto flex items-center;
 	}
 	.wrap {
-		@apply px-4 py-2 w-full flex flex-col items-start justify-between;
+		@apply px-4 py-2 w-screen flex flex-col items-start justify-between;
 	}
 	.logo {
 		@apply w-full h-full;
@@ -78,6 +78,6 @@
 		@apply text-accent font-normal text-lg;
 	}
 	.iwrap {
-		@apply flex flex-row items-center justify-between w-screen;
+		@apply flex flex-row items-center justify-between w-full;
 	}
 </style>
