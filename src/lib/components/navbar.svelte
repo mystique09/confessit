@@ -51,7 +51,7 @@
 		@apply max-w-4xl m-auto flex items-center;
 	}
 	.wrap {
-		@apply px-4 py-2 w-screen flex flex-col items-start justify-between;
+		@apply px-4 py-2 w-screen flex flex-col items-start justify-between gap-1;
 	}
 	.logo {
 		@apply w-full h-full;
@@ -72,7 +72,7 @@
 		@apply hidden;
 	}
 	.menu {
-		@apply px-4 py-2 bg-gray-300 w-full;
+		@apply px-4 py-2 bg-gray-100 w-full;
 	}
 	.menu li {
 		@apply text-accent font-normal text-lg;
