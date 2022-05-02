@@ -16,7 +16,7 @@
 
 		if (data) {
 			location.replace('/login');
-      location.reload();
+			location.reload();
 		}
 	}
 </script>
@@ -25,7 +25,12 @@
 	<div class="wrap">
 		<div class="iwrap">
 			<div class="logo">
-				<a href="/"><img src="/logo.svg" alt="ConfessIt Logo" /></a>
+				<a href="/"><img src="./logo.svg" alt="ConfessIt Logo" /></a>
+			</div>
+			<div class="github">
+				<a href="https://github.com/mystique09" rel="noopener" target="_blank">
+					<img src="./icons8-github.svg" alt="My github icon" />
+				</a>
 			</div>
 			{#if !$session}
 				<a class="login_btn" href="/login">Login</a>
@@ -78,6 +83,12 @@
 		@apply text-accent font-normal text-lg;
 	}
 	.iwrap {
-		@apply flex flex-row items-center justify-between w-full;
+		@apply flex flex-row gap-4 items-center justify-between w-full;
+	}
+	.github {
+		@apply h-16 w-16;
+	}
+	.github a img {
+		@apply w-full h-full;
 	}
 </style>
