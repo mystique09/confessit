@@ -59,7 +59,7 @@
 			return;
 		}
 		success = true;
-		setTimeout(() => location.reload(), 2500);
+		setTimeout(() => location.reload(), 500);
 	}
 </script>
 
@@ -80,9 +80,9 @@
 			placeholder="Hello, ..."
 		/>
 		{#if success}
-			<span>{'Message sent.'}</span>
+			<span class="success">{'Message sent.'}</span>
 		{:else}
-			<span>{error}</span>
+			<span class="error">{error}</span>
 		{/if}
 		<div class="btns">
 			<button id="submit" type="submit">Submit</button>
@@ -113,5 +113,11 @@
 	}
 	span {
 		@apply font-normal text-accent;
+	}
+	span.error {
+		@apply text-red-600;	
+	}
+	span.success {
+		@apply text-green-600;
 	}
 </style>
