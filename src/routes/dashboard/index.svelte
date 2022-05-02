@@ -70,7 +70,7 @@
 
 <style lang="postcss">
 	main {
-		@apply h-screen w-screen bg-gray-100 px-2;
+		@apply max-w-4xl m-auto h-screen w-screen bg-gray-100 px-2;
 	}
 	.wrap {
 		@apply flex flex-col justify-center;
