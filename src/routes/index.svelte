@@ -54,7 +54,10 @@
 <main>
 	<form on:submit|preventDefault={submitForm}>
 		<h1 class="heading">Create an account to get started.</h1>
-		<h2>Messages you will receive are anonymous.</h2>
+		<h2>
+			Confess your feelings to someone anonymously, no matter how weird or crazy, or even perverted
+			they are. No one will ever know, except YOU and the receiver!
+		</h2>
 		<div class="input_group">
 			<label for="username">Username</label>
 			<input type="text" bind:value={payload.username} required placeholder="mystique09" />
