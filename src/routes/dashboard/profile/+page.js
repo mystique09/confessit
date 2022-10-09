@@ -1,7 +1,7 @@
 import { redirect, error } from '@sveltejs/kit';
 
 export async function load({ parent, fetch }) {
-	const {user} await parent();
+	const {user} = await parent();
 	
 	if (!user) {
 		throw redirect(302, '/login');
