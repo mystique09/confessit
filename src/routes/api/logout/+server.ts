@@ -1,5 +1,5 @@
 export async function POST({cookies, request}) {
-  cookies.set("Set-Cookie", null, {
+  cookies.set("cookie", null, {
       maxAge: -1,
       path: '/',
   });
