@@ -1,31 +1,34 @@
 <script lang="ts">
-	let loginError = '';
-	let payload = {
-		username: '',
-		password: ''
-	};
+	import { page } from "$app/stores";
 
-	async function handleLogin() {
-		const response = await fetch('/api/auth', {
-			method: 'POST',
-			body: JSON.stringify(payload),
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json'
-			}
-		});
 
-		const { status, message } = await response.json();
+	// let loginError = '';
+	// let payload = {
+	// 	username: '',
+	// 	password: ''
+	// };
 
-		if (status === 'success') {
-			location.replace('/dashboard');
-			return;
-		}
+	// async function handleLogin() {
+	// 	const response = await fetch('/api/auth', {
+	// 		method: 'POST',
+	// 		body: JSON.stringify(payload),
+	// 		headers: {
+	// 			'Content-Type': 'application/json',
+	// 			Accept: 'application/json'
+	// 		}
+	// 	});
 
-		loginError = /Key/.test(message) ? 'Invalid username or password' : message;
-		setTimeout(() => (loginError = ''), 2500);
-		return;
-	}
+	// 	const { status, message } = await response.json();
+
+	// 	if (status === 'success') {
+	// 		location.replace('/dashboard');
+	// 		return;
+	// 	}
+
+	// 	loginError = /Key/.test(message) ? 'Invalid username or password' : message;
+	// 	setTimeout(() => (loginError = ''), 2500);
+	// 	return;
+	// }
 </script>
 
 <svelte:head>
@@ -33,17 +36,17 @@
 </svelte:head>
 
 <main>
-	<form id="login" on:submit|preventDefault={handleLogin}>
+	<form id="login" method="POST">
 		<h2>Login to continue</h2>
 		<div class="input_group">
 			<label for="username">Username</label>
-			<input required type="text" bind:value={payload.username} />
+			<input required type="text" name="username" id="username" />
 		</div>
 		<div class="input_group">
 			<label for="password">Password</label>
-			<input required type="password" bind:value={payload.password} />
+			<input required type="password" name="password" id="password" />
 		</div>
-		<p class="error">{loginError}</p>
+		<p class="error">{$page.form?.error}</p>
 		<div class="btn">
 			<button id="login_btn" type="submit">Login</button>
 		</div>
