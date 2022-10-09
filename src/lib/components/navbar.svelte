@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { session } from '$app/stores';
+	import { page } from '$app/stores';
+
 	import MenuIcon from './menu_icon.svelte';
 
 	let isOpen = false;
@@ -32,7 +33,7 @@
 					<img src="/icons8-github.svg" alt="My github icon" />
 				</a>
 			</div>
-			{#if !$session}
+			{#if !$page.data?.user}
 				<a class="login_btn" href="/login">Login</a>
 			{:else}
 				<div class="menu_btn" on:click={() => (isOpen = !isOpen)}>
