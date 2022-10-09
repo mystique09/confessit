@@ -1,15 +1,3 @@
-<script context="module">
-	export async function load({ session }) {
-		if (session) {
-			return {
-				status: 302,
-				redirect: '/dashboard'
-			};
-		}
-		return { props: {} };
-	}
-</script>
-
 <script lang="ts">
 	let loginError = '';
 	let payload = {

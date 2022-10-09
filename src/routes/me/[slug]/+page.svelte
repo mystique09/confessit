@@ -1,36 +1,6 @@
-<script context="module">
-	export async function load({ params, fetch }) {
-		const { slug } = params;
-
-		const response = await fetch(`/api/me/${slug}`, {
-			method: 'GET',
-			headers: {
-				'content-type': 'application/json',
-				accept: 'application/json'
-			}
-		});
-
-		const data = await response.json();
-
-		if (data.status === 'error') {
-			return {
-				status: 404,
-				props: {
-					slug: 'Not found'
-				}
-			};
-		}
-
-		return {
-			status: 200,
-			props: {
-				slug
-			}
-		};
-	}
-</script>
-
 <script lang="ts">
+	throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
+
 	export let slug: string;
 
 	let message = '';

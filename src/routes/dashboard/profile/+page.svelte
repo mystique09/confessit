@@ -1,38 +1,6 @@
-<script context="module">
-	export async function load({ session, fetch }) {
-		if (!session) {
-			return {
-				status: 302,
-				redirect: '/login'
-			};
-		}
-
-		const response = await fetch('/api/profile', {
-			method: 'GET',
-			headers: {
-				'content-type': 'application/json',
-				accept: 'application/json',
-				authorization: `Bearer ${session}`
-			}
-		});
-
-		const data = await response.json();
-
-		if (data.status === 'error') {
-			return {
-				status: response.status,
-				props: { username: '', id: '' }
-			};
-		}
-
-		return {
-			status: 200,
-			props: { username: data.data.username, id: data.data.id }
-		};
-	}
-</script>
-
 <script lang="ts">
+	throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
+
 	export let username: string;
 
 	let payload = '';

@@ -1,32 +1,6 @@
-<script context="module">
-	export async function load({ session, fetch }) {
-		if (!session) {
-			return {
-				status: 302,
-				redirect: '/login'
-			};
-		}
-
-		const response = await fetch('/api/dashboard', {
-			method: 'GET',
-			headers: {
-				'content-type': 'application/json',
-				accept: 'application/json',
-				authorization: `Bearer ${session}`
-			}
-		});
-
-		const data = await response.json();
-		const messages = data.data || [];
-
-		return {
-			status: 200,
-			props: { messages }
-		};
-	}
-</script>
-
 <script lang="ts">
+	throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
+
 	type Message = {
 		id: number;
 		to: string;
