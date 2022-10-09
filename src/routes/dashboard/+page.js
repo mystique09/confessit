@@ -1,7 +1,8 @@
 import { redirect } from '@sveltejs/kit';
 
-export async function load({ session, fetch }) {
-	if (!session) {
+export async function load({ parent, fetch }) {
+	const {user} = await parent();
+	if (!user) {
 		throw redirect(302, '/login');
 	}
 
@@ -10,7 +11,7 @@ export async function load({ session, fetch }) {
 		headers: {
 			'content-type': 'application/json',
 			accept: 'application/json',
-			authorization: `Bearer ${session}`
+			authorization: `Bearer ${user}`
 		}
 	});
 
