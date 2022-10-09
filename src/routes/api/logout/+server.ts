@@ -1,16 +1,11 @@
 import { json } from '@sveltejs/kit';
-import { serialize } from "cookie";
 
-export async function POST() {
-  return json({
-  message: "Signed out."
-}, {
-    headers: {
-      'Set-Cookie': serialize('session_token', null, {
-        path: '/',
-        maxAge: -1,
-        httpOnly: true
-      })
+export async function POST({setHeaders, request}) {
+  setHeaders({
+    cookie: {
+      name: null,
+      maxAge: -1,
     }
   });
+  return new Response('Logged out!');
 }
