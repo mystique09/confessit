@@ -1,37 +1,12 @@
 <script lang="ts">
-	let loginError = '';
-	const payload = {
-		username: '',
-		password: ''
-	};
+	import { browser } from '$app/environment';
+	import { invalidateAll } from '$app/navigation';
+	import type { ActionData } from './$types';
 
-	async function submitForm() {
-		if (payload.username.length < 8 || payload.password.length < 8) {
-			loginError = 'Username or password length must be above 8.';
-			setTimeout(() => (loginError = ''), 2000);
-			return;
-		}
+	export let form: ActionData;
 
-		const response = await fetch('/api/register', {
-			method: 'POST',
-			body: JSON.stringify(payload),
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json'
-			}
-		});
-
-		const { status, message } = await response.json();
-
-		if (status === 'error') {
-			loginError = message;
-			setTimeout(() => (loginError = ''), 2000);
-			return;
-		}
-
-		loginError = 'Registered successfully.';
-		location.replace('/login');
-		return;
+	if (browser) {
+		invalidateAll();
 	}
 </script>
 
@@ -40,21 +15,26 @@
 </svelte:head>
 
 <main>
-	<form on:submit|preventDefault={submitForm}>
+	<form method="POST" action="?/signup">
 		<h1 class="heading">Create an account to get started.</h1>
 		<h2>
 			Confess your feelings to someone anonymously, no matter how weird or crazy, or even perverted
 			they are. No one will ever know, except YOU and the receiver!
 		</h2>
 		<div class="input_group">
-			<label for="username">Username</label>
-			<input type="text" bind:value={payload.username} required placeholder="mystique09" />
+			<label class:error={form?.credentials || form?.username} for="username">Username</label>
+			<input name="username" id="username" type="text" required placeholder="mystique09" />
 		</div>
 		<div class="input_group">
-			<label for="password">Password</label>
-			<input type="password" bind:value={payload.password} required />
+			<label class:error={form?.credentials || form?.password} for="password">Password</label>
+			<input name="password" id="password" type="password" required />
 		</div>
-		<p class="error">{loginError}</p>
+		{#if !form?.success && form?.message != null}
+			<p class="error">{form?.message}</p>
+		{/if}
+		{#if form?.success && form?.message != null}
+			<p class="success">{form?.message}</p>
+		{/if}
 		<div class="btns">
 			<button id="login" type="submit">Create Account</button>
 		</div>
@@ -97,5 +77,9 @@
 
 	.error {
 		@apply py-2 text-red-500 font-normal text-sm;
+	}
+
+	.success {
+		@apply py-2 text-green-500 font-normal text-sm;
 	}
 </style>
