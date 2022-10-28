@@ -1,34 +1,15 @@
 <script lang="ts">
-	import { page } from "$app/stores";
+	import { browser } from '$app/environment';
 
+	import { invalidateAll } from '$app/navigation';
 
-	// let loginError = '';
-	// let payload = {
-	// 	username: '',
-	// 	password: ''
-	// };
+	import type { ActionData } from './$types';
 
-	// async function handleLogin() {
-	// 	const response = await fetch('/api/auth', {
-	// 		method: 'POST',
-	// 		body: JSON.stringify(payload),
-	// 		headers: {
-	// 			'Content-Type': 'application/json',
-	// 			Accept: 'application/json'
-	// 		}
-	// 	});
+	export let form: ActionData;
 
-	// 	const { status, message } = await response.json();
-
-	// 	if (status === 'success') {
-	// 		location.replace('/dashboard');
-	// 		return;
-	// 	}
-
-	// 	loginError = /Key/.test(message) ? 'Invalid username or password' : message;
-	// 	setTimeout(() => (loginError = ''), 2500);
-	// 	return;
-	// }
+	if (browser) {
+		invalidateAll();
+	}
 </script>
 
 <svelte:head>
@@ -36,17 +17,21 @@
 </svelte:head>
 
 <main>
-	<form id="login" method="POST">
+	<form id="login" method="POST" action="?/login">
 		<h2>Login to continue</h2>
 		<div class="input_group">
-			<label for="username">Username</label>
+			<label class:error={form?.credentials || form?.username} for="username">Username</label>
 			<input required type="text" name="username" id="username" />
 		</div>
 		<div class="input_group">
-			<label for="password">Password</label>
+			<label class:error={form?.credentials || form?.password} for="password">Password</label>
 			<input required type="password" name="password" id="password" />
 		</div>
-		<p class="error">{$page.form?.error}</p>
+		{#if !form?.success && form?.message != null}
+			<p class="error">
+				{form?.message}
+			</p>
+		{/if}
 		<div class="btn">
 			<button id="login_btn" type="submit">Login</button>
 		</div>
@@ -82,6 +67,6 @@
 	}
 
 	.error {
-		@apply font-normal text-sm text-red-500 py-2;
+		@apply font-normal text-xs text-red-500 py-2;
 	}
 </style>
