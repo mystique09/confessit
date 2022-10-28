@@ -1,17 +1,8 @@
 <script lang="ts">
-	// throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
-
-	type Message = {
-		id: number;
-		to: string;
-		message: string;
-		created_at: string;
-		deleted_at: string;
-	};
-
 	import MessageCard from '$lib/components/message_card.svelte';
+	import type { PageData } from './$types';
 
-	export let messages: Message[];
+	export let data: PageData;
 </script>
 
 <svelte:head>
@@ -24,11 +15,18 @@
 			<h1>Dashboard</h1>
 		</div>
 		<div class="message_list">
-			{#if messages.length === 0}
+			{#if data.messages.length === 0}
 				<h1>No messages yet.</h1>
+				<p class="text-sm mt-2 font-light text-gray-600">
+					You can start by sharing your confessit link, found in <a
+						class="text-secondary underline"
+						href="/dashboard/profile">your profile</a
+					>
+					page!
+				</p>
 			{/if}
 
-			{#each messages as message (message.id)}
+			{#each data.messages as message (message.id)}
 				<MessageCard {message} />
 			{/each}
 		</div>
