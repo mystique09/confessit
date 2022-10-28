@@ -1,25 +1,19 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-
 	import MenuIcon from './menu_icon.svelte';
 
 	let isOpen = false;
 
 	async function signOut() {
-		const response = await fetch('/api/logout', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			}
+		await fetch('/dashboard', {
+			method: 'POST'
 		});
-
-		const data = await response.json();
-
-		if (data) {
-			location.replace('/login');
-			location.reload();
-		}
+		invalidateAll();
 	}
+
+	const showNav = () => (isOpen = !isOpen);
+
+	import { page } from '$app/stores';
+	import { invalidateAll } from '$app/navigation';
 </script>
 
 <nav>
@@ -29,14 +23,18 @@
 				<a href="/"><img src="/logo.svg" alt="ConfessIt Logo" /></a>
 			</div>
 			<div class="github">
-				<a href="https://github.com/mystique09" rel="noopener" target="_blank">
+				<a href="https://github.com/mystique09" rel="noreferrer" target="_blank">
 					<img src="/icons8-github.svg" alt="My github icon" />
 				</a>
 			</div>
-			{#if !$page.data?.user}
+			{#if !$page.data?.session.token}
 				<a class="login_btn" href="/login">Login</a>
 			{:else}
-				<div class="menu_btn" on:click={() => (isOpen = !isOpen)}>
+				<div
+					class="menu_btn"
+					on:click={() => (isOpen = !isOpen)}
+					on:keydown={() => (isOpen = !isOpen)}
+				>
 					<MenuIcon />
 					<h4>Menu</h4>
 				</div>
@@ -44,9 +42,11 @@
 		</div>
 		<div class="menu" class:hide={!isOpen}>
 			<ul>
-				<li><a href="/dashboard">Dashboard</a></li>
-				<li><a href="/dashboard/profile">My Account</a></li>
-				<li><button on:click={signOut} type="button">Sign out</button></li>
+				<li on:click={showNav} on:keydown={showNav}><a href="/dashboard">Dashboard</a></li>
+				<li on:click={showNav} on:keydown={showNav}><a href="/dashboard/profile">My Account</a></li>
+				<li on:click={showNav} on:keydown={showNav}>
+					<button on:click={signOut} type="button">Sign out</button>
+				</li>
 			</ul>
 		</div>
 	</div>
