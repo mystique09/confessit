@@ -1,39 +1,5 @@
-<script context="module">
-	export async function load({ session, fetch }) {
-		if (!session) {
-			return {
-				status: 302,
-				redirect: '/login'
-			};
-		}
-
-		const response = await fetch('/api/profile', {
-			method: 'GET',
-			headers: {
-				'content-type': 'application/json',
-				accept: 'application/json',
-				authorization: `Bearer ${session}`
-			}
-		});
-
-		const data = await response.json();
-
-		if (data.status === 'error') {
-			return {
-				status: response.status,
-				props: { username: '', id: '' }
-			};
-		}
-
-		return {
-			status: 200,
-			props: { username: data.data.username, id: data.data.id }
-		};
-	}
-</script>
-
 <script lang="ts">
-	export let username: string;
+	import { page } from '$app/stores';
 
 	let payload = '';
 	let error = '';
@@ -45,6 +11,11 @@
 			return;
 		}
 	}
+
+	const copyToClipboard = () => {
+		alert('Link copied to clipboard!');
+		navigator.clipboard.writeText(`${$page.url.origin}/confess/${$page.data.profile.username}`);
+	};
 </script>
 
 <svelte:head>
@@ -54,9 +25,17 @@
 <main>
 	<form on:submit|preventDefault={onSubmit}>
 		<h1>My Acccount</h1>
+		<p class="text-xs text-green-700">Account ID: {$page.data.profile.id}</p>
+		<button
+			class="text-xs text-primary mt-2 px-4 py-2 rounded-full bg-accent"
+			on:click={copyToClipboard}
+			on:keydown={copyToClipboard}
+		>
+			Confessit link
+		</button>
 		<div class="input_group">
 			<label for="username">Username</label>
-			<input disabled type="text" value={username} />
+			<input disabled type="text" value={$page.data.profile.username} />
 		</div>
 		<div class="input_group">
 			<label for="password">Password</label>
