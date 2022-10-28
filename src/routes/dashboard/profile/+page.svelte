@@ -1,7 +1,5 @@
 <script lang="ts">
-	// throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
-
-	export let username: string;
+	import { page } from '$app/stores';
 
 	let payload = '';
 	let error = '';
@@ -13,6 +11,11 @@
 			return;
 		}
 	}
+
+	const copyToClipboard = () => {
+		alert('Link copied to clipboard!');
+		navigator.clipboard.writeText(`${$page.url.origin}/confess/${$page.data.profile.username}`);
+	};
 </script>
 
 <svelte:head>
@@ -22,9 +25,17 @@
 <main>
 	<form on:submit|preventDefault={onSubmit}>
 		<h1>My Acccount</h1>
+		<p class="text-xs text-green-700">Account ID: {$page.data.profile.id}</p>
+		<button
+			class="text-xs text-primary mt-2 px-4 py-2 rounded-full bg-accent"
+			on:click={copyToClipboard}
+			on:keydown={copyToClipboard}
+		>
+			Confessit link
+		</button>
 		<div class="input_group">
 			<label for="username">Username</label>
-			<input disabled type="text" value={username} />
+			<input disabled type="text" value={$page.data.profile.username} />
 		</div>
 		<div class="input_group">
 			<label for="password">Password</label>
