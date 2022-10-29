@@ -16,11 +16,16 @@
 
 <main>
 	<form method="POST" action="?/signup">
-		<h1 class="heading">Create an account to get started.</h1>
-		<p>
-			Confess your feelings to someone anonymously, no matter how weird or crazy, or even perverted
-			they are. No one will ever know, except YOU and the receiver!
-		</p>
+		<div class="top">
+			<div class="heading flex items-center justify-center">
+				<img src="/logo.svg" alt="ConfessIt Logo" />
+			</div>
+			<p>
+				Confess your feelings to someone anonymously, no matter how weird or crazy, or even
+				perverted they are. No one will ever know, except YOU and the receiver!
+			</p>
+		</div>
+		<div class="divider" />
 		<div class="input_group">
 			<label class:error={form?.credentials || form?.username} for="username">Username</label>
 			<input name="username" id="username" type="text" required placeholder="mystique09" />
@@ -35,52 +40,51 @@
 		{#if form?.success && form?.message != null}
 			<p class="success">{form?.message}</p>
 		{/if}
-		<div class="btns">
-			<button id="login" type="submit">Sign up</button>
+		<div class="btn">
+			<button id="signup" type="submit">Sign up</button>
 		</div>
 	</form>
 </main>
 
 <style lang="postcss">
-	h1 {
-		@apply font-semibold text-4xl mb-4;
-	}
-
 	main {
-		@apply pt-4 px-2 bg-gray-100 h-screen;
+		@apply px-2 h-screen flex flex-col;
 	}
 
 	form {
-		@apply mt-5 max-w-md md:m-auto;
+		@apply bg-black/80 p-4 shadow-lg;
+		@apply w-full max-w-md m-auto;
 	}
 
-	form p {
-		@apply text-xs font-light text-black/70;
+	.heading {
+		@apply my-4;
+	}
+
+	form > .top p {
+		@apply text-xs font-light text-white;
 	}
 
 	.input_group {
-		@apply flex flex-col gap-1 items-start mt-2;
+		@apply m-auto mt-2;
 	}
+
 	label {
-		@apply text-xs;
+		@apply text-xs font-normal text-white;
 	}
+
 	input {
-		@apply outline-none rounded-md px-8 w-full text-sm max-w-md py-3 text-gray-600;
+		@apply px-6 py-2;
+		@apply text-xs;
+		@apply max-w-md w-full;
+		@apply outline-none rounded-md;
 	}
 
-	.btns {
-		@apply flex flex-row w-full items-center justify-end;
-	}
-	#login {
-		@apply px-6 py-2 mt-4;
-		@apply bg-secondary text-xs text-white rounded-sm;
+	.btn {
+		@apply flex flex-col items-end w-full mt-8;
 	}
 
-	.error {
-		@apply py-2 text-red-500 font-normal text-sm;
-	}
-
-	.success {
-		@apply py-2 text-green-500 font-normal text-sm;
+	#signup {
+		@apply px-6 py-3 w-full;
+		@apply bg-secondary text-white text-xs rounded-md;
 	}
 </style>
