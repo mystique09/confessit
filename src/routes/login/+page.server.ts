@@ -3,8 +3,8 @@ import { error, invalid, redirect, type Actions } from "@sveltejs/kit";
 import { VITE_BACKEND_URL } from "$env/static/private";
 
 export const load: PageServerLoad = async ({ parent }) => {
-    const { session } = await parent();
-    if (!!session.token) {
+    const { authenticated } = await parent();
+    if (authenticated) {
         throw redirect(307, '/dashboard');
     }
     return {};
