@@ -14,7 +14,7 @@
 		<div class="header">
 			<h1>Dashboard</h1>
 		</div>
-		<div class="message_list">
+		<div class="message_list flex flex-col">
 			{#if data.messages.length === 0}
 				<h1>No messages yet.</h1>
 				<p class="text-sm mt-2 font-light text-gray-600">
