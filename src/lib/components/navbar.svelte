@@ -22,13 +22,8 @@
 			<div class="logo">
 				<a href="/"><img src="/logo.svg" alt="ConfessIt Logo" /></a>
 			</div>
-			<div class="github">
-				<a href="https://github.com/mystique09" rel="noreferrer" target="_blank">
-					<img src="/icons8-github.svg" alt="My github icon" />
-				</a>
-			</div>
-			{#if !$page.data?.session.token}
-				<a class="login_btn" href="/login">Login</a>
+			{#if !$page.data?.authenticated}
+				<a class="login_btn" href="/login">Sign in</a>
 			{:else}
 				<div
 					class="menu_btn"
@@ -36,7 +31,6 @@
 					on:keydown={() => (isOpen = !isOpen)}
 				>
 					<MenuIcon />
-					<h4>Menu</h4>
 				</div>
 			{/if}
 		</div>
@@ -60,19 +54,19 @@
 		@apply px-4 py-2 w-screen flex flex-col items-start justify-between gap-1;
 	}
 	.logo {
-		@apply w-full h-full;
+		@apply w-16 h-12;
 	}
 	.logo a img {
-		@apply w-auto h-auto;
+		@apply w-full h-full;
 	}
 	.login_btn {
-		@apply bg-secondary px-8 py-2 text-white rounded-md font-semibold;
+		@apply bg-secondary/10;
+		@apply ring ring-secondary rounded-sm border-none;
+		@apply font-normal text-xs text-secondary;
+		@apply px-8 py-2;
 	}
 	.menu_btn {
-		@apply h-full bg-secondary cursor-pointer flex flex-row items-center justify-between gap-1 px-6 py-2 text-white rounded-md;
-	}
-	.menu_btn h4 {
-		@apply font-bold text-lg;
+		@apply h-full cursor-pointer flex flex-row items-center justify-between gap-1 text-secondary;
 	}
 	.hide {
 		@apply hidden;
@@ -85,11 +79,5 @@
 	}
 	.iwrap {
 		@apply flex flex-row gap-4 items-center justify-between w-full;
-	}
-	.github {
-		@apply h-16 w-16;
-	}
-	.github a img {
-		@apply w-full h-full;
 	}
 </style>
