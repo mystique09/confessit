@@ -2,10 +2,9 @@ import { VITE_BACKEND_URL } from "$env/static/private";
 import { error, redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 
-export const load: PageServerLoad = async ({ parent, fetch }) => {
-    const { session } = await parent();
-
-    if (!session.token) {
+export const load: PageServerLoad = async ({ parent, fetch, locals }) => {
+    const { authenticated } = await parent();
+    if (!authenticated) {
         throw redirect(307, '/login');
     }
 
@@ -15,7 +14,7 @@ export const load: PageServerLoad = async ({ parent, fetch }) => {
             headers: {
                 'content-type': 'application/json',
                 'accept': 'application/json',
-                'authorization': `Bearer ${session.token}`
+                'authorization': `Bearer ${locals.session.token}`
             },
         })
 
