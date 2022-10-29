@@ -17,9 +17,9 @@
 		<div class="message_list flex flex-col">
 			{#if data.messages.length === 0}
 				<h1>No messages yet.</h1>
-				<p class="text-sm mt-2 font-light text-gray-600">
+				<p class="alert alert-info">
 					You can start by sharing your confessit link, found in <a
-						class="text-secondary underline"
+						class="underline"
 						href="/dashboard/profile">your profile</a
 					>
 					page!
@@ -35,17 +35,21 @@
 
 <style lang="postcss">
 	main {
-		@apply max-w-4xl m-auto h-screen w-screen bg-gray-100 px-2;
+		@apply h-screen w-screen px-2;
 	}
+
 	.wrap {
-		@apply flex flex-col justify-center;
+		@apply flex flex-col justify-center max-w-lg m-auto;
 	}
+
 	.header {
 		@apply py-8 flex flex-row items-center justify-between;
 	}
+
 	.header h1 {
-		@apply font-bold text-2xl text-secondary;
+		@apply font-bold text-2xl;
 	}
+
 	.message_list {
 		@apply flex gap-1 flex-wrap;
 	}
