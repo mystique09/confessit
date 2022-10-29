@@ -33,7 +33,7 @@
 			</p>
 		{/if}
 		<div class="btn">
-			<button id="login_btn" type="submit">Login</button>
+			<button id="login_btn" type="submit">Sign in</button>
 		</div>
 	</form>
 </main>
