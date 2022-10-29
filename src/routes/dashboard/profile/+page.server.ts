@@ -1,6 +1,6 @@
 import { VITE_BACKEND_URL } from "$env/static/private";
 import type { PageServerLoad } from ".svelte-kit/types/src/routes/dashboard/profile/$types";
-import { error, redirect } from "@sveltejs/kit";
+import { error, redirect, type Actions } from "@sveltejs/kit";
 
 export const load: PageServerLoad = async ({ parent, fetch, locals }) => {
     const { authenticated } = await parent();
@@ -21,5 +21,11 @@ export const load: PageServerLoad = async ({ parent, fetch, locals }) => {
         return { profile: data.data }
     } catch (e: any) {
         throw error(e.status, e.message);
+    }
+}
+
+export const actions: Actions = {
+    async changePassword() {
+        return { success: true, message: "Under development!" }
     }
 }
