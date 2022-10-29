@@ -3,8 +3,8 @@ import { error, invalid, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ parent }) => {
-    const { session } = await parent();
-    if (!!session.token) {
+    const { authenticated } = await parent();
+    if (authenticated) {
         throw redirect(307, '/dashboard');
     }
     return {};
