@@ -8,6 +8,7 @@ declare namespace App {
             token: string,
             name: string,
         };
+        authenticated: boolean;
     }
     // interface Platform {}
     interface Session { }
