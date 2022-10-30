@@ -11,18 +11,27 @@
 </script>
 
 <div class="card">
-	<h3>Received on {new Date(message.created_at).toUTCString()}</h3>
+	<div class="card-heading">
+		<span>{new Date(message.created_at).toDateString()}</span>
+	</div>
 	<p>{message.message}</p>
 </div>
 
 <style lang="postcss">
 	.card {
-		@apply bg-purple-600 md:w-1/4 rounded-md w-full h-full mb-2 px-4 py-6;
+		@apply bg-blue-600/80 rounded-md w-full h-24 mb-2 px-4 py-2;
 	}
-	h3 {
-		@apply font-bold text-xs text-gray-400;
+
+	.card .card-heading {
+		@apply flex items-center justify-between;
+		@apply mt-2 mb-4;
 	}
+
+	.card-heading > span {
+		@apply font-bold text-xs text-blue-200;
+	}
+
 	p {
-		@apply mt-4 font-normal text-gray-300 text-sm;
+		@apply text-white text-sm;
 	}
 </style>

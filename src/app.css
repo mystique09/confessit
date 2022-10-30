@@ -13,3 +13,35 @@ html,
 body {
   @apply m-0 p-0;
 }
+
+.divider {
+  @apply w-full h-[2px] bg-gray-700/50;
+  @apply rounded-md;
+  @apply my-4;
+  @apply text-xs text-white text-center;
+}
+
+.error {
+  @apply py-2 text-red-500 font-normal text-xs;
+}
+
+.success {
+  @apply py-2 text-green-500 font-normal text-xs;
+}
+
+.alert {
+  @apply w-full px-6 py-3;
+  @apply rounded-md text-sm max-w-md;
+}
+
+.alert-info {
+  @apply bg-blue-300 text-blue-800;
+}
+
+.alert-success {
+  @apply bg-green-300 text-green-800;
+}
+
+.alert-error {
+  @apply bg-red-300 text-red-800;
+}

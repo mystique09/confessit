@@ -11,11 +11,18 @@
 <main>
 	<form method="POST" action="?/send">
 		<h1>Send your message to <span>{$page.data.slug}</span></h1>
-		<textarea id="message" name="message" cols="30" rows="10" required placeholder="Hello, ..." />
+		<textarea
+			id="message"
+			name="message"
+			cols="30"
+			rows="10"
+			required
+			placeholder="Your message here"
+		/>
 		{#if form?.success && form?.message != null}
-			<span class="success">{form?.message}</span>
+			<p class="success">{form?.message}</p>
 		{:else if !form?.success && form?.confess != null}
-			<span class="error">{form?.message}</span>
+			<p class="error">{form?.message}</p>
 		{/if}
 		<div class="btns">
 			<button id="submit" type="submit">Submit</button>
@@ -25,32 +32,34 @@
 
 <style lang="postcss">
 	h1 {
-		@apply font-semibold text-3xl my-4;
+		@apply font-normal text-lg my-4;
 	}
 
 	main {
-		@apply py-6 px-4 bg-gray-100 h-screen;
+		@apply py-6 px-4 h-screen;
 	}
 
 	form {
 		@apply mt-5 max-w-md md:m-auto;
 	}
+
 	.btns {
 		@apply flex flex-row w-full items-center justify-end;
 	}
+
 	#submit {
-		@apply mt-2 text-white font-semibold rounded-md bg-secondary px-12 py-3;
+		@apply px-6 py-3 w-full;
+		@apply bg-secondary text-white text-xs rounded-md;
 	}
+
 	textarea {
-		@apply border-none w-full bg-gray-300 text-gray-700 p-4;
+		@apply w-full py-4 px-2 text-sm;
+		@apply border-none outline-none;
+		@apply text-accent;
+		@apply ring ring-secondary rounded-sm resize-none text-accent;
 	}
+
 	span {
-		@apply font-normal text-accent;
-	}
-	span.error {
-		@apply text-red-600 text-xs;
-	}
-	span.success {
-		@apply text-green-600 text-xs;
+		@apply text-secondary;
 	}
 </style>

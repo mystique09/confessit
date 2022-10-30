@@ -18,55 +18,73 @@
 
 <main>
 	<form id="login" method="POST" action="?/login">
-		<h2>Login to continue</h2>
+		<div class="top">
+			<div class="heading flex items-center justify-center">
+				<img src="/logo.svg" alt="ConfessIt Logo" />
+			</div>
+		</div>
+		<div class="divider" />
 		<div class="input_group">
 			<label class:error={form?.credentials || form?.username} for="username">Username</label>
-			<input required type="text" name="username" id="username" />
+			<input required type="text" name="username" id="username" placeholder="Username" />
 		</div>
 		<div class="input_group">
 			<label class:error={form?.credentials || form?.password} for="password">Password</label>
-			<input required type="password" name="password" id="password" />
+			<input required type="password" name="password" id="password" placeholder="Password" />
 		</div>
 		{#if !form?.success && form?.message != null}
 			<p class="error">
 				{form?.message}
 			</p>
 		{/if}
+		{#if form?.success && form?.message != null}
+			<p class="success">{form?.message}</p>
+		{/if}
 		<div class="btn">
-			<button id="login_btn" type="submit">Login</button>
+			<button id="login_btn" type="submit">Sign in</button>
 		</div>
 	</form>
 </main>
 
 <style lang="postcss">
 	main {
-		@apply px-2 bg-gray-100 h-screen flex flex-col;
+		@apply px-2 h-screen flex flex-col;
 	}
 
 	form {
-		@apply flex flex-col justify-center max-w-md md:m-auto h-full;
+		@apply bg-black/80 p-4 shadow-lg;
+		@apply w-full max-w-md m-auto;
 	}
-	form h2 {
-		@apply font-semibold text-4xl;
+
+	.top .heading {
+		@apply my-4;
+	}
+
+	form > .top p {
+		@apply text-xs font-light text-white;
 	}
 
 	.input_group {
-		@apply flex flex-col gap-1 items-start mt-2;
-	}
-	label {
-		@apply text-xs text-gray-600 font-normal;
-	}
-	input {
-		@apply outline-none rounded-md px-8 w-full text-sm max-w-md py-3 text-gray-600;
-	}
-	.btn {
-		@apply flex flex-col items-end p-4;
-	}
-	#login_btn {
-		@apply px-12 rounded-md py-3 bg-accent text-white font-semibold text-base;
+		@apply m-auto mt-2;
 	}
 
-	.error {
-		@apply font-normal text-xs text-red-500 py-2;
+	label {
+		@apply text-xs font-normal text-white;
+	}
+
+	input {
+		@apply px-6 py-2;
+		@apply text-xs;
+		@apply max-w-md w-full;
+		@apply outline-none rounded-md;
+	}
+
+	.btn {
+		@apply flex flex-col items-end w-full mt-8;
+	}
+
+	#login_btn {
+		@apply px-6 py-3 w-full;
+		@apply bg-secondary text-white text-xs rounded-md;
 	}
 </style>
