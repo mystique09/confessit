@@ -19,7 +19,7 @@
 
 <style lang="postcss">
 	.card {
-		@apply bg-blue-600/80 rounded-md w-full h-24 mb-2 px-4 py-2;
+		@apply bg-secondary/30 rounded-md w-full h-24 mb-2 px-4 py-2;
 	}
 
 	.card .card-heading {
@@ -28,10 +28,10 @@
 	}
 
 	.card-heading > span {
-		@apply font-bold text-xs text-blue-200;
+		@apply font-bold text-xs text-black;
 	}
 
 	p {
-		@apply text-white text-sm;
+		@apply text-black text-sm;
 	}
 </style>
