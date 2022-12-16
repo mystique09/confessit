@@ -7,7 +7,7 @@
 </script>
 
 <svelte:head>
-	<title>ConfessIt - Get Started</title>
+	<title>CNFS - Get Started</title>
 	<meta name="description" content="Welcome to CNFS!" />
 </svelte:head>
 
