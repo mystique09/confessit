@@ -14,7 +14,3 @@ declare namespace App {
     interface Session { }
     // interface Stuff {}
 }
-
-interface ImportMetaEnv {
-    VITE_BACKEND_URL: string;
-}
