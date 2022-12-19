@@ -5,4 +5,4 @@ Welcome to CNFS - the place where you can send anonymous messages to anyone, any
 > **Warning**
 > The website is still a work in progress, at the moment it can't interact with the backend.
 
-[PREVIEW](https://confessit.vercel.app)
+[PREVIEW](https://confessit-aiu84egoc-mystique09.vercel.app/)
