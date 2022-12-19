@@ -1,5 +1,6 @@
-<script>
+<script lang="ts">
 	import ShowcaseCard from './showcase_card.svelte';
+	export let isAuthenticated: boolean = false;
 </script>
 
 <div class="hero h-screen px-4">
@@ -13,10 +14,17 @@
 				your identity. Start sending anonymous messages now and discover the freedom of being able to
 				say whatever you want, without fear of judgment or retribution.
 			</p>
-			<a
-				class="mt-4 btn btn-wide btn-outline btn-error rounded-full normal-case text-sm"
-				href="/sign-up">Click here to join</a
-			>
+			{#if isAuthenticated}
+				<a
+					class="mt-4 btn btn-wide btn-outline btn-error rounded-full normal-case text-sm"
+					href="/dashboard">Go to dashboard</a
+				>
+			{:else}
+				<a
+					class="mt-4 btn btn-wide btn-outline btn-error rounded-full normal-case text-sm"
+					href="/sign-up">Click here to join</a
+				>
+			{/if}
 		</div>
 		<div class="messages hidden lg:block">
 			<ShowcaseCard />
