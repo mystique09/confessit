@@ -1,4 +1,5 @@
 <script>
+	import { page } from '$app/stores';
 	import Footer from '$lib/components/footer.svelte';
 	import Faq from '$lib/components/home/faq.svelte';
 	import Guidelines from '$lib/components/home/guidelines.svelte';
@@ -11,7 +12,7 @@
 	<meta name="description" content="Welcome to CNFS!" />
 </svelte:head>
 
-<Hero />
+<Hero isAuthenticated={$page.data.authenticated ?? false} />
 <WhatIsCnfs />
 <Guidelines />
 <Faq />
