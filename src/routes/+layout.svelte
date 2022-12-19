@@ -6,6 +6,7 @@
 	import toggleMenu, { toggle } from '$lib/store/menu';
 	import Menu from '$lib/components/heading/menu.svelte';
 	import { fade } from 'svelte/transition';
+	import { page } from '$app/stores';
 
 	let yPos: number = 0;
 	let width: number = 0;
@@ -15,14 +16,14 @@
 	}
 </script>
 
-<Navbar />
+<Navbar isAuthenticated={$page.data.authenticated} />
 
 {#if !$toggleMenu}
 	<div in:fade={{ duration: 100, delay: 300 }}>
 		<slot />
 	</div>
 {:else}
-	<Menu />
+	<Menu isAuthenticated={$page.data.authenticated} />
 {/if}
 
 <svelte:window bind:scrollY={yPos} bind:innerWidth={width} />
