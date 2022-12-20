@@ -1,18 +1,7 @@
 import { NODE_ENV, VITE_BACKEND_URL } from "$env/static/private";
-import { fail, redirect } from "@sveltejs/kit";
+import { fail } from "@sveltejs/kit";
 import type { Actions } from "./$types";
-import type { PageServerLoad } from './$types';
  
-export const load = (async ({ parent }) => {
-	const {authenticated} = await parent();
-
-	if(authenticated) {
-		throw redirect(301, "/dashboard");
-	}
-
-	return {};
-}) satisfies PageServerLoad;
-
 export const actions: Actions = {
 	signIn: async function({request, fetch, cookies}) {
 		const data = await request.formData();
@@ -39,8 +28,13 @@ export const actions: Actions = {
 				},
 				body: JSON.stringify({username, password})
 			});
+			const res = await req.json();
 
-			const {data} = await req.json();
+			if(req.status !== 200) {
+				return fail(req.status, {loginFailed: true, message: res.message})
+			}
+
+			const {data} = res;
 			cookies.set("session_id", data.session_id, {
 				path: "/",
 				httpOnly: true,
