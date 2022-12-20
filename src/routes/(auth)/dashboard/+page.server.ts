@@ -1,12 +1,7 @@
-import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
  
 export const load = (async ({ parent }) => {
-	const {authenticated, user, user_identity} = await parent();
-
-	if(!authenticated) {
-		throw redirect(301, "/sign-in");
-	}
+	const {user, user_identity} = await parent();
 
 	return {
 		user, user_identity
