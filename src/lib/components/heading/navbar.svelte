@@ -1,25 +1,10 @@
 <script lang="ts">
 	import MenuIcon from './menu_icon.svelte';
 	import { toggle } from '$lib/store/menu';
-	import { invalidateAll } from '$app/navigation';
-
 	export let isAuthenticated: boolean = false;
-
-	const signoutHandler = async () => {
-		try {
-			const req = await fetch('/logout', {
-				method: 'POST'
-			});
-			const data = await req.json();
-			console.log(data);
-			await invalidateAll();
-		} catch (e) {
-			console.log(e);
-		}
-	};
 </script>
 
-<div class="navbar px-4 max-w-6xl m-auto">
+<div class="navbar h-full px-4 max-w-6xl m-auto">
 	<div class="w-auto flex-0">
 		<div>
 			<a href="/">
@@ -30,7 +15,7 @@
 	{#if !isAuthenticated}
 		<div class="navbar-center flex-1 items-center justify-center">
 			<ul class="hidden md:flex md:flex-row justify-evenly w-1/2 font-bold text-white">
-				<li><a href="/wall">Wall</a></li>
+				<li><a href="/wall">Public Wall</a></li>
 				<li><a href="/#whatiscnfs">What's CNFS</a></li>
 				<li><a href="/#guidelines">Guidelines</a></li>
 				<li><a href="/#faq">FAQ</a></li>
@@ -44,9 +29,17 @@
 		</div>
 	{:else}
 		<div class="navbar-end hidden md:flex md:flex-1">
-			<button on:click={signoutHandler} type="button" class="btn btn-accent normal-case btn-wide"
-				>Sign out</button
-			>
+			<ul class="hidden md:flex md:flex-row justify-evenly w-1/2 font-bold text-white">
+				<li><a href="/wall">Public Wall</a></li>
+				<li><a href="/#whatiscnfs">What's CNFS</a></li>
+				<li><a href="/#guidelines">Guidelines</a></li>
+				<li><a href="/#faq">FAQ</a></li>
+			</ul>
+			<div class="avatar">
+				<div class="w-14 rounded-full">
+					<img src="https://placeimg.com/192/192/people" alt="random people" />
+				</div>
+			</div>
 		</div>
 	{/if}
 	<div class="navbar-end md:hidden flex-1">
