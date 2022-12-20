@@ -1,16 +1,6 @@
 import { VITE_BACKEND_URL } from "$env/static/private";
-import { fail, redirect } from "@sveltejs/kit";
-import type { Actions, PageServerLoad } from "./$types";
-
-export const load = (async ({ parent }) => {
-	const {authenticated} = await parent();
-
-	if(authenticated) {
-		throw redirect(301, "/dashboard");
-	}
-
-	return {};
-}) satisfies PageServerLoad;
+import { fail } from "@sveltejs/kit";
+import type { Actions } from "./$types";
 
 export const actions: Actions = {
 	signUp: async function({request, fetch}) {
@@ -18,6 +8,10 @@ export const actions: Actions = {
 		const username  = data.get("username");
 		const password  = data.get("password");
 		const confirmPassword = data.get("confirm-password");
+
+		if (!(password && username && confirmPassword)) {
+			return fail(400, {missingCredentials: true, message: "Missing username, password, or confirmation password."})
+		}
 
 		if (username.length < 8) {
 			return fail(400, {invalidUsernameLength: true, message: "Username must be at least 8 characters long."})
@@ -39,8 +33,12 @@ export const actions: Actions = {
 					},
 					body: JSON.stringify({username, password})
 				});
-			const data = await req.json();
-			console.log(data);
+			const res = await req.json();
+			if(req.status !== 200) {
+				return fail(req.status, {signUpFailed: true, message: res.message});
+			}
+
+			console.log(res);
 			return {success: true, message: "Successfully signed up."};
 		} catch(e) {
 			return fail(400, {signUpFailed: true, message: e.message});
