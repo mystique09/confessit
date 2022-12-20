@@ -3,7 +3,7 @@
 	import '../app.css';
 	import '@fontsource/poppins';
 	import BackToTop from '$lib/components/back_to_top.svelte';
-	import toggleMenu, { toggle } from '$lib/store/menu';
+	import toggleMenu from '$lib/store/menu';
 	import Menu from '$lib/components/heading/menu.svelte';
 	import { fade } from 'svelte/transition';
 	import { page } from '$app/stores';
@@ -15,6 +15,10 @@
 		$toggleMenu = false;
 	}
 </script>
+
+{#if $page.data.serverStatus === "offline"}
+	<div class="fixed z-10 badge badge-xl badge-warning w-full text-lg">😦 Server is {$page.data.serverStatus}</div>
+{/if}
 
 <Navbar isAuthenticated={$page.data.authenticated} />
 
