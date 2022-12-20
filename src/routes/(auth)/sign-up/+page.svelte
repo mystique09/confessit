@@ -30,7 +30,7 @@
 		}
 	}
 
-	$: if(form?.signUpFailed || form?.invalidPasswordLength || form?.invalidUsernameLength || form?.passwordsDoNotMatch) {
+	$: if(form?.signUpFailed || form?.invalidPasswordLength || form?.invalidUsernameLength || form?.passwordsDoNotMatch || form?.missingCredentials) {
 		submitForm = false;
 	}
 </script>
@@ -52,7 +52,7 @@
 			<div class="btn w-full md:w-3/4 rounded btn-md text-white normal-case">Github</div>
 		</div>
 		<div class="divider w-3/4 m-auto my-4 text-neutral">or</div>
-		{#if form?.signUpFailed || form?.invalidPasswordLength || form?.invalidUsernameLength || form?.passwordsDoNotMatch}
+		{#if form?.signUpFailed || form?.invalidPasswordLength || form?.invalidUsernameLength || form?.passwordsDoNotMatch || form?.missingCredentials}
 			<div in:slide={{delay: 300}} tabindex="-1" class="collapse w-full md:w-3/4 m-auto collapse-open">
 				<div class="collapse-title text-error text-sm">Signup Error</div>
 				<div class="collapse-content text-xs">
