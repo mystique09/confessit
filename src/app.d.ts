@@ -3,8 +3,8 @@
 // See https://kit.svelte.dev/docs/types#the-app-namespace
 // for information about these interfaces
 declare namespace App {
-    interface Locals {
-        session_id: string;
+	interface Locals {
+		session_id: string;
 		access_token: string;
 		refresh_token: string;
 		user: {
@@ -18,9 +18,9 @@ declare namespace App {
 			user_id: string;
 			identity_hash: string;
 		};
-        authenticated: boolean;
-    }
-    // interface Platform {}
-    interface Session { }
-    // interface Stuff {}
+		authenticated: boolean;
+	}
+	// interface Platform {}
+	interface Session {}
+	// interface Stuff {}
 }
