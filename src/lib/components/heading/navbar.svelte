@@ -1,7 +1,23 @@
 <script lang="ts">
 	import MenuIcon from './menu_icon.svelte';
-	import { toggle } from '$lib/store/menu';
+	import toggleMenu, { toggle } from '$lib/store/menu';
+	import { invalidateAll } from '$app/navigation';
+	import ArrowLeft from '../icons/arrow_left.svelte';
 	export let isAuthenticated: boolean = false;
+
+	const signoutHandler = async () => {
+		try {
+			const req = await fetch('/logout', {
+				method: 'POST'
+			});
+			const data = await req.json();
+			console.log(data);
+			await invalidateAll();
+		} catch (e) {
+			console.log(e);
+		}
+		$toggleMenu = false;
+	};
 </script>
 
 <div class="navbar h-full px-4 max-w-6xl m-auto">
@@ -35,10 +51,24 @@
 				<li><a href="/#guidelines">Guidelines</a></li>
 				<li><a href="/#faq">FAQ</a></li>
 			</ul>
-			<div class="avatar">
-				<div class="w-14 rounded-full">
-					<img src="https://placeimg.com/192/192/people" alt="random people" />
-				</div>
+			<div class="dropdown dropdown-end rounded-btn">
+				<label tabindex="-1" for="" class="btn btn-ghost btn-circle w-14 h-14">
+					<div class="avatar">
+						<div class="w-full rounded-full">
+							<img src="https://placeimg.com/192/192/people" alt="random people" />
+						</div>
+					</div>
+				</label>
+				<ul class="menu gap-2 dropdown-content p-2 shadow bg-base-200 w-56">
+					<li><a href="/dashboard">Messages</a></li>
+					<li><a href="/dashboard/settings/account">Account</a></li>
+					<li><a href="/dashboard/settings">Settings</a></li>
+					<li class="mt-8">
+						<button on:click={signoutHandler} type="button" class="normal-case btn btn-accent">
+							<ArrowLeft /> Sign out
+						</button>
+					</li>
+				</ul>
 			</div>
 		</div>
 	{/if}
