@@ -13,11 +13,11 @@
 	<meta name="description" content="Welcome to your dashboard" />
 </svelte:head>
 
-<div class="dashboard w-full h-screen bg-white py-6 px-4">
-	<h1 class="text-neutral text-2xl md:text-4xl mb-8">Dashboard</h1>
+<div class="dashboard w-full h-screen bg-base py-6 px-4">
+	<h1 class="text-white text-2xl md:text-4xl mb-8">Dashboard</h1>
 	<div class="flex items-center justify-start flex-wrap gap-4">
 		{#if messages.length == 0}
-			<div class="text-neutral text-xl md:text-2xl">
+			<div class="text-white text-xl md:text-2xl">
 				<h1 class="text-2xl">No messages</h1>
 				<p class="text-sm">You can start by sharing your link to your friends.</p>
 			</div>
