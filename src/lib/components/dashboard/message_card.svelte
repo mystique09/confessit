@@ -1,4 +1,5 @@
 <script lang="ts">
+	import messageStore from '$lib/store/messages';
 	import EnvelopeClose from '../icons/envelope_close.svelte';
 	import EnvelopeOpen from '../icons/envelope_open.svelte';
 	import MessageModal from './message_modal.svelte';
@@ -7,9 +8,34 @@
 	export let messageId: string;
 	export let content: string;
 	export let date: string;
+
+	async function markAsSeen() {
+		const res = await fetch(`/dashboard`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				message_id: messageId,
+			}),
+		});
+
+		if (res.status == 200) {
+			messageStore.updateMessage(messageId);
+			isOpen = true;
+		}
+	}
+
+	async function clickHandler() {
+		if (!isOpen){
+			await markAsSeen();
+		}
+	}
 </script>
 
 <label
+	on:click={clickHandler}
+	on:keydown={clickHandler}
 	for={messageId}
 	class="btn bg-base-200 w-20 h-20 md:w-24 md:h-24 shadow-lg border-none hover:rotate-6"
 >
