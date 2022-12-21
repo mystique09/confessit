@@ -1,4 +1,6 @@
 <script lang="ts">
+	import ArrowUp from '../icons/arrow_up.svelte';
+
 	import Delete from '../icons/delete.svelte';
 	import Share from '../icons/share.svelte';
 
@@ -12,12 +14,15 @@
 		<span class="text-xs">{new Date(date).toUTCString()}</span>
 		<p class="text-xl flex items-center justify-center h-3/4 fo	nt-bold">{content}</p>
 	</label>
-	<div class="modal-action flex flex-row items-center justify-evenly">
-		<button class="btn btn-error">
-			<Delete />
+	<div class="modal-action flex flex-wrap gap-2 flex-row items-center justify-evenly">
+		<button class="btn btn-error normal-case font-light hover:rotate-6">
+			<Delete /> Delete
 		</button>
-		<button class="btn btn-success">
-			<Share />
+		<button class="btn btn-info normal-case font-light hover:rotate-6">
+			<Share /> Share
+		</button>
+		<button class="btn btn-success normal-case font-light hover:rotate-6">
+			<ArrowUp className="w-6 h-6 rotate-180" /> Download
 		</button>
 	</div>
 </label>
