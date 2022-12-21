@@ -9,7 +9,10 @@
 	export let date: string;
 </script>
 
-<label type="button" for={messageId} class="btn bg-base-100 w-20 h-20 md:w-24 md:h-24 shadow-lg">
+<label
+	for={messageId}
+	class="btn bg-base-200 w-20 h-20 md:w-24 md:h-24 shadow-lg border-none hover:rotate-6"
+>
 	<div class="relative h-auto w-full">
 		{#if !isOpen}
 			<div class="badge badge-error flex items-center badge-xs absolute -top-4 -right-4" />
