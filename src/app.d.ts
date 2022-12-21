@@ -24,3 +24,12 @@ declare namespace App {
 	interface Session {}
 	// interface Stuff {}
 }
+
+type Message = {
+	id: string;
+	user_id: string;
+	content: string;
+	seen: boolean;
+	created_at: string;
+	updated_at: string;
+}
