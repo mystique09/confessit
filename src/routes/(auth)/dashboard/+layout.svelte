@@ -62,16 +62,6 @@
 						Settings
 					</a>
 				</li>
-				<li class="h-56 hidden md:flex md:mt-36">
-					<button
-						type="button"
-						on:click={signoutHandler}
-						class="hover:scale-110 flex gap-2 flex-row items-center justify-between w-full text-xl"
-					>
-						<ArrowLeft className="w-6 h-6 stroke-neutral-content" />
-						Sign out
-					</button>
-				</li>
 			</ul>
 		</div>
 	</div>
