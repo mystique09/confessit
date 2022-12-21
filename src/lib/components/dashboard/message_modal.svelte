@@ -7,11 +7,12 @@
 	export let messageId: string;
 	export let content: string;
 	export let date: string;
+	const newDate = new Date(date);
 </script>
 
 <label for={messageId} class="modal cursor-pointer flex flex-col gap-1">
 	<label class="modal-box relative h-1/2 bg-neutral" for="">
-		<span class="text-xs">{new Date(date).toUTCString()}</span>
+		<span class="text-xs">{newDate.toLocaleDateString()} - {newDate.toLocaleTimeString()}</span>
 		<p class="text-xl flex items-center justify-center h-3/4 fo	nt-bold">{content}</p>
 	</label>
 	<div class="modal-action flex flex-wrap gap-2 flex-row items-center justify-evenly">
