@@ -3,6 +3,8 @@
 	import ArrowLeft from '$lib/components/icons/arrow_left.svelte';
 	import Chart from '$lib/components/icons/chart.svelte';
 	import EnvelopeOpen from '$lib/components/icons/envelope_open.svelte';
+	import Gear from '$lib/components/icons/gear.svelte';
+	import UserAvatar from '$lib/components/icons/user_avatar.svelte';
 
 	const signoutHandler = async () => {
 		try {
@@ -18,26 +20,59 @@
 	};
 </script>
 
-<div class="w-full h-screen flex flex-row items-between">
-	<div class="sidebar h-full flex-0">
-		<div class="mt-8 w-16 h-[90%] px-2 flex flex-col items-center justify-start gap-4">
-			<ul class="h-auto mx-auto flex flex-col flex-1 gap-6 items-center">
+<div class="w-full h-full flex flex-col md:flex md:flex-row items-between">
+	<div class="sidebar pb-8 h-full flex-0">
+		<div
+			class="md:mt-8 mt-4 mb:6 w-full md:w-64 h-[90%] px-4 flex flex-col md:items-center justify-start gap-4"
+		>
+			<ul class="h-auto md:mx-auto flex flex-col flex-1 gap-6 items-start">
 				<li>
-					<a href="/dashboard">
+					<a
+						href="/dashboard"
+						class="hover:scale-110 flex gap-2 flex-row items-center justify-between w-full text-xl"
+					>
 						<EnvelopeOpen className="w-6 h-6 stroke-neutral-content" />
+						Messages
 					</a>
 				</li>
 				<li>
-					<a href="/dashboard/statistics">
+					<a
+						href="/dashboard/statistics"
+						class="hover:scale-110 flex gap-2 flex-row items-center justify-between w-full text-xl"
+					>
 						<Chart className="w-6 h-6 stroke-neutral-content" />
+						Statistics
 					</a>
+				</li>
+				<li class="md:hidden flex">
+					<a
+						href="/dashboard/settings/account"
+						class="hover:scale-110 flex gap-2 flex-row items-center justify-between w-full text-xl"
+					>
+						<UserAvatar className="w-6 h-6 stroke-neutral-content" />
+						Account
+					</a>
+				</li>
+				<li class="md:hidden flex">
+					<a
+						href="/dashboard/settings"
+						class="hover:scale-110 flex gap-2 flex-row items-center justify-between w-full text-xl"
+					>
+						<Gear className="w-6 h-6 stroke-neutral-content" />
+						Settings
+					</a>
+				</li>
+				<li class="h-56 hidden md:flex md:mt-36">
+					<button
+						type="button"
+						on:click={signoutHandler}
+						class="hover:scale-110 flex gap-2 flex-row items-center justify-between w-full text-xl"
+					>
+						<ArrowLeft className="w-6 h-6 stroke-neutral-content" />
+						Sign out
+					</button>
 				</li>
 			</ul>
-			<div class="flex-0">
-				<button type="button" on:click={signoutHandler}>
-					<ArrowLeft className="w-6 h-6 stroke-neutral-content" />
-				</button>
-			</div>
 		</div>
 	</div>
 	<slot />
