@@ -4,6 +4,7 @@
 	import Faq from '$lib/components/home/faq.svelte';
 	import Guidelines from '$lib/components/home/guidelines.svelte';
 	import Hero from '$lib/components/home/hero.svelte';
+	import PrivacyPolicy from '$lib/components/home/privacy_policy.svelte';
 	import WhatIsCnfs from '$lib/components/home/what_is_cnfs.svelte';
 </script>
 
@@ -16,4 +17,5 @@
 <WhatIsCnfs />
 <Guidelines />
 <Faq />
+<PrivacyPolicy />
 <Footer />
