@@ -15,9 +15,6 @@ export const POST = (async ({cookies, fetch}) => {
 
 		if (req.status !== 200) {
 			console.log(res);
-			return json(res, {
-				status: req.status
-			});
 		}
 
 		cookies.delete("session_id", {
