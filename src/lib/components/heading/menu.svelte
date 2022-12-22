@@ -54,11 +54,11 @@
 	out:fly={{ duration: 200, x: 500 }}
 	class="sidebar fixed top-0 left-0 bg-neutral w-screen h-screen z-10 md:hidden"
 >
-	<div class="wrap flex flex-col justify-evenly gap-1 h-full p-4">
+	<div class="wrap flex flex-col justify-around gap-1 h-full p-4">
 		<button class="btn btn-square btn-ghost flex-0 self-end" on:click={toggle}>
 			<Close className="stroke-white w-6 h-6" />
 		</button>
-		<ul class="w-full h-auto flex flex-col items-center justify-evenly flex-1">
+		<ul class="w-full h-auto flex flex-col items-center gap-4 flex-1">
 			{#each navLinks as navLink}
 				<li
 					on:click={toggle}
