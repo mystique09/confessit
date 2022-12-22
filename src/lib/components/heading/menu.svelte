@@ -27,6 +27,10 @@
 		{
 			name: 'FAQ',
 			href: '/#faq'
+		},
+		{
+			name: 'Privacy and Policy',
+			href: '/#privacy-policy'
 		}
 	];
 

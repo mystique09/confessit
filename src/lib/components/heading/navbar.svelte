@@ -30,11 +30,12 @@
 	</div>
 	{#if !isAuthenticated}
 		<div class="navbar-center flex-1 items-center justify-center">
-			<ul class="hidden md:flex md:flex-row justify-evenly w-1/2 font-bold text-white">
-				<li><a href="/wall">Public Wall</a></li>
+			<ul class="hidden md:flex md:flex-row justify-evenly w-3/4 font-bold text-white md:text-sm">
+				<li><a href="/wall">Wall</a></li>
 				<li><a href="/#whatiscnfs">What's CNFS</a></li>
 				<li><a href="/#guidelines">Guidelines</a></li>
 				<li><a href="/#faq">FAQ</a></li>
+				<li><a href="/#privacy-policy">Privacy policy</a></li>
 			</ul>
 		</div>
 		<div class="hidden md:flex md:flex-0">
@@ -45,11 +46,10 @@
 		</div>
 	{:else}
 		<div class="navbar-end hidden md:flex md:flex-1">
-			<ul class="hidden md:flex md:flex-row justify-evenly w-1/2 font-bold text-white">
-				<li><a href="/wall">Public Wall</a></li>
-				<li><a href="/#whatiscnfs">What's CNFS</a></li>
+			<ul class="hidden md:flex md:flex-row justify-evenly w-1/2 font-bold text-white md:text-base">
+				<li><a href="/wall">Wall</a></li>
 				<li><a href="/#guidelines">Guidelines</a></li>
-				<li><a href="/#faq">FAQ</a></li>
+				<li><a href="/#privacy-policy">Privacy policy</a></li>
 			</ul>
 			<div class="dropdown dropdown-end rounded-btn">
 				<label tabindex="-1" for="" class="btn btn-ghost btn-circle w-14 h-14">
