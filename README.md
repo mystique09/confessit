@@ -9,6 +9,7 @@ Welcome to CNFS - the place where you can send anonymous messages to anyone, any
 - Frontend
   - Sveltekit
   - html2canvas to generate image with html elements
+  - Chart.js
   - TailwindCSS
   - DaisyUI plugin
 - Backend
