@@ -61,8 +61,7 @@
 				</label>
 				<ul class="menu gap-2 dropdown-content p-2 shadow bg-base-200 w-56">
 					<li><a href="/dashboard">Messages</a></li>
-					<li><a href="/dashboard/settings/account">Account</a></li>
-					<li><a href="/dashboard/settings">Settings</a></li>
+					<li><a href="/dashboard/account">Account</a></li>
 					<li class="mt-8">
 						<button on:click={signoutHandler} type="button" class="normal-case btn btn-accent">
 							<ArrowLeft /> Sign out
