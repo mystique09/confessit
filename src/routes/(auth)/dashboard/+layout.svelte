@@ -46,20 +46,11 @@
 				</li>
 				<li class="md:hidden flex">
 					<a
-						href="/dashboard/settings/account"
+						href="/dashboard/account"
 						class="hover:scale-110 flex gap-2 flex-row items-center justify-between w-full text-xl"
 					>
 						<UserAvatar className="w-6 h-6 stroke-neutral-content" />
 						Account
-					</a>
-				</li>
-				<li class="md:hidden flex">
-					<a
-						href="/dashboard/settings"
-						class="hover:scale-110 flex gap-2 flex-row items-center justify-between w-full text-xl"
-					>
-						<Gear className="w-6 h-6 stroke-neutral-content" />
-						Settings
 					</a>
 				</li>
 			</ul>
