@@ -3,8 +3,12 @@ import { error, fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 
 // check the use in load fuction return 404 if it's not exist
-export const load = (async ({params, request, fetch}) => {
+export const load = (async ({params, request, fetch, locals}) => {
 	const { username } = params;
+
+	if(locals.serverStatus === "offline") {
+		throw error(404, {message: "server is offline."});
+	}
 
 	try {
 		const req = await fetch(`${VITE_BACKEND_URL}/api/v1/users/one/${username}`, {
