@@ -3,7 +3,11 @@ import { fail } from "@sveltejs/kit";
 import type { Actions } from "./$types";
 
 export const actions: Actions = {
-    signUp: async function({ request, fetch }) {
+    signUp: async function({ request, fetch, locals }) {
+        if (locals.serverStatus === "offline") {
+            return fail(404, { signUpFailed: true, message: "Server is offline." });
+        }
+
         const data = await request.formData();
         const username = data.get("username");
         const password = data.get("password");
@@ -45,10 +49,6 @@ export const actions: Actions = {
                 },
                 body: JSON.stringify({ username, password }),
             });
-
-            if (req.status === 404) {
-                return fail(req.status, { loginFailed: true, message: "Server is offline." });
-            }
 
             const res = await req.json();
             if (req.status !== 200) {
