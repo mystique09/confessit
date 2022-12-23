@@ -10,7 +10,7 @@
 
 <div class="h-screen flex flex-col items-center justify-center px-4">
 	<h1 class="text-8xl mb-7">{emojiChoice}</h1>
-	<p class="font-bold text-4xl">Ooopsie {$page.error.message}</p>
+	<p class="font-bold text-4xl">Ooops {$page.error.message}</p>
 	<p class="text-sm mt-2 tracking-wide">
 		{#if $page.status === 404}
 			We're sorry, but it looks like the page you are trying to view is no longer available.
