@@ -1,6 +1,15 @@
 import { VITE_BACKEND_URL } from "$env/static/private";
-import { fail } from "@sveltejs/kit";
+import { error, fail } from "@sveltejs/kit";
+import type { PageServerLoad } from "../$types";
 import type { Actions } from "./$types";
+
+export const load = (async ({ parent, fetch }) => {
+	const {serverStatus} = await parent();
+
+	if(serverStatus === "offline") {
+		throw error(404, {message: "server is offline."});
+	}
+}) satisfies PageServerLoad;
 
 export const actions: Actions = {
 	updateAccountUsername: async function({request, locals, fetch}) {
