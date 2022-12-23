@@ -37,6 +37,11 @@ export const actions: Actions = {
                 },
                 body: JSON.stringify({ username, password }),
             });
+
+            if (req.status === 404) {
+                return fail(req.status, { loginFailed: true, message: "Server is offline." });
+            }
+
             const res = await req.json();
 
             if (req.status !== 200) {
