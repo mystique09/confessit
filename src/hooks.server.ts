@@ -1,5 +1,5 @@
-import { VITE_BACKEND_URL } from "$env/static/private";
-import { error, redirect, type Handle } from "@sveltejs/kit";
+import { NODE_ENV, VITE_BACKEND_URL } from "$env/static/private";
+import { redirect, type Handle } from "@sveltejs/kit";
 
 export const handle: Handle = async ({ event, resolve }) => {
     let sessionId = event.cookies.get("session_id") ?? "";
@@ -7,6 +7,27 @@ export const handle: Handle = async ({ event, resolve }) => {
     let refreshToken = event.cookies.get("refresh_token") ?? "";
     let user = JSON.parse(event.cookies.get("user") ?? "{}");
     let userIdentity = JSON.parse(event.cookies.get("user_identity") ?? "{}");
+
+	if(sessionId && accessToken && refreshToken && user && userIdentity) {
+		if(!await validateAccessToken(accessToken)){
+			let newAccessToken = await requestNewAccessToken(refreshToken);
+			
+			if(newAccessToken.access_token === "") {
+				await endSession();
+				throw redirect(301, "/sign-in");
+			}
+
+			console.log(Date.now(), user.id, newAccessToken.access_token_expiry)
+			accessToken = newAccessToken.access_token;
+
+			event.cookies.set("access_token", newAccessToken.access_token, {
+                path: "/",
+                httpOnly: true,
+                maxAge: new Date(newAccessToken.access_token_expiry).getTime(),
+                secure: NODE_ENV === "production",
+            });
+		}
+	}
 
     if (event.url.pathname.startsWith("/dashboard")) {
         if (!(sessionId && accessToken && refreshToken && user && userIdentity)) {
@@ -32,3 +53,66 @@ export const handle: Handle = async ({ event, resolve }) => {
     const response = await resolve(event);
     return response;
 };
+
+async function validateAccessToken(accessToken: string): Promise<boolean> {
+	try {
+		const req = await fetch(`${VITE_BACKEND_URL}/api/v1/auth/validate`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ access_token: accessToken }),
+		});
+
+		if(req.status !== 200){
+			console.log(req.status)
+			return false;
+		}
+
+		return true;
+	} catch(e) {
+		console.log(e);
+		return false;
+	}
+}
+
+async function requestNewAccessToken(refreshToken: string): Promise<{access_token: string, access_token_expiry: string}> {
+	try {
+		const refresh = await fetch(`${VITE_BACKEND_URL}/api/v1/auth/refresh`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ refresh_token: refreshToken }),
+		});
+
+		if(refresh.status !== 200){
+			return {access_token: "", access_token_expiry: ""};
+		}
+
+		const refreshData = await refresh.json();
+		const {data} = refreshData;
+		return data;
+	} catch(e) {
+		return {access_token: "", access_token_expiry: ""};
+	}
+}
+
+async function endSession() {
+	try {
+		const req = await fetch("/logout", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+
+		if(req.status !== 200){
+			console.log("error while logging out");
+		}
+
+		console.log("logged out!");
+	} catch(e) {
+		console.log("error while logging out");
+	}
+}

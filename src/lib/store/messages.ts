@@ -18,6 +18,10 @@ function newMessageStore() {
 		});
 	}
 
+	function updateData(messages: Message[]) {
+		set(messages);
+	}
+
 	function deleteMessage(messageId: string) {
 		update((messages) => {
 			const index = messages.findIndex((m) => m.id === messageId);
@@ -32,6 +36,7 @@ function newMessageStore() {
 		subscribe,
 		initMessages,
 		updateMessage,
+		updateData,
 		deleteMessage,
 		add: (message: Message) => update((messages) => [...messages, message]),
 		clear: () => set([]),
