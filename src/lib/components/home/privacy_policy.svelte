@@ -2,7 +2,7 @@
 	import InfoCard from '../heading/info_card.svelte';
 </script>
 
-<div class="h-auto py-12 px-4  bg-gradient-to-b from-error/40 via-error/50 to-error/60" id="privacy-policy">
+<div class="h-auto py-12 px-4  bg-gradient-to-b from-error/60 via-error/70 to-error/80" id="privacy-policy">
 	<div class="wrap h-full w-full max-w-4xl m-auto">
 		<InfoCard heading="Privacy policy" info="What information do we collect?">
 			<ul class="flex flex-col gap-4 items-start justify-evenly mt-8">
