@@ -18,7 +18,7 @@
 			Create new post, and let the public know.
 		</h3>
 		<p class="py-4">Say whatever you want, and please follow the guidelines.</p>
-		<form class="w-full m-auto" method="POST" action="/wall/?/createNewPost">
+		<form class="w-full m-auto" method="POST" action="?/wall/createNewPost">
 			<textarea
 				class="textarea textarea-primary w-full resize-none"
 				name="content"
