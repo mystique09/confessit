@@ -34,3 +34,21 @@ type Message = {
     created_at: string;
     updated_at: string;
 }
+
+type Post = {
+	id: string;
+	content: string;
+	created_at: string;
+	updated_at: string;
+	user_identity_id: string;
+}
+
+type PostComment = {
+	id: string;
+   	content: string;
+    user_identity_id: string;
+    post_id: string;
+    parent_id: string;
+    created_at: string;
+    updated_at: string;
+}
