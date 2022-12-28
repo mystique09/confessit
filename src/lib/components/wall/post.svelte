@@ -19,19 +19,21 @@
 		</div>
 		<a
 			href={'/wall/' + item.id}
-			class="hover:bg-neutral-content/20 content w-full flex flex-col justify-between gap-4 items-start p-2"
+			class="hover:bg-neutral-content/20 w-full flex flex-col justify-between gap-4 items-start p-2"
 		>
 			<div class="avatar h-7">
 				<h1 class="text-sm">
-					<span class="text-xs">anonymous</span> -
+					<span class="text-xs">{item.user_identity_id}</span> -
 					<span class="text-white/40 font-light text-xs"
-						>{new Date(item.created_at).toTimeString()}</span
+						>{new Date(item.created_at).toLocaleDateString()}</span
 					>
 				</h1>
 			</div>
-			<p class="post_content text-sm md:text-sm tracking-wide text-ellipsis overflow-hidden my-6">
-				{item.content}
-			</p>
+			<div class="h-full">
+				<p class="text-xs my-6 text-ellipsis">
+					{item.content}
+				</p>
+			</div>
 		</a>
 	</div>
 </div>
