@@ -23,8 +23,7 @@ export const GET = (async({url, locals, fetch}) => {
 		const res = await req.json();
 		const {data} = res;
 
-
-		return json(data, {
+		return json(data ?? [], {
 			status: 200
 		});
 	} catch(e) {
