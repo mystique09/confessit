@@ -1,13 +1,19 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
 	import ArrowUp from '$lib/components/icons/arrow_up.svelte';
 	import Comment from '$lib/components/icons/comment.svelte';
-	import UserAvatar from '$lib/components/icons/user_avatar.svelte';
-	import type { PageData } from './$types';
+	import ListComments from '$lib/components/wall/list_comments.svelte';
+	import type { ActionData, PageData } from './$types';
 	export let data: PageData;
+	export let form: ActionData;
 
 	let item: Post = data.post;
 	let comments: PostComment[] = data.comments;
+
+	$: if(form?.commentSuccess) {
+		location.reload();
+	}
 </script>
 
 <svelte:head>
@@ -15,7 +21,7 @@
 	<meta name="description" content={`View the ${$page.params.cid}'s confession.`} />
 </svelte:head>
 
-<div class="h-full px-4 pb-4 w-full">
+<div class="h-full px-2 md:px-4 w-full my-4">
 	<div class="wrap w-full h-full lg:flex lg:flex-row lg:justify-evenly m-auto">
 		<div class="post max-w-xl w-full min-h-[150px] m-auto">
 			<div class="post_wrap bg-neutral flex flex-row items-center justify-between">
@@ -32,9 +38,9 @@
 				<div class="content w-full flex flex-col justify-between gap-4 items-start p-2">
 					<div class="avatar h-7">
 						<h1 class="text-sm">
-							<span class="text-xs">anonymous</span> -
+							<span class="text-xs">{item.user_identity_id}</span> -
 							<span class="text-white/40 font-light text-xs"
-								>{new Date(item.created_at).toTimeString()}</span
+								>{new Date(item.created_at).toLocaleDateString()}</span
 							>
 						</h1>
 					</div>
@@ -43,22 +49,26 @@
 					>
 						{item.content}
 					</p>
-					<div class="flex flex-row items-center gap-2">
+					<a href="#comments" class="flex flex-row items-center gap-2">
 						<Comment className="w-5 h-5 stroke-accent" />
 						<span class="text-xs text-white/40">{comments.length} comments</span>
-					</div>
+					</a>
 				</div>
 			</div>
-			<div class="divider" />
-			<div class="px-4 bg-neutral py-2 flex flex-col items-start gap-4">
-				<form method="POST" action="?/newComment" class="new_comment h-24 w-full">
+			<div class="px-4 bg-neutral w-full md:w-auto py-2 flex flex-col items-start gap-4">
+				<div class="divider"></div>
+				<form method="POST" action="?/newComment" class="new_comment h-24 w-full" use:enhance>
 					{#if data.authenticated}
 						<p class="text-sm text-white">Comment anonymously</p>
 					{:else}
 						<a href="/sign-in" class="text-sm underline text-white">Sign in to comment</a>
 					{/if}
+					{#if form?.commentFailed}
+						<p class="text-xs text-error">Comment is required</p>
+					{/if}
 					<textarea
-						class="mt-2 w-full h-full text-xs resize-none textarea textarea-primary textarea-bordered rounded-sm p-2"
+						class:textarea-error={form?.commentFailed}
+						class="w-full h-full text-xs resize-none textarea textarea-primary textarea-bordered rounded-sm p-2"
 						name="comment"
 						disabled={!data.authenticated}
 						id="comment"
@@ -73,31 +83,23 @@
 						{/if}
 					</div>
 				</form>
-				<div class="comments mt-14">
-					<div class="w-full bg-neutral">
-						<div class="collapse">
-							<input type="checkbox" name="comments" id="comments" />
-							<div class="collapse-title">Comments</div>
-							<div class="collapse-content">
-								{#if comments.length > 0}
-									{#each comments as comment}
-										<div class="comment h-auto bg-base-100 mt-2 w-full p-2">
-											<div class="head my-4 flex flex-row items-center justify-start">
-												<UserAvatar className="w-6 h-6 rounded-sm" />
-												<span class="text-accent text-xs">{comment.user_identity_id}</span>
-											</div>
-											<div class="content w-full items-end ml-4 pr-2">
-												<p class="text-sm p-2">{comment.content}</p>
-											</div>
-										</div>
-									{/each}
-								{:else}
-									<h1>No comments yet.</h1>
-								{/if}
-							</div>
-						</div>
-					</div>
-				</div>
+				<ListComments {comments} />
+			</div>
+		</div>
+
+		<div class="w-1/4 mr-auto">
+			<div class="guidelines_card h-56 w-full bg-neutral hidden lg:flex lg:flex-col p-4">
+				<ul class="text-xs flex flex-col gap-2">
+					<li><a class="hover:underline" href="/#privacy-policy">Privacy policy</a></li>
+					<li><a class="hover:underline" href="/#guidelines">Guidelines</a></li>
+					<li><a class="hover:underline" href="/#faq">FAQ</a></li>
+				</ul>
+				<div class="divider" />
+				<ul class="text-xs flex flex-col gap-2">
+					<a href="https://github.com/mystique09/confessit" class="link link-hover">Github</a>
+					<a href="https://twitter.com/voidthebug" class="link link-hover">Twitter</a>
+					<a href="https://github.com/mystique09" class="link link-hover">Linkedin</a>
+				</ul>
 			</div>
 		</div>
 	</div>
