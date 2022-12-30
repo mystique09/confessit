@@ -32,6 +32,8 @@
 
 <svelte:window bind:scrollY={yPos} bind:innerWidth={width} />
 
-{#if yPos > 1000}
-	<BackToTop />
+{#if !$page.url.pathname.startsWith('/wall')}
+	{#if yPos > 1000}
+		<BackToTop />
+	{/if}
 {/if}
