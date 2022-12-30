@@ -52,9 +52,9 @@
 
 <label for={messageId} class="modal cursor-pointer flex flex-col gap-1">
 	<a bind:this={aElement} class="hidden" href="/#">y</a>
-	<label bind:this={messageCard} class="modal-box relative h-1/2 bg-neutral max-h-[350px]" for="">
+	<label bind:this={messageCard} class="modal-box relative flex flex-col items-start justify-between h-full bg-neutral max-h-[350px]" for="">
 		<span class="text-xs">{newDate.toLocaleDateString()} - {newDate.toLocaleTimeString()}</span>
-		<p class="text-xl flex items-center justify-center h-3/4 fo	nt-bold">{content}</p>
+		<p class="text-xs h-3/4 text-center w-full font-bold break-words">{content}</p>
 	</label>
 	<div class="modal-action flex flex-wrap gap-2 flex-row items-center justify-evenly">
 		<button

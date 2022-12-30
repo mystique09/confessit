@@ -21,7 +21,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 
                 if (newAccessToken.access_token === "") {
                     await endSession();
-                    throw redirect(301, "/sign-in");
                 }
 
                 console.log(Date.now(), user.id, newAccessToken.access_token_expiry)
@@ -127,6 +126,7 @@ async function endSession() {
 
         if (req.status !== 200) {
             console.log("error while logging out");
+			throw redirect(301, "/sign-in");
         }
 
         console.log("logged out!");

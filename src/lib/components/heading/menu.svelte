@@ -17,14 +17,6 @@
 			href: '/wall'
 		},
 		{
-			name: 'What is CNFS?',
-			href: '/#whatiscnfs'
-		},
-		{
-			name: 'Guidelines',
-			href: '/#guidelines'
-		},
-		{
 			name: 'FAQ',
 			href: '/#faq'
 		},
@@ -58,7 +50,9 @@
 		<button class="btn btn-square btn-ghost flex-0 self-end" on:click={toggle}>
 			<Close className="stroke-white w-6 h-6" />
 		</button>
-		<ul class="w-full h-auto flex flex-col items-center gap-4 flex-1">
+		<ul
+			class="w-full h-auto flex flex-col items-center justify-evenly max-h-[450px] my-auto gap-4 flex-1"
+		>
 			{#each navLinks as navLink}
 				<li
 					on:click={toggle}
@@ -69,6 +63,13 @@
 				</li>
 			{/each}
 			{#if isAuthenticated}
+				<li
+					on:click={toggle}
+					on:keydown={toggle}
+					class="btn btn-wide btn-md rounded-full font-light normal-case"
+				>
+					<a class="w-full" href="/dashboard">Dashboard</a>
+				</li>
 				<li>
 					<button
 						on:click={signoutHandler}

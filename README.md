@@ -26,4 +26,4 @@ Welcome to CNFS - the place where you can send anonymous messages to anyone, any
 
 [Database diagram](https://dbdiagram.io/d/639693f1bae3ed7c45462548)
 
-[PREVIEW](https://confessit.vercel.app/)
+[PREVIEW](https://cnfs.vercel.app/)
