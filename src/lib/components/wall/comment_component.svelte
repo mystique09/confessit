@@ -10,6 +10,6 @@
 		<span class="text-accent text-xs">{data.user_identity_id}</span>
 	</div>
 	<div class="content w-full items-end ml-4 pr-2">
-		<p class="text-sm p-2">{data.content}</p>
+		<p class="text-sm p-2 break-words w-full">{data.content}</p>
 	</div>
 </div>
