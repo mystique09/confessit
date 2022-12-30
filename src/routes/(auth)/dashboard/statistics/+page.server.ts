@@ -1,5 +1,5 @@
 import { VITE_BACKEND_URL } from "$env/static/private";
-import type { PageServerLoad } from "../$types";
+import type { PageServerLoad } from "./$types";
 import { error } from '@sveltejs/kit';
 
 export const load = (async ({fetch, locals}) => {
