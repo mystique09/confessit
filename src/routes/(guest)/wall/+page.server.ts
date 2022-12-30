@@ -2,13 +2,18 @@ import { VITE_BACKEND_URL } from "$env/static/private";
 import { error, fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 
-
 export const load = (async function({fetch, locals, url}) {
 	const page = Number(url.searchParams.get("page")) || 0;
-	console.log(page);
 
 	try {
 		const req = await fetch(`${VITE_BACKEND_URL}/api/v1/posts?page=${page}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			}
+		});
+
+		const hasNextRequest = await fetch(`${VITE_BACKEND_URL}/api/v1/posts?page=${page + 1}`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -20,9 +25,11 @@ export const load = (async function({fetch, locals, url}) {
 		}
 
 		const posts = await req.json();
+		const nextPage = await hasNextRequest.json();
 
 		return {
-			posts: posts ?? [],
+			posts: posts.data ?? [],
+			hasNext: !!nextPage.data,
 		};
 	} catch(err) {
 		throw error(500, "Internal Server Error")
