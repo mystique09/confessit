@@ -52,30 +52,35 @@ export const actions: Actions = {
             cookies.set("session_id", data.session_id, {
                 path: "/",
                 httpOnly: true,
+				sameSite: "strict",
                 maxAge: new Date(data.refresh_token_expiry).getTime(),
                 secure: NODE_ENV === "production",
             });
             cookies.set("access_token", data.access_token, {
                 path: "/",
                 httpOnly: true,
+				sameSite: "strict",
                 maxAge: new Date(data.access_token_expiry).getTime(),
                 secure: NODE_ENV === "production",
             });
             cookies.set("refresh_token", data.refresh_token, {
                 path: "/",
                 httpOnly: true,
+				sameSite: "strict",
                 maxAge: new Date(data.refresh_token_expiry).getTime(),
                 secure: NODE_ENV === "production",
             });
             cookies.set("user", JSON.stringify(data.user), {
                 path: "/",
                 httpOnly: true,
+				sameSite: "strict",
                 maxAge: new Date(data.refresh_token_expiry).getTime(),
                 secure: NODE_ENV === "production",
             });
             cookies.set("user_identity", JSON.stringify(data.user_identity), {
                 path: "/",
                 httpOnly: true,
+				sameSite: "strict",
                 maxAge: new Date(data.refresh_token_expiry).getTime(),
                 secure: NODE_ENV === "production",
             });
