@@ -44,12 +44,13 @@
 	<div class="h-full container mt-12 max-w-2xl m-auto bg-[#EEEEEE] px-4 py-6 rounded-md">
 		<h1 class="font-normal text-base text-neutral text-center">Let's create your account</h1>
 		<div class="oauth flex flex-col items-center gap-4 w-full mt-12">
+			<div class="badge badge-warning">0Auth is not yet supported.</div>
 			<div
-				class="btn w-full md:w-3/4 rounded bg-white btn-md outline-none border-none text-neutral hover:text-white normal-case"
+				class="btn btn-disabled w-full md:w-3/4 rounded bg-white btn-md outline-none border-none text-neutral hover:text-white normal-case"
 			>
 				Google
 			</div>
-			<div class="btn w-full md:w-3/4 rounded btn-md text-white normal-case">Github</div>
+			<div class="btn btn-disabled w-full md:w-3/4 rounded btn-md text-white normal-case">Github</div>
 		</div>
 		<div class="divider w-3/4 m-auto my-4 text-neutral">or</div>
 		{#if form?.signUpFailed || form?.invalidPasswordLength || form?.invalidUsernameLength || form?.passwordsDoNotMatch || form?.missingCredentials}
