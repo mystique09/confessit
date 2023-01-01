@@ -41,7 +41,7 @@
 			<p>
 				Share your link:
 				<span class="link link-spanrimary text-sm"
-					>{$page.url.protocol}://{$page.url.host}/u/{$page.data.user.username}</span
+					>{$page.url.protocol}//{$page.url.host}/u/{$page.data.user.username}</span
 				>
 			</p>
 		</div>
