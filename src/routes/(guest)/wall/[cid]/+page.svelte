@@ -78,6 +78,9 @@
 					{#if form?.commentFailed}
 						<p class="text-xs text-error">Comment is required</p>
 					{/if}
+					{#if form?.commentSuccess}
+						<p class="text-xs text-success">Comment added.</p>
+					{/if}
 					<textarea
 						class:textarea-error={form?.commentFailed}
 						class="w-full h-full text-xs resize-none textarea textarea-primary textarea-bordered rounded-sm p-2"

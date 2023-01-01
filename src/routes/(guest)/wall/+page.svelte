@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { enhance } from '$app/forms';
-	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import Check from '$lib/components/icons/check.svelte';
 	import Delete from '$lib/components/icons/delete.svelte';
 	import Globe from '$lib/components/icons/globe.svelte';
 	import Info from '$lib/components/icons/info.svelte';
@@ -14,12 +14,6 @@
 
 	export let data: PageData;
 	export let form: ActionData;
-
-	$: if (form?.newPostSuccess) {
-		if (browser) {
-			goto('/wall', { replaceState: true });
-		}
-	}
 
 	$: hasError = form?.postFailed;
 	$: message = form?.message;
@@ -36,6 +30,24 @@
 	$: currentPage = Number($page.url.searchParams.get('page')) || 0;
 	$: previousPage = currentPage <= 0 ? currentPage : currentPage - 1;
 	$: nextPage = data.hasNext ? currentPage + 1 : currentPage;
+
+	let isLoading = false;
+
+	const handleSubmit = () => {
+		isLoading = true;
+	};
+
+	$: if (form?.newPostSuccess) {
+		isLoading = false;
+
+		if (browser) {
+			location.reload();
+		}
+	}
+
+	$: if(form?.postFailed) {
+		isLoading = false;
+	}
 </script>
 
 <svelte:head>
@@ -64,6 +76,12 @@
 					<span class="text-sm"> {message}</span>
 				</div>
 			{/if}
+			{#if form?.newPostSuccess}
+				<div class="alert alert-xs alert-success mb-2 flex flex-row items-center justify-between">
+					<Check />
+					<span class="text-sm"> {message}</span>
+				</div>
+			{/if}
 			<form class="w-full m-auto" method="POST" action="?/createNewPost" use:enhance>
 				<textarea
 					class="textarea textarea-primary w-full resize-none"
@@ -82,7 +100,12 @@
 					>
 						<Delete /> Cancel
 					</label>
-					<button class="btn btn-success normal-case gap-2">
+					<button
+						on:click={handleSubmit}
+						class:loading={isLoading}
+						class:btn-disabled={isLoading}
+						class="btn btn-success normal-case gap-2"
+					>
 						<Send /> Submit
 					</button>
 				</div>
@@ -93,8 +116,14 @@
 
 <div class="min-h-screen px-2 md:px-4 w-full">
 	<div class="btn-group grid grid-cols-2 max-w-md mb-6 m-auto">
-		<a href={`/wall?page=${previousPage}`} class:btn-disabled={currentPage <= 0} class="btn btn-outline">Previous page</a>
-		<a href={`/wall?page=${nextPage}`} class:btn-disabled={!data.hasNext} class="btn btn-outline">Next</a>
+		<a
+			href={`/wall?page=${previousPage}`}
+			class:btn-disabled={currentPage <= 0}
+			class="btn btn-outline">Previous page</a
+		>
+		<a href={`/wall?page=${nextPage}`} class:btn-disabled={!data.hasNext} class="btn btn-outline"
+			>Next</a
+		>
 	</div>
 	<div class="wrap md:my-4 w-full h-full lg:flex lg:flex-row lg:justify-evenly m-auto">
 		{#if data.posts.length > 0}
@@ -105,7 +134,9 @@
 			</div>
 		{:else}
 			<div class="flex flex-col items-center justify-center h-full">
-				<h1 class="lg:text-sm">It's either no one posted yet or you already reached the last post.</h1>
+				<h1 class="lg:text-sm">
+					It's either no one posted yet or you already reached the last post.
+				</h1>
 			</div>
 		{/if}
 		<div class="w-1/4">
