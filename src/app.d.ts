@@ -3,37 +3,49 @@
 // See https://kit.svelte.dev/docs/types#the-app-namespace
 // for information about these interfaces
 declare namespace App {
-    interface Locals {
-        serverStatus: "online" | "offline";
-        session_id: string;
-        access_token: string;
-        refresh_token: string;
-        user: {
-            id: string;
-            username: string;
-            created_at: Date;
-            updated_at: Date;
-        };
-        user_identity: {
-            id: string;
-            user_id: string;
-            identity_hash: string;
-        };
-        authenticated: boolean;
-    }
-    // interface Platform {}
-    interface Session { }
-    // interface Stuff {}
+	interface Locals {
+		serverStatus: "online" | "offline";
+		session_id: string;
+		access_token: string;
+		refresh_token: string;
+		user: User;
+		user_identity: UserIdentity;
+		authenticated: boolean;
+	}
+	// interface Platform {}
+	interface Session {}
+	// interface Stuff {}
 }
 
+type User = {
+	id: string;
+	username: string;
+	created_at: Date;
+	updated_at: Date;
+};
+
+type UserIdentity = {
+	id: string;
+	user_id: string;
+	identity_hash: string;
+};
+
+type Auth = {
+	session_id: string;
+	access_token: string;
+	refresh_token: string;
+	user: User;
+	user_identity: UserIdentity;
+};
+
 type Message = {
-    id: string;
-    user_id: string;
-    content: string;
-    seen: boolean;
-    created_at: string;
-    updated_at: string;
-}
+	id: string;
+	user_id: string;
+	content: string;
+	seen: boolean;
+	created_at: string;
+	updated_at: string;
+};
 
 type Post = {
 	id: string;
@@ -41,14 +53,14 @@ type Post = {
 	created_at: string;
 	updated_at: string;
 	user_identity_id: string;
-}
+};
 
 type PostComment = {
 	id: string;
-   	content: string;
-    user_identity_id: string;
-    post_id: string;
-    parent_id: string;
-    created_at: string;
-    updated_at: string;
-}
+	content: string;
+	user_identity_id: string;
+	post_id: string;
+	parent_id: string;
+	created_at: string;
+	updated_at: string;
+};
