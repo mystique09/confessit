@@ -30,6 +30,8 @@ export async function interceptRequestEvent(
 				if (newAccessToken.access_token === "") {
 					await endSession(event.fetch);
 					console.log("logging out");
+
+					auth.session_id;
 					auth.access_token = "";
 					auth.refresh_token = "";
 					auth.user = {} as User;
@@ -48,6 +50,7 @@ export async function interceptRequestEvent(
 		}
 	}
 
+	event.locals.authenticated = auth.session_id !== "";
 	event.locals.session_id = auth.session_id;
 	event.locals.access_token = auth.access_token;
 	event.locals.refresh_token = auth.refresh_token;
@@ -62,6 +65,7 @@ export async function interceptRoute(
 	if (event.url.pathname.startsWith("/dashboard")) {
 		if (
 			!(
+				auth.session_id &&
 				auth.access_token &&
 				auth.refresh_token &&
 				auth.user &&
@@ -78,6 +82,7 @@ export async function interceptRoute(
 		event.url.pathname.startsWith("/forgot-password")
 	) {
 		if (
+			auth.session_id &&
 			auth.access_token &&
 			auth.refresh_token &&
 			auth.user &&
