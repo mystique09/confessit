@@ -35,7 +35,7 @@ export const POST = (async ({ cookies, fetch, locals }) => {
             maxAge: -1
         });
 
-        return json({ mesasge: "cookies deleted" });
+        return json({ message: "cookies deleted" });
     } catch (e) {
 		cookies.delete("session_id", {
             path: '/',
