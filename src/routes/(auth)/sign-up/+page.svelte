@@ -9,6 +9,7 @@
 	import type { ActionData } from './$types';
 	import { slide } from 'svelte/transition';
 	import Check from '$lib/components/icons/check.svelte';
+	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 
 	let showPassword: boolean = false;
 	let submitForm: boolean = false;
@@ -43,26 +44,31 @@
 		submitForm = false;
 	}
 
-	$: token = '';
+	let token = '';
+	let isLoadingToken = false;
 
 	const onSubmitCaptcha = () => {
+		isLoadingToken = true;
 		grecaptcha.ready(function () {
 			grecaptcha
 				.execute('6LdBec4jAAAAAFDaErCHEhir_-q3bK5ytmRxb5FZ', { action: 'button' })
 				.then(function (t: string) {
 					// Add your logic to submit to your backend server here.
-					console.log(t);
 					token = t;
+					isLoadingToken = false;
 				});
 		});
 	};
+
+	$: tokenAcquired = !!token;
+	$: console.log(`[INFO] recaptcha token acquired ${!!tokenAcquired}`);
 </script>
 
 <svelte:head>
 	<title>CNFS - Sign up</title>
 	<meta name="description" content="Join CNFS now!" />
 	<script
-		src="https://www.google.com/recaptcha/api.js?render=6LdBec4jAAAAAFDaErCHEhir_-q3bK5ytmRxb5FZ"
+		src={`https://www.google.com/recaptcha/api.js?render=${PUBLIC_RECAPTCHA_KEY}`}
 	></script></svelte:head
 >
 
@@ -146,8 +152,12 @@
 						aria-required="true"
 						on:click={onSubmitCaptcha}
 						class="g-recaptcha btn btn-ghost text-error text-xs font-light normal-case"
+						class:text-success={tokenAcquired}
+						class:loading={isLoadingToken}
 					>
-						<Check className="w-8 h-8 stroke-error" /> human verification
+						{#if !isLoadingToken}
+							<Check className={`w-8 h-8 ${tokenAcquired ? 'stroke-success' : 'stroke-error'}`} />
+						{/if} human verification
 					</button>
 				{:else}
 					<button
@@ -157,8 +167,12 @@
 						aria-required="true"
 						on:click={onSubmitCaptcha}
 						class="g-recaptcha btn btn-ghost text-neutral text-xs font-light normal-case"
+						class:text-success={tokenAcquired}
+						class:loading={isLoadingToken}
 					>
-						<Check className="w-8 h-8 stroke-success" /> human verification
+						{#if !isLoadingToken}
+							<Check className={`w-8 h-8 ${tokenAcquired ? 'stroke-success' : ''}`} />
+						{/if} human verification
 					</button>
 				{/if}
 				<div class="flex flex-col md:flex-row-reverse items-center gap-2 m-auto w-full mt-4">
