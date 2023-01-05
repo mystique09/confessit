@@ -9,7 +9,6 @@
 	import type { ActionData } from './$types';
 	import { slide } from 'svelte/transition';
 	import Check from '$lib/components/icons/check.svelte';
-	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 
 	let showPassword: boolean = false;
 	let submitForm: boolean = false;
@@ -67,10 +66,7 @@
 <svelte:head>
 	<title>CNFS - Sign up</title>
 	<meta name="description" content="Join CNFS now!" />
-	<script
-		src={`https://www.google.com/recaptcha/api.js?render=${PUBLIC_RECAPTCHA_KEY}`}
-	></script></svelte:head
->
+</svelte:head>
 
 <div class="min-h-screen px-4">
 	<div class="h-full container mt-12 max-w-2xl m-auto bg-[#EEEEEE] px-4 py-6 rounded-md">
