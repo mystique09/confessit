@@ -1,9 +1,7 @@
 <script>
 	import { invalidateAll } from '$app/navigation';
-	import ArrowLeft from '$lib/components/icons/arrow_left.svelte';
 	import Chart from '$lib/components/icons/chart.svelte';
 	import EnvelopeOpen from '$lib/components/icons/envelope_open.svelte';
-	import Gear from '$lib/components/icons/gear.svelte';
 	import UserAvatar from '$lib/components/icons/user_avatar.svelte';
 
 	const signoutHandler = async () => {
@@ -20,7 +18,7 @@
 	};
 </script>
 
-<div class="w-full h-full flex flex-col md:flex md:flex-row items-between">
+<div class="w-full h-full flex flex-col md:flex md:flex-row items-between max-w-6xl m-auto">
 	<div class="sidebar pb-8 h-full flex-0">
 		<div
 			class="md:mt-8 mt-4 mb:6 w-full md:w-64 h-[90%] px-4 flex flex-col md:items-center justify-start gap-4"
