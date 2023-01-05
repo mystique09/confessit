@@ -44,7 +44,7 @@ export const actions: Actions = {
         if (!gRecaptchaToken) {
             return fail(400, {
                 missingRecaptchaToken: true,
-                message: "Missing reCAPTCHA token.",
+                message: "Please verify that you are not a robot.",
             });
         }
 
@@ -64,7 +64,7 @@ export const actions: Actions = {
             if (!verifyResponse.success) {
                 return fail(400, {
                     invalidRecaptchaToken: true,
-                    message: "Invalid reCAPTCHA token.",
+                    message: "Human verification failed, are you sure you're not a robot?",
                 });
             }
 
