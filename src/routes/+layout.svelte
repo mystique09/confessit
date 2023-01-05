@@ -7,6 +7,7 @@
 	import Menu from '$lib/components/heading/menu.svelte';
 	import { fade } from 'svelte/transition';
 	import { navigating, page } from '$app/stores';
+	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 
 	let yPos: number = 0;
 	let width: number = 0;
@@ -43,17 +44,21 @@
 			<progress class="mt-2 progress progress-primary w-56" />
 		</div>
 	</div>
+{:else if !$toggleMenu}
+	<div in:fade={{ duration: 100, delay: 200 }}>
+		<slot />
+	</div>
 {:else}
-	{#if !$toggleMenu}
-		<div in:fade={{ duration: 100, delay: 200 }}>
-			<slot />
-		</div>
-	{:else}
-		<Menu isAuthenticated={$page.data.authenticated} />
-	{/if}
+	<Menu isAuthenticated={$page.data.authenticated} />
 {/if}
 
 <svelte:window bind:scrollY={yPos} bind:innerWidth={width} />
+
+<svelte:head>
+	<script
+		src={`https://www.google.com/recaptcha/api.js?render=${PUBLIC_RECAPTCHA_KEY}`}
+	></script></svelte:head
+>
 
 {#if !$page.url.pathname.startsWith('/wall')}
 	{#if yPos > 1000}
