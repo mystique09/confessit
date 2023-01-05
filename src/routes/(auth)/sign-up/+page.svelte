@@ -7,7 +7,8 @@
 	import Key from '$lib/components/icons/key.svelte';
 	import UserAvatar from '$lib/components/icons/user_avatar.svelte';
 	import type { ActionData } from './$types';
-	import {slide} from "svelte/transition";
+	import { slide } from 'svelte/transition';
+	import Check from '$lib/components/icons/check.svelte';
 
 	let showPassword: boolean = false;
 	let submitForm: boolean = false;
@@ -22,17 +23,44 @@
 
 	export let form: ActionData;
 
-	$: if(form?.success) {
-		if(browser) {
+	$: if (form?.success) {
+		if (browser) {
 			goto('/sign-in').then(() => {
 				window.location.reload();
 			});
 		}
 	}
 
-	$: if(form?.signUpFailed || form?.invalidPasswordLength || form?.invalidUsernameLength || form?.passwordsDoNotMatch || form?.missingCredentials) {
+	$: if (
+		form?.signUpFailed ||
+		form?.invalidPasswordLength ||
+		form?.invalidUsernameLength ||
+		form?.passwordsDoNotMatch ||
+		form?.missingCredentials ||
+		form?.missingRecaptchaToken ||
+		form?.invalidRecaptchaToken
+	) {
 		submitForm = false;
 	}
+
+	let token = '';
+	let isLoadingToken = false;
+
+	const onSubmitCaptcha = () => {
+		isLoadingToken = true;
+		grecaptcha.ready(function () {
+			grecaptcha
+				.execute('6LdBec4jAAAAAFDaErCHEhir_-q3bK5ytmRxb5FZ', { action: 'button' })
+				.then(function (t: string) {
+					// Add your logic to submit to your backend server here.
+					token = t;
+					isLoadingToken = false;
+				});
+		});
+	};
+
+	$: tokenAcquired = !!token;
+	$: console.log(`[INFO] recaptcha token acquired ${!!tokenAcquired}`);
 </script>
 
 <svelte:head>
@@ -50,11 +78,17 @@
 			>
 				Google
 			</div>
-			<div class="btn btn-disabled w-full md:w-3/4 rounded btn-md text-white normal-case">Github</div>
+			<div class="btn btn-disabled w-full md:w-3/4 rounded btn-md text-white normal-case">
+				Github
+			</div>
 		</div>
 		<div class="divider w-3/4 m-auto my-4 text-neutral">or</div>
-		{#if form?.signUpFailed || form?.invalidPasswordLength || form?.invalidUsernameLength || form?.passwordsDoNotMatch || form?.missingCredentials}
-			<div in:slide={{delay: 300}} tabindex="-1" class="collapse w-full md:w-3/4 m-auto collapse-open">
+		{#if form?.signUpFailed || form?.invalidPasswordLength || form?.invalidUsernameLength || form?.passwordsDoNotMatch || form?.missingCredentials || form?.invalidRecaptchaToken || form?.missingRecaptchaToken}
+			<div
+				in:slide={{ delay: 300 }}
+				tabindex="-1"
+				class="collapse w-full md:w-3/4 m-auto collapse-open"
+			>
 				<div class="collapse-title text-error text-sm">Signup Error</div>
 				<div class="collapse-content text-xs">
 					<p class="text-error">{form?.message}</p>
@@ -104,15 +138,51 @@
 					id="confirm-password"
 				/>
 			</div>
-			<div class="flex flex-col md:flex-row-reverse items-center gap-2 m-auto w-full mt-4">
-				<button
-					on:click={submitFormHandler}
-					class:loading={submitForm}
-					class:btn-disabled={submitForm}
-					class:text-neutral={submitForm}
-					class="btn btn-error rounded-md w-full md:w-1/2 normal-case">Create your account</button
-				>
-				<a class="btn btn-ghost w-full text-neutral md:w-1/2 normal-case" href="/sign-in">Log in</a>
+			<input type="hidden" id="token" name="token" bind:value={token} />
+			<div class="flex-col items-start w-full gap-4 md:flex-row mt-2">
+				{#if form?.missingRecaptchaToken}
+					<button
+						type="button"
+						id="g-recaptcha"
+						name="g-recaptcha"
+						aria-required="true"
+						on:click={onSubmitCaptcha}
+						class="g-recaptcha btn btn-ghost text-error text-xs font-light normal-case"
+						class:text-success={tokenAcquired}
+						class:loading={isLoadingToken}
+					>
+						{#if !isLoadingToken}
+							<Check className={`w-8 h-8 ${tokenAcquired ? 'stroke-success' : 'stroke-error'}`} />
+						{/if} human verification
+					</button>
+				{:else}
+					<button
+						type="button"
+						id="g-recaptcha"
+						name="g-recaptcha"
+						aria-required="true"
+						on:click={onSubmitCaptcha}
+						class="g-recaptcha btn btn-ghost text-neutral text-xs font-light normal-case"
+						class:text-success={tokenAcquired}
+						class:loading={isLoadingToken}
+					>
+						{#if !isLoadingToken}
+							<Check className={`w-8 h-8 ${tokenAcquired ? 'stroke-success' : ''}`} />
+						{/if} human verification
+					</button>
+				{/if}
+				<div class="flex flex-col md:flex-row-reverse items-center gap-2 m-auto w-full mt-4">
+					<button
+						on:click={submitFormHandler}
+						class:loading={submitForm}
+						class:btn-disabled={submitForm}
+						class:text-neutral={submitForm}
+						class="btn btn-error rounded-md w-full md:w-1/2 normal-case">Create your account</button
+					>
+					<a class="btn btn-ghost w-full text-neutral md:w-1/2 normal-case" href="/sign-in"
+						>Log in</a
+					>
+				</div>
 			</div>
 		</form>
 	</div>

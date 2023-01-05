@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
+	import Check from '$lib/components/icons/check.svelte';
 	import Send from '$lib/components/icons/send.svelte';
 	import { slide } from 'svelte/transition';
 	import type { ActionData, PageData } from './$types';
@@ -14,9 +15,28 @@
 		isSending = true;
 	};
 
-	$: if (form?.messageFail) {
+	$: if (form?.messageFail || form?.invalidRecaptchaToken || form?.missingRecaptchaToken) {
 		isSending = false;
 	}
+
+	let token = '';
+	let isLoadingToken = false;
+
+	const onSubmitCaptcha = () => {
+		isLoadingToken = true;
+		grecaptcha.ready(function () {
+			grecaptcha
+				.execute('6LdBec4jAAAAAFDaErCHEhir_-q3bK5ytmRxb5FZ', { action: 'button' })
+				.then(function (t: string) {
+					// Add your logic to submit to your backend server here.
+					token = t;
+					isLoadingToken = false;
+				});
+		});
+	};
+
+	$: tokenAcquired = !!token;
+	$: console.log(`[INFO] recaptcha token acquired ${!!tokenAcquired}`);
 </script>
 
 <svelte:head>
@@ -30,7 +50,10 @@
 		<p class="font-bold text-4xl">Message sent!</p>
 		<p class="text-sm mt-3 text-center tracking-wide">
 			Your message has been successfully sent! Thank you for using CNFS to send anonymous messages
-			to your friends, family, or anyone else you want to reach. <a class="link link-underline link-primary" href="/">Click here to go back to homepage.</a>
+			to your friends, family, or anyone else you want to reach. <a
+				class="link link-underline link-primary"
+				href="/">Click here to go back to homepage.</a
+			>
 		</p>
 	</div>
 {:else}
@@ -39,7 +62,7 @@
 			<h1 class="font-normal text-base text-neutral text-center mb-4">
 				Send your dearest message to {$page.params.username} 😚
 			</h1>
-			{#if form?.messageFail}
+			{#if form?.messageFail || form?.missingRecaptchaToken || form?.invalidRecaptchaToken}
 				<div
 					in:slide={{ delay: 300 }}
 					tabindex="-1"
@@ -68,9 +91,43 @@
 					/>
 				</div>
 				<input name="userId" id="userId" type="text" hidden value={data.userId} />
-				<div class="flex flex-col w-1/2 md:w-1/4">
-					<a href="/#privacy-policy" class="link link-neutral text-sm">Privacy and policy</a>
-					<a href="/#guidelines" class="link link-neutral text-sm">Guidelines</a>
+				<input type="hidden" id="token" name="token" bind:value={token} />
+				<div class="flex flex-row w-full items-center justify-between">
+					<div class="flex flex-col w-1/2 md:w-1/4">
+						<a href="/#privacy-policy" class="link link-neutral text-sm">Privacy and policy</a>
+						<a href="/#guidelines" class="link link-neutral text-sm">Guidelines</a>
+					</div>
+					{#if form?.missingRecaptchaToken}
+						<button
+							type="button"
+							id="g-recaptcha"
+							name="g-recaptcha"
+							aria-required="true"
+							on:click={onSubmitCaptcha}
+							class="g-recaptcha btn btn-ghost text-error text-xs font-light normal-case"
+							class:text-success={tokenAcquired}
+							class:loading={isLoadingToken}
+						>
+							{#if !isLoadingToken}
+								<Check className={`w-8 h-8 ${tokenAcquired ? 'stroke-success' : 'stroke-error'}`} />
+							{/if} human verification
+						</button>
+					{:else}
+						<button
+							type="button"
+							id="g-recaptcha"
+							name="g-recaptcha"
+							aria-required="true"
+							on:click={onSubmitCaptcha}
+							class="g-recaptcha btn btn-ghost text-neutral text-xs font-light normal-case"
+							class:text-success={tokenAcquired}
+							class:loading={isLoadingToken}
+						>
+							{#if !isLoadingToken}
+								<Check className={`w-8 h-8 ${tokenAcquired ? 'stroke-success' : ''}`} />
+							{/if} human verification
+						</button>
+					{/if}
 				</div>
 				<div class="flex flex-col md:flex-row-reverse items-center gap-2 m-auto w-full mt-4">
 					<button
