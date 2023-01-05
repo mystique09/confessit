@@ -34,7 +34,7 @@
 	<meta name="description" content="Welcome to your dashboard" />
 </svelte:head>
 
-<div class="dashboard w-full h-screen bg-base py-6 px-4">
+<div class="dashboard w-full h-auto bg-base py-6 px-4">
 	<div class="wrap flex flex-row items-start justify-between max-w-2xl">
 		<div class="wrap">
 			<h1 class="text-white text-2xl md:text-4xl mb-2">Dashboard</h1>
