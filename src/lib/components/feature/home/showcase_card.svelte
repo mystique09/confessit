@@ -1,9 +1,9 @@
 <script lang="ts">
-	import MessageCard from "../message/message_card.svelte";
+	import MessageCard from '$lib/components/feature/message/message_card.svelte';
 
 	let messages: boolean[] = [false, false, false, true, true, true, true, true, true];
-
 </script>
+
 <div class="card max-w-sm w-full h-auto bg-white">
 	<div class="card-body">
 		<h1 class="card-title flex items-center w-full justify-center">

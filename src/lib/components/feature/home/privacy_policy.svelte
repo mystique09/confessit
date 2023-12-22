@@ -1,8 +1,11 @@
 <script>
-	import InfoCard from '../heading/info_card.svelte';
+	import InfoCard from '$lib/components/heading/info_card.svelte';
 </script>
 
-<div class="h-auto py-12 px-4  bg-gradient-to-b from-error/60 via-error/70 to-error/80" id="privacy-policy">
+<div
+	class="h-auto py-12 px-4 bg-gradient-to-b from-error/60 via-error/70 to-error/80"
+	id="privacy-policy"
+>
 	<div class="wrap h-full w-full max-w-4xl m-auto">
 		<InfoCard heading="Privacy policy" info="What information do we collect?">
 			<ul class="flex flex-col gap-4 items-start justify-evenly mt-8">
@@ -61,7 +64,8 @@
 					<span class="collapse-title text-neutral-content">Contact us</span>
 					<p class="collapse-content text-neutral-content">
 						If you have any questions or concerns about our privacy policy or the use of your
-						personal information, please contact us at <span class="badge badge-sm badge-info">dummyemailcnfs@support.com</span
+						personal information, please contact us at <span class="badge badge-sm badge-info"
+							>dummyemailcnfs@support.com</span
 						>.
 					</p>
 				</li>

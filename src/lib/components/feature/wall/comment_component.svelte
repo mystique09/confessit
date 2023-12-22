@@ -1,6 +1,6 @@
 <script lang="ts">
-	import UserAvatar from "../icons/user_avatar.svelte";
-	
+	import UserAvatar from '$lib/components/icons/user_avatar.svelte';
+
 	export let data: PostComment;
 </script>
 

@@ -1,13 +1,15 @@
 <script lang="ts">
-	import ArrowUp from '../icons/arrow_up.svelte';
-	import Comment from '../icons/comment.svelte';
-	import EllipsisVertical from '../icons/ellipsis_vertical.svelte';
+	import ArrowUp from '$lib/components/icons/arrow_up.svelte';
+	import Comment from '$lib/components/icons/comment.svelte';
+	import EllipsisVertical from '$lib/components/icons/ellipsis_vertical.svelte';
 
 	export let item: Post;
 </script>
 
 <div class="post max-w-xl w-full min-h-[120px]">
-	<div class="post_wrap  hover:bg-neutral-content/10 duration-300 bg-neutral px-6 py-1 flex flex-row items-center justify-between">
+	<div
+		class="post_wrap hover:bg-neutral-content/10 duration-300 bg-neutral px-6 py-1 flex flex-row items-center justify-between"
+	>
 		<!-- <div class="reaction h-full w-12 bg-neutral flex flex-col items-center gap-2 md:gap-3 ml-2">
 			<div class="flex flex-col btn btn-ghost btn-sm h-auto">
 				<span class="text-center text-xs">0</span>

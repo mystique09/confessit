@@ -24,10 +24,12 @@
 		invalidateAll();
 	}
 
-	$: if (form?.invalidUsernameLength ||
+	$: if (
+		form?.invalidUsernameLength ||
 		form?.invalidPasswordLength ||
 		form?.loginFailed ||
-		form?.missingCredentials) {
+		form?.missingCredentials
+	) {
 		submitForm = false;
 	}
 </script>
@@ -47,13 +49,12 @@
 			>
 				Google
 			</div>
-			<div class="btn btn-disabled w-full md:w-3/4 rounded btn-md text-white normal-case">Github</div>
+			<div class="btn btn-disabled w-full md:w-3/4 rounded btn-md text-white normal-case">
+				Github
+			</div>
 		</div>
 		<div class="divider w-3/4 m-auto my-4 text-neutral">or</div>
-		{#if form?.invalidUsernameLength ||
-			form?.invalidPasswordLength ||
-			form?.loginFailed ||
-			form?.missingCredentials}
+		{#if form?.invalidUsernameLength || form?.invalidPasswordLength || form?.loginFailed || form?.missingCredentials}
 			<div
 				in:slide|global={{ delay: 300 }}
 				tabindex="-1"
@@ -90,7 +91,7 @@
 					{/if}
 				</button>
 				<input
-					class="input input-bordered  w-full bg-white text-neutral"
+					class="input input-bordered w-full bg-white text-neutral"
 					type={showPassword ? 'text' : 'password'}
 					name="password"
 					id="password"

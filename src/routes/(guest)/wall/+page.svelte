@@ -7,7 +7,7 @@
 	import Globe from '$lib/components/icons/globe.svelte';
 	import Info from '$lib/components/icons/info.svelte';
 	import Send from '$lib/components/icons/send.svelte';
-	import Post from '$lib/components/wall/post.svelte';
+	import Post from '$lib/components/feature/wall/post.svelte';
 	import postStore from '$lib/store/posts';
 	import { onMount } from 'svelte';
 	import type { ActionData, PageData } from './$types';

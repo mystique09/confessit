@@ -1,7 +1,7 @@
 <script lang="ts">
-	import EllipsisVertical from "../icons/ellipsis_vertical.svelte";
-	import EnvelopeClose from "../icons/envelope_close.svelte";
-	import EnvelopeOpen from "../icons/envelope_open.svelte";
+	import EllipsisVertical from '$lib/components/icons/ellipsis_vertical.svelte';
+	import EnvelopeClose from '$lib/components/icons/envelope_close.svelte';
+	import EnvelopeOpen from '$lib/components/icons/envelope_open.svelte';
 
 	export let isOpen: boolean = false;
 </script>

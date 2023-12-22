@@ -3,7 +3,7 @@
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
 	import Comment from '$lib/components/icons/comment.svelte';
-	import ListComments from '$lib/components/wall/list_comments.svelte';
+	import ListComments from '$lib/components/feature/wall/list_comments.svelte';
 	import type { ActionData, PageData } from './$types';
 	export let data: PageData;
 	export let form: ActionData;

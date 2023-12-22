@@ -1,7 +1,7 @@
 <script lang="ts">
 	import messageStore from '$lib/store/messages';
-	import ArrowUp from '../icons/arrow_up.svelte';
-	import Delete from '../icons/delete.svelte';
+	import ArrowUp from '$lib/components/icons/arrow_up.svelte';
+	import Delete from '$lib/components/icons/delete.svelte';
 	import html2canvas from 'html2canvas';
 
 	export let messageId: string;
@@ -52,7 +52,11 @@
 
 <label for={messageId} class="modal cursor-pointer flex flex-col gap-1">
 	<a bind:this={aElement} class="hidden" href="/#">y</a>
-	<label bind:this={messageCard} class="modal-box relative flex flex-col items-start justify-between h-full bg-neutral max-h-[350px]" for="">
+	<label
+		bind:this={messageCard}
+		class="modal-box relative flex flex-col items-start justify-between h-full bg-neutral max-h-[350px]"
+		for=""
+	>
 		<span class="text-xs">{newDate.toLocaleDateString()} - {newDate.toLocaleTimeString()}</span>
 		<p class="text-xs h-3/4 text-center w-full font-bold break-words">{content}</p>
 	</label>

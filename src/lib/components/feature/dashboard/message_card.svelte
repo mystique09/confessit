@@ -1,7 +1,7 @@
 <script lang="ts">
 	import messageStore from '$lib/store/messages';
-	import EnvelopeClose from '../icons/envelope_close.svelte';
-	import EnvelopeOpen from '../icons/envelope_open.svelte';
+	import EnvelopeClose from '$lib/components/icons/envelope_close.svelte';
+	import EnvelopeOpen from '$lib/components/icons/envelope_open.svelte';
 	import MessageModal from './message_modal.svelte';
 
 	export let isOpen: boolean = false;
@@ -13,11 +13,11 @@
 		const res = await fetch(`/dashboard`, {
 			method: 'PUT',
 			headers: {
-				'Content-Type': 'application/json',
+				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				message_id: messageId,
-			}),
+				message_id: messageId
+			})
 		});
 
 		if (res.status == 200) {
@@ -27,7 +27,7 @@
 	}
 
 	async function clickHandler() {
-		if (!isOpen){
+		if (!isOpen) {
 			await markAsSeen();
 		}
 	}

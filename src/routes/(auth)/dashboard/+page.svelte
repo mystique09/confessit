@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import MessageCard from '$lib/components/dashboard/message_card.svelte';
+	import MessageCard from '$lib/components/feature/dashboard/message_card.svelte';
 	import Reload from '$lib/components/icons/reload.svelte';
 	import messageStore from '$lib/store/messages';
 	import type { PageData } from './$types';
