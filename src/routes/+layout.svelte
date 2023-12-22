@@ -2,8 +2,8 @@
 	import { navigating, page } from '$app/stores';
 	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 	import BackToTop from '$lib/components/back_to_top.svelte';
-	import Menu from '$lib/components/heading/menu.svelte';
-	import Navbar from '$lib/components/heading/navbar.svelte';
+	import Menu from '$lib/components/layout/menu.svelte';
+	import Navbar from '$lib/components/layout/navbar.svelte';
 	import toggleMenu from '$lib/store/menu';
 	import '@fontsource/poppins';
 	import { setContext } from 'svelte';

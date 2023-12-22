@@ -1,5 +1,5 @@
 <script>
-	import InfoCard from '$lib/components/heading/info_card.svelte';
+	import InfoCard from '$lib/components/layout/info_card.svelte';
 </script>
 
 <div class="h-auto py-12 px-4 bg-gradient-to-b from-error/40 via-error/50 to-error/60" id="faq">

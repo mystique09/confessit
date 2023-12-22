@@ -3,8 +3,9 @@
 	export let heading: string;
 </script>
 
-
-<div class="relative container h-60 md:h-[300px] bg-white/20 rounded-md m-auto flex flex-col gap-4 items-center justify-center">
+<div
+	class="relative container h-60 md:h-[300px] bg-white/20 rounded-md m-auto flex flex-col gap-4 items-center justify-center"
+>
 	<div class="flex flex-row w-full items-center justify-around">
 		<div class="w-20 h-10 -rotate-6">
 			<img src="/favicon.png" alt="cnfs logo" class="w-full h-full" />

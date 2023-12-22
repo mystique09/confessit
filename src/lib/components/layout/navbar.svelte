@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MenuIcon from './menu_icon.svelte';
+	import MenuIcon from '../icons/menu_icon.svelte';
 	import toggleMenu, { toggle } from '$lib/store/menu';
 	import { invalidateAll } from '$app/navigation';
 	import ArrowLeft from '../icons/arrow_left.svelte';

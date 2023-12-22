@@ -1,5 +1,5 @@
 <script>
-	import Footer from '$lib/components/footer.svelte';
+	import Footer from '$lib/components/layout/footer.svelte';
 	import Faq from '$lib/components/feature/home/faq.svelte';
 	import Guidelines from '$lib/components/feature/home/guidelines.svelte';
 	import Hero from '$lib/components/feature/home/hero.svelte';

@@ -1,5 +1,5 @@
 <script>
-	import InfoCard from '$lib/components/heading/info_card.svelte';
+	import InfoCard from '$lib/components/layout/info_card.svelte';
 </script>
 
 <div
