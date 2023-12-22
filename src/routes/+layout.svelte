@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { navigating, page } from '$app/stores';
 	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
-	import BackToTop from '$lib/components/back_to_top.svelte';
+	import BackToTop from '$lib/components/layout/back_to_top.svelte';
 	import Menu from '$lib/components/layout/menu.svelte';
 	import Navbar from '$lib/components/layout/navbar.svelte';
 	import toggleMenu from '$lib/store/menu';
@@ -10,16 +10,17 @@
 	import { fade } from 'svelte/transition';
 	import '../app.css';
 
-	let yPos: number = 0;
-	let width: number = 0;
+	let yPos: number = $state(0);
+	let width: number = $state(0);
+	let showLoadingScreen = $state(false);
 
-	$: if (width > 760) {
-		$toggleMenu = false;
-	}
+	$effect(() => {
+		if (width > 760) {
+			$toggleMenu = false;
+		}
+	});
 
-	let showLoadingScreen = false;
-
-	$: {
+	$effect(() => {
 		if ($navigating) {
 			showLoadingScreen = true;
 		}
@@ -27,7 +28,7 @@
 		if (!$navigating) {
 			showLoadingScreen = false;
 		}
-	}
+	});
 
 	setContext('userAuth', { isAuthenticated: $page.data.isAuthenticated ?? false });
 </script>

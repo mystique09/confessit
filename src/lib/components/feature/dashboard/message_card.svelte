@@ -1,13 +1,17 @@
 <script lang="ts">
-	import messageStore from '$lib/store/messages';
 	import EnvelopeClose from '$lib/components/icons/envelope_close.svelte';
 	import EnvelopeOpen from '$lib/components/icons/envelope_open.svelte';
+	import messageStore from '$lib/store/messages';
 	import MessageModal from './message_modal.svelte';
 
-	export let isOpen: boolean = false;
-	export let messageId: string;
-	export let content: string;
-	export let date: string;
+	type Props = {
+		isOpen: boolean;
+		messageId: string;
+		content: string;
+		date: string;
+	};
+
+	let { isOpen, messageId, content, date } = $props<Props>();
 
 	async function markAsSeen() {
 		const res = await fetch(`/dashboard`, {

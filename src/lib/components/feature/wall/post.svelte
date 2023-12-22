@@ -1,9 +1,9 @@
 <script lang="ts">
-	import ArrowUp from '$lib/components/icons/arrow_up.svelte';
-	import Comment from '$lib/components/icons/comment.svelte';
-	import EllipsisVertical from '$lib/components/icons/ellipsis_vertical.svelte';
+	type Props = {
+		item: Post;
+	};
 
-	export let item: Post;
+	let { item } = $props<Props>();
 </script>
 
 <div class="post max-w-xl w-full min-h-[120px]">

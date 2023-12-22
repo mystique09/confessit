@@ -1,5 +1,7 @@
 <script lang="ts">
-	export let className: string = 'w-6 h-6';
+	import type { IconProps } from '.';
+
+	let { className = 'w-6 h-6' } = $props<IconProps>();
 </script>
 
 <svg

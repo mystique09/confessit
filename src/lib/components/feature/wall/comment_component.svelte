@@ -1,7 +1,11 @@
 <script lang="ts">
 	import UserAvatar from '$lib/components/icons/user_avatar.svelte';
 
-	export let data: PostComment;
+	type Props = {
+		data: PostComment;
+	};
+
+	let { data } = $props<Props>();
 </script>
 
 <div class="comment h-auto mt-2 w-full p-2">

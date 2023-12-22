@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import toggleMenu, { toggle } from '$lib/store/menu';
+	import { getContext } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import Close from '../icons/close.svelte';
-	import { getContext } from 'svelte';
+	import Show from '../shared/show.svelte';
 
 	type navLink = {
 		name: string;
@@ -59,7 +60,7 @@
 					<a class="w-full" href={navLink.href}>{navLink.name}</a>
 				</li>
 			{/each}
-			{#if ctx.isAuthenticated}
+			<Show when={ctx.isAuthenticated}>
 				<li class="btn btn-wide btn-md rounded-full font-light normal-case">
 					<a class="w-full" href="/dashboard">Dashboard</a>
 				</li>
@@ -70,7 +71,7 @@
 						class="normal-case btn btn-wide btn-accent">Sign out</button
 					>
 				</li>
-			{/if}
+			</Show>
 		</ul>
 	</div>
 </div>

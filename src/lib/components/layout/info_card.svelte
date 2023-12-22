@@ -1,6 +1,10 @@
 <script lang="ts">
-	export let info: string;
-	export let heading: string;
+	type Props = {
+		info: string;
+		heading: string;
+	};
+
+	let { info, heading } = $props<Props>();
 </script>
 
 <div

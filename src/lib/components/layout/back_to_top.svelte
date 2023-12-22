@@ -1,5 +1,5 @@
 <script>
-	import ArrowUp from './icons/arrow_up.svelte';
+	import ArrowUp from '$lib/components/icons/arrow_up.svelte';
 </script>
 
 <a

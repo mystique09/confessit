@@ -1,14 +1,21 @@
 <script lang="ts">
-	import messageStore from '$lib/store/messages';
 	import ArrowUp from '$lib/components/icons/arrow_up.svelte';
 	import Delete from '$lib/components/icons/delete.svelte';
+	import messageStore from '$lib/store/messages';
 	import html2canvas from 'html2canvas';
 
-	export let messageId: string;
-	export let content: string;
-	export let date: string;
+	type Props = {
+		messageId: string;
+		content: string;
+		date: string;
+	};
+
+	let { messageId, content, date } = $props<Props>();
+
+	let isDeleting = $state(false);
+	let isDownloading = $state(false);
+
 	const newDate = new Date(date);
-	let isDeleting = false;
 
 	async function deleteMessage() {
 		isDeleting = true;
@@ -28,9 +35,8 @@
 		isDeleting = false;
 	}
 
-	let messageCard: HTMLLabelElement;
-	let aElement: HTMLAnchorElement;
-	let isDownloading = false;
+	let messageCard = $state<HTMLLabelElement>();
+	let aElement = $state<HTMLAnchorElement>();
 
 	async function downloadImage() {
 		isDownloading = true;

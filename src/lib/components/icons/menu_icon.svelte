@@ -1,3 +1,9 @@
+<script lang="ts">
+	import type { IconProps } from '.';
+
+	let { className = 'w-6 h-6' } = $props<IconProps>();
+</script>
+
 <svg
 	xmlns="http://www.w3.org/2000/svg"
 	class="icon icon-tabler icon-tabler-menu-2"
@@ -9,9 +15,10 @@
 	fill="none"
 	stroke-linecap="round"
 	stroke-linejoin="round"
-			>
+	{className}
+>
 	<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 	<line x1="4" y1="6" x2="20" y2="6" />
 	<line x1="4" y1="12" x2="10" y2="12" />
 	<line x1="4" y1="18" x2="20" y2="18" />
-			</svg>
+</svg>

@@ -1,7 +1,12 @@
 <script lang="ts">
+	import Show from '$lib/components/shared/show.svelte';
 	import CommentComponent from './comment_component.svelte';
 
-	export let comments: PostComment[];
+	type Props = {
+		comments: PostComment[];
+	};
+
+	let { comments } = $props<Props>();
 </script>
 
 <div id="comments" class="comments mt-14 w-full">
@@ -10,14 +15,16 @@
 			<input type="checkbox" name="comments" id="comments" />
 			<div class="collapse-title">Comments</div>
 			<div class="collapse-content">
-				{#if comments.length > 0}
+				<Show when={comments.length > 0} fallback={noCommentFallback}>
 					{#each comments as postComment}
 						<CommentComponent data={postComment} />
 					{/each}
-				{:else}
-					<h1>No comments yet.</h1>
-				{/if}
+				</Show>
 			</div>
 		</div>
 	</div>
 </div>
+
+{#snippet noCommentFallback()}
+	<h1>No comments yet.</h1>
+{/snippet}

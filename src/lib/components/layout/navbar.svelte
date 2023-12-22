@@ -1,11 +1,12 @@
 <script lang="ts">
-	import MenuIcon from '../icons/menu_icon.svelte';
-	import toggleMenu, { toggle } from '$lib/store/menu';
 	import { invalidateAll } from '$app/navigation';
-	import ArrowLeft from '../icons/arrow_left.svelte';
+	import toggleMenu, { toggle } from '$lib/store/menu';
 	import { getContext } from 'svelte';
+	import ArrowLeft from '../icons/arrow_left.svelte';
+	import MenuIcon from '../icons/menu_icon.svelte';
+	import Show from '../shared/show.svelte';
 
-	const signoutHandler = async () => {
+	async function signoutHandler() {
 		try {
 			const req = await fetch('/logout', {
 				method: 'POST'
@@ -14,10 +15,9 @@
 			console.log(data);
 			await invalidateAll();
 		} catch (e) {
-			console.log(e);
 		}
 		$toggleMenu = false;
-	};
+	}
 
 	let ctx: { isAuthenticated: boolean } = getContext('userAuth');
 </script>
@@ -30,52 +30,63 @@
 			</a>
 		</div>
 	</div>
-	{#if !ctx.isAuthenticated}
-		<div class="navbar-center flex-1 items-center justify-center">
-			<ul class="hidden md:flex md:flex-row justify-evenly w-3/4 font-bold text-white md:text-sm">
-				<li><a href="/wall">Wall</a></li>
-				<li><a href="/#whatiscnfs">What's CNFS</a></li>
-				<li><a href="/#guidelines">Guidelines</a></li>
-				<li><a href="/#faq">FAQ</a></li>
-				<li><a href="/#privacy-policy">Privacy policy</a></li>
-			</ul>
-		</div>
-		<div class="hidden md:flex md:flex-0">
-			<a
-				class="btn btn-error px-10 h-14 text-sm normal-case rounded-full font-bold hover:bg-transparent hover:text-error"
-				href="/sign-up">JOIN CNFS</a
-			>
-		</div>
-	{:else}
-		<div class="navbar-end hidden md:flex md:flex-1">
-			<ul class="hidden md:flex md:flex-row justify-evenly w-1/2 font-bold text-white md:text-base">
-				<li><a href="/wall">Wall</a></li>
-				<li><a href="/#guidelines">Guidelines</a></li>
-				<li><a href="/#privacy-policy">Privacy policy</a></li>
-			</ul>
-			<div class="dropdown dropdown-end rounded-btn">
-				<label tabindex="-1" for="" class="btn btn-ghost btn-circle w-14 h-14">
-					<div class="avatar">
-						<div class="w-full rounded-full">
-							<img src="https://placeimg.com/192/192/people" alt="random people" />
-						</div>
-					</div>
-				</label>
-				<ul class="menu gap-2 dropdown-content p-2 shadow bg-base-200 w-56">
-					<li><a href="/dashboard">Messages</a></li>
-					<li><a href="/dashboard/account">Account</a></li>
-					<li class="mt-8">
-						<button on:click={signoutHandler} type="button" class="normal-case btn btn-accent">
-							<ArrowLeft /> Sign out
-						</button>
-					</li>
-				</ul>
-			</div>
-		</div>
-	{/if}
+	{@render renderNavLinks()}
 	<div class="navbar-end md:hidden flex-1">
 		<button class="btn btn-square btn-ghost" on:click={toggle}>
 			<MenuIcon />
 		</button>
 	</div>
 </div>
+
+
+{#snippet renderNavLinks()}
+	<Show when={ctx.isAuthenticated} fallback={unAuthenticatedNav}>
+		{@render authenticatedNav()}
+	</Show>
+{/snippet}
+
+{#snippet unAuthenticatedNav()}
+	<div class="navbar-center flex-1 items-center justify-center">
+		<ul class="hidden md:flex md:flex-row justify-evenly w-3/4 font-bold text-white md:text-sm">
+			<li><a href="/wall">Wall</a></li>
+			<li><a href="/#whatiscnfs">What's CNFS</a></li>
+			<li><a href="/#guidelines">Guidelines</a></li>
+			<li><a href="/#faq">FAQ</a></li>
+			<li><a href="/#privacy-policy">Privacy policy</a></li>
+		</ul>
+	</div>
+	<div class="hidden md:flex md:flex-0">
+		<a
+			class="btn btn-error px-10 h-14 text-sm normal-case rounded-full font-bold hover:bg-transparent hover:text-error"
+			href="/sign-up">JOIN CNFS</a
+		>
+	</div>
+{/snippet}
+
+{#snippet authenticatedNav()}
+	<div class="navbar-end hidden md:flex md:flex-1">
+		<ul class="hidden md:flex md:flex-row justify-evenly w-1/2 font-bold text-white md:text-base">
+			<li><a href="/wall">Wall</a></li>
+			<li><a href="/#guidelines">Guidelines</a></li>
+			<li><a href="/#privacy-policy">Privacy policy</a></li>
+		</ul>
+		<div class="dropdown dropdown-end rounded-btn">
+			<label tabindex="-1" for="" class="btn btn-ghost btn-circle w-14 h-14">
+				<div class="avatar">
+					<div class="w-full rounded-full">
+						<img src="https://placeimg.com/192/192/people" alt="random people" />
+					</div>
+				</div>
+			</label>
+			<ul class="menu gap-2 dropdown-content p-2 shadow bg-base-200 w-56">
+				<li><a href="/dashboard">Messages</a></li>
+				<li><a href="/dashboard/account">Account</a></li>
+				<li class="mt-8">
+					<button on:click={signoutHandler} type="button" class="normal-case btn btn-accent">
+						<ArrowLeft /> Sign out
+					</button>
+				</li>
+			</ul>
+		</div>
+	</div>
+{/snippet}
