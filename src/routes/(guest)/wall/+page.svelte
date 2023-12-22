@@ -1,57 +1,53 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
+	import Post from '$lib/components/feature/wall/post.svelte';
 	import Check from '$lib/components/icons/check.svelte';
 	import Delete from '$lib/components/icons/delete.svelte';
 	import Globe from '$lib/components/icons/globe.svelte';
 	import Info from '$lib/components/icons/info.svelte';
 	import Send from '$lib/components/icons/send.svelte';
-	import Post from '$lib/components/feature/wall/post.svelte';
+	import Show from '$lib/components/shared/show.svelte';
 	import postStore from '$lib/store/posts';
-	import { onMount } from 'svelte';
+	import { getContext } from 'svelte';
 	import type { ActionData, PageData } from './$types';
 
-	export let data: PageData;
-	export let form: ActionData;
+	let { data, form } = $props<{ data: PageData; form: ActionData }>();
+	let ctx: { isAuthenticated: boolean } = getContext('userAuth');
 
-	let modalRef;
+	let modalRef = $state<HTMLDivElement>();
 
-	$: hasError = form?.postFailed;
-	$: message = form?.message;
+	let isLoading = $state(false);
+	let hasError = $state(form?.postFailed);
+	let message = $state(form?.message);
 
-	onMount(() => {
-		postStore.initPosts(data.posts);
-	});
+	let currentPage = $state(Number($page.url.searchParams.get('page')) || 0);
+	let previousPage = $derived(currentPage <= 0 ? currentPage : currentPage - 1);
+	let nextPage = $derived(data.hasNext ? currentPage + 1 : currentPage);
 
 	const resetForm = () => {
 		message = '';
 		hasError = false;
-
-		modalRef?.close();
 	};
-
-	$: currentPage = Number($page.url.searchParams.get('page')) || 0;
-	$: previousPage = currentPage <= 0 ? currentPage : currentPage - 1;
-	$: nextPage = data.hasNext ? currentPage + 1 : currentPage;
-
-	let isLoading = false;
 
 	const handleSubmit = () => {
 		isLoading = true;
 	};
 
-	$: if (form?.newPostSuccess) {
-		isLoading = false;
+	$effect(() => {
+		postStore.initPosts(data.posts);
+	});
 
-		if (browser) {
+	$effect(() => {
+		if (form?.newPostSuccess) {
+			isLoading = false;
 			location.reload();
 		}
-	}
 
-	$: if (form?.postFailed) {
-		isLoading = false;
-	}
+		if (form?.postFailed) {
+			isLoading = false;
+		}
+	});
 </script>
 
 <svelte:head>
@@ -59,7 +55,7 @@
 	<meta name="description" content="Welcome to the CNFS public wall!" />
 </svelte:head>
 
-{#if data.authenticated}
+<Show when={ctx.isAuthenticated}>
 	<label
 		for="create_modal"
 		class="fixed z-10 bottom-6 right-6 bg-neutral w-16 h-16 flex items-center justify-center rounded-full btn btn-ghost"
@@ -74,18 +70,18 @@
 				Create new post, and let the public know.
 			</h3>
 			<p class="py-4">Say whatever you want, and please follow the guidelines.</p>
-			{#if hasError}
+			<Show when={hasError}>
 				<div class="alert alert-xs alert-warning mb-2 flex flex-row items-center justify-between">
 					<Info />
 					<span class="text-sm"> {message}</span>
 				</div>
-			{/if}
-			{#if form?.newPostSuccess}
+			</Show>
+			<Show when={form?.newPostSuccess}>
 				<div class="alert alert-xs alert-success mb-2 flex flex-row items-center justify-between">
 					<Check />
 					<span class="text-sm"> {message}</span>
 				</div>
-			{/if}
+			</Show>
 			<form class="w-full m-auto" method="POST" action="?/createNewPost" use:enhance>
 				<textarea
 					class="textarea textarea-primary w-full resize-none"
@@ -115,7 +111,7 @@
 			</form>
 		</div>
 	</div>
-{/if}
+</Show>
 
 <div class="min-h-screen px-2 md:px-4 w-full">
 	<div class="btn-group grid grid-cols-2 max-w-md mb-6 m-auto">
@@ -129,19 +125,21 @@
 		>
 	</div>
 	<div class="wrap md:my-4 w-full h-full lg:flex lg:flex-row lg:justify-evenly m-auto">
-		{#if data.posts.length > 0}
+		<Show when={data.posts.length > 0}>
 			<div class="posts flex flex-col items-center h-full lg:w-1/2 gap-2">
 				{#each data.posts as post}
 					<Post item={post} />
 				{/each}
 			</div>
-		{:else}
+		</Show>
+
+		<Show when={data.posts.length <= 0}>
 			<div class="flex flex-col items-center justify-center h-full">
 				<h1 class="lg:text-sm">
 					It's either no one posted yet or you already reached the last post.
 				</h1>
 			</div>
-		{/if}
+		</Show>
 		<div class="w-1/4">
 			<div class="guidelines_card h-56 w-full bg-neutral hidden lg:flex lg:flex-col p-4">
 				<ul class="text-xs flex flex-col gap-2">

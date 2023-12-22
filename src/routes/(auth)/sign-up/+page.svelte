@@ -1,17 +1,30 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
+	import Check from '$lib/components/icons/check.svelte';
 	import EyeClose from '$lib/components/icons/eye_close.svelte';
 	import EyeOpen from '$lib/components/icons/eye_open.svelte';
 	import Key from '$lib/components/icons/key.svelte';
 	import UserAvatar from '$lib/components/icons/user_avatar.svelte';
-	import type { ActionData } from './$types';
+	import Show from '$lib/components/shared/show.svelte';
 	import { slide } from 'svelte/transition';
-	import Check from '$lib/components/icons/check.svelte';
+	import type { ActionData } from './$types';
 
-	let showPassword: boolean = false;
-	let submitForm: boolean = false;
+	let { form } = $props<{ form: ActionData }>();
+
+	let showPassword = $state(false);
+	let submitForm = $state(false);
+
+	let invalidInputs: boolean = $state(
+		form?.signUpFailed ||
+			form?.invalidPasswordLength ||
+			form?.invalidUsernameLength ||
+			form?.passwordsDoNotMatch ||
+			form?.missingCredentials ||
+			form?.missingRecaptchaToken ||
+			form?.invalidRecaptchaToken
+	);
+	let successfullSubmission = $state(form?.success);
 
 	function togglePassword() {
 		showPassword = !showPassword;
@@ -21,30 +34,20 @@
 		submitForm = true;
 	}
 
-	export let form: ActionData;
-
-	$: if (form?.success) {
-		if (browser) {
+	$effect(() => {
+		if (successfullSubmission) {
 			goto('/sign-in').then(() => {
 				window.location.reload();
 			});
 		}
-	}
 
-	$: if (
-		form?.signUpFailed ||
-		form?.invalidPasswordLength ||
-		form?.invalidUsernameLength ||
-		form?.passwordsDoNotMatch ||
-		form?.missingCredentials ||
-		form?.missingRecaptchaToken ||
-		form?.invalidRecaptchaToken
-	) {
-		submitForm = false;
-	}
+		if (invalidInputs) {
+			submitForm = false;
+		}
+	});
 
-	let token = '';
-	let isLoadingToken = false;
+	let token = $state('');
+	let isLoadingToken = $state(false);
 
 	const onSubmitCaptcha = () => {
 		isLoadingToken = true;
@@ -59,8 +62,8 @@
 		});
 	};
 
-	$: tokenAcquired = !!token;
-	$: console.log(`[INFO] recaptcha token acquired ${!!tokenAcquired}`);
+	let tokenAcquired = $derived(!!token);
+	$inspect(`[INFO] recaptcha token acquired ${!!tokenAcquired}`);
 </script>
 
 <svelte:head>
@@ -83,7 +86,7 @@
 			</div>
 		</div>
 		<div class="divider w-3/4 m-auto my-4 text-neutral">or</div>
-		{#if form?.signUpFailed || form?.invalidPasswordLength || form?.invalidUsernameLength || form?.passwordsDoNotMatch || form?.missingCredentials || form?.invalidRecaptchaToken || form?.missingRecaptchaToken}
+		<Show when={invalidInputs}>
 			<div
 				in:slide|global={{ delay: 300 }}
 				tabindex="-1"
@@ -94,7 +97,8 @@
 					<p class="text-error">{form?.message}</p>
 				</div>
 			</div>
-		{/if}
+		</Show>
+
 		<form class="form-control w-full md:w-3/4 m-auto" method="POST" action="?/signUp" use:enhance>
 			<label for="username">
 				<span class="label-text text-neutral">Username</span>
@@ -113,11 +117,12 @@
 			</label>
 			<div class="input-group">
 				<button class="btn bg-white btn-ghost" type="button" on:click={togglePassword}>
-					{#if showPassword}
+					<Show when={showPassword}>
 						<EyeClose className="w-6 h-6 stroke-neutral" />
-					{:else}
+					</Show>
+					<Show when={!showPassword}>
 						<EyeOpen className="w-6 h-6 stroke-neutral" />
-					{/if}
+					</Show>
 				</button>
 				<input
 					class="input input-bordered w-full bg-white text-neutral"
@@ -140,35 +145,7 @@
 			</div>
 			<input type="hidden" id="token" name="token" bind:value={token} />
 			<div class="flex-col items-start w-full gap-4 md:flex-row mt-2">
-				{#if form?.missingRecaptchaToken}
-					<button
-						type="button"
-						id="g-recaptcha"
-						name="g-recaptcha"
-						on:click={onSubmitCaptcha}
-						class="g-recaptcha btn btn-ghost text-error text-xs font-light normal-case"
-						class:text-success={tokenAcquired}
-						class:loading={isLoadingToken}
-					>
-						{#if !isLoadingToken}
-							<Check className={`w-8 h-8 ${tokenAcquired ? 'stroke-success' : 'stroke-error'}`} />
-						{/if} human verification
-					</button>
-				{:else}
-					<button
-						type="button"
-						id="g-recaptcha"
-						name="g-recaptcha"
-						on:click={onSubmitCaptcha}
-						class="g-recaptcha btn btn-ghost text-neutral text-xs font-light normal-case"
-						class:text-success={tokenAcquired}
-						class:loading={isLoadingToken}
-					>
-						{#if !isLoadingToken}
-							<Check className={`w-8 h-8 ${tokenAcquired ? 'stroke-success' : ''}`} />
-						{/if} human verification
-					</button>
-				{/if}
+				{@render renderCustomRecaptchaBtn(form?.missingRecaptchaToken)}
 				<div class="flex flex-col md:flex-row-reverse items-center gap-2 m-auto w-full mt-4">
 					<button
 						on:click={submitFormHandler}
@@ -185,3 +162,43 @@
 		</form>
 	</div>
 </div>
+
+{#snippet renderCustomRecaptchaBtn({success})}
+	<Show when={success} fallback={renderErrorCaptchaBtn}>
+		{@render renderNormalCaptchaBtn()}
+	</Show>
+{/snippet}
+
+{#snippet renderNormalCaptchaBtn()}
+	<button
+			type="button"
+			id="g-recaptcha"
+			name="g-recaptcha"
+			on:click={onSubmitCaptcha}
+			class="g-recaptcha btn btn-ghost text-error text-xs font-light normal-case"
+			class:text-success={tokenAcquired}
+			class:loading={isLoadingToken}
+		>
+			{@render renderCheckIcon()} human verification
+	</button>	
+{/snippet}
+
+{#snippet renderErrorCaptchaBtn()}
+<button
+		type="button"
+		id="g-recaptcha"
+		name="g-recaptcha"
+		on:click={onSubmitCaptcha}
+		class="g-recaptcha btn btn-ghost text-neutral text-xs font-light normal-case"
+		class:text-success={tokenAcquired}
+		class:loading={isLoadingToken}
+	>
+		{@render renderCheckIcon()} human verification
+	</button>
+{/snippet}
+
+{#snippet renderCheckIcon()}
+	<Show when={!isLoadingToken}>
+		<Check className={`w-8 h-8 ${tokenAcquired ? 'stroke-success' : 'stroke-error'}`} />
+	</Show>
+{/snippet}

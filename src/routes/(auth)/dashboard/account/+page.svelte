@@ -6,18 +6,20 @@
 	import EyeClose from '$lib/components/icons/eye_close.svelte';
 	import EyeOpen from '$lib/components/icons/eye_open.svelte';
 	import Info from '$lib/components/icons/info.svelte';
+	import Show from '$lib/components/shared/show.svelte';
 	import toggleMenu from '$lib/store/menu';
 	import { slide } from 'svelte/transition';
 	import type { ActionData } from './$types';
 
-	let showPassword = false;
-	let tempUsername = $page.data.user.username;
-	let newUsername: string;
+	let { form } = $props<{ form: ActionData }>();
 
-	$: isUsernameChangeable = (tempUsername !== newUsername) && newUsername?.length > 8;
+	let showPassword = $state(false);
+	let tempUsername = $state($page.data.user.username);
+	let newUsername = $state<string>('');
+	let isChangingUsername = $state(false);
+	let isChangingPassword = $state(false);
 
-	let isChangingUsername = false;
-	let isChangingPassword = false;
+	let isUsernameChangeable = $derived(tempUsername !== newUsername && newUsername?.length > 8);
 
 	const usernameHandler = () => {
 		isChangingUsername = true;
@@ -31,18 +33,20 @@
 		showPassword = !showPassword;
 	};
 
-	export let form: ActionData;
+	$effect(() => {
+		if (form?.failedAccountUpdate || form?.updateSuccess || form?.updateSuccess) {
+			isChangingUsername = false;
+			isChangingPassword = false;
+		}
+	});
 
-	$: if (form?.failedAccountUpdate || form?.updateSuccess || form?.updateSuccess) {
-		isChangingUsername = false;
-		isChangingPassword = false;
-	}
-
-	$: if(form?.updateSuccess) {
-		setTimeout(() => {
-			signoutHandler();
-		}, 5000);
-	}
+	$effect(() => {
+		if (form?.updateSuccess) {
+			setTimeout(() => {
+				signoutHandler();
+			}, 5000);
+		}
+	});
 
 	const signoutHandler = async () => {
 		try {
@@ -60,29 +64,34 @@
 </script>
 
 <div class="w-full h-screen bg-base py-6 px-4 max-w-md">
-	{#if form?.failedAccountUpdate}
-		<div in:slide|global={{ delay: 300 }} class="text-sm alert alert-error alert-sm my-8 flex flex-row">
+	<Show when={form?.failedAccountUpdate}>
+		<div
+			in:slide|global={{ delay: 300 }}
+			class="text-sm alert alert-error alert-sm my-8 flex flex-row"
+		>
 			<Info className="w-6 h-6 stroke-error-content" />
 			{form?.message}
 		</div>
-	{/if}
-	{#if form?.updateSuccess}
+	</Show>
+	<Show when={form?.updateSuccess}>
 		<div class="modal modal-open">
 			<div class="modal-box" in:slide|global={{ delay: 300 }}>
 				<h3 class="font-bold text-lg">{form?.message}</h3>
 				<p class="text-sm py-4">
 					Session ended, you need to login again after updating your account.
-					<br>
+					<br />
 				</p>
-				<p class="text-error">
-					Session will auto end after 5 seconds.
-				</p>
+				<p class="text-error">Session will auto end after 5 seconds.</p>
 				<div class="modal-action">
-					<button on:click={signoutHandler} type="button" class="btn btn-wide btn-success normal-case">Login</button>
+					<button
+						on:click={signoutHandler}
+						type="button"
+						class="btn btn-wide btn-success normal-case">Login</button
+					>
 				</div>
 			</div>
 		</div>
-	{/if}
+	</Show>
 	<h1 class="text-white text-2xl md:text-4xl mb-8">Account Settings</h1>
 	<form action="?/updateAccountUsername" class="mt-4 form-control w-full" method="POST" use:enhance>
 		<h2 class="text-lg font-bold mb-2">General settings</h2>
@@ -102,9 +111,9 @@
 				class:loading={isChangingUsername}
 				class:btn-disabled={!isUsernameChangeable || isChangingUsername}
 			>
-				{#if !isChangingUsername}
+				<Show when={!isChangingUsername}>
 					<Check className="w-4" />
-				{/if}
+				</Show>
 				Save
 			</button>
 		</div>
@@ -127,11 +136,12 @@
 				class="input input-sm input-bordered w-full"
 			/>
 			<button on:click={togglePassword} type="button" class="btn btn-sm">
-				{#if showPassword}
+				<Show when={showPassword}>
 					<EyeClose />
-				{:else}
+				</Show>
+				<Show when={!showPassword}>
 					<EyeOpen />
-				{/if}
+				</Show>
 			</button>
 		</div>
 		<label for="confirmPassword">Confirm password</label>
@@ -149,9 +159,9 @@
 				class:loading={isChangingPassword}
 				class:btn-disabled={isChangingPassword}
 			>
-				{#if !isChangingPassword}
+				<Show when={!isChangingPassword}>
 					<Check className="w-4" />
-				{/if}
+				</Show>
 				Save
 			</button>
 		</div>

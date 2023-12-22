@@ -1,19 +1,19 @@
 <script lang="ts">
 	import { Chart } from 'chart.js/auto';
-	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 
-	let canvas: HTMLCanvasElement;
-	let context: CanvasRenderingContext2D;
-	let chart: Chart<'line', number[], string>;
-	$: dataset = [];
-	$: unseenDataset = [];
+	let canvasRef = $state<HTMLCanvasElement>();
+	let context = $state<CanvasRenderingContext2D>();
+	let chart = $state<Chart<'line', number[], string>>();
 
-	export let data: PageData;
+	let dataset = $state([]);
+	let unseenDataset = $state([]);
 
-	onMount(() => {
-		canvas = <HTMLCanvasElement>document.getElementById('chart');
-		context = canvas.getContext('2d');
+	let { data } = $props<{ data: PageData }>();
+
+	$effect(() => {
+		canvasRef = <HTMLCanvasElement>document.getElementById('chart');
+		context = canvasRef.getContext('2d');
 		const messages: Message[] = data.messages;
 
 		const totalMessageReceived = messages.reduce((acc, message) => {

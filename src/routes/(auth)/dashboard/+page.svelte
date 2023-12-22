@@ -2,13 +2,15 @@
 	import { page } from '$app/stores';
 	import MessageCard from '$lib/components/feature/dashboard/message_card.svelte';
 	import Reload from '$lib/components/icons/reload.svelte';
+	import Show from '$lib/components/shared/show.svelte';
 	import messageStore from '$lib/store/messages';
 	import type { PageData } from './$types';
 
-	export let data: PageData;
+	let { data } = $props<{ data: PageData }>();
+	let isFetchingLatestData = $state(false);
+
 	messageStore.initMessages(data.messages);
 
-	let isFetchingLatestData = false;
 	async function fetchLatestData() {
 		isFetchingLatestData = true;
 		try {
@@ -52,18 +54,13 @@
 			class:btn-disabled={isFetchingLatestData}
 			class:loading={isFetchingLatestData}
 		>
-			{#if !isFetchingLatestData}
+			<Show when={!isFetchingLatestData}>
 				<Reload className="w-6 h-6 stroke-success" />
-			{/if}
+			</Show>
 		</button>
 	</div>
 	<div class="flex items-center justify-start flex-wrap gap-4 mt-8 max-w-2xl">
-		{#if $messageStore && $messageStore.length == 0}
-			<div class="text-white text-xl md:text-2xl">
-				<h1 class="text-2xl">No messages</h1>
-				<p class="text-sm">You can start by sharing your link to your friends.</p>
-			</div>
-		{:else}
+		<Show when={$messageStore && $messageStore.length > 0} fallback={renderEmptyMessagePromp}>
 			{#each $messageStore as message (message.id + message.content)}
 				<MessageCard
 					content={message.content}
@@ -72,6 +69,13 @@
 					isOpen={!!message.seen}
 				/>
 			{/each}
-		{/if}
+		</Show>
 	</div>
 </div>
+
+{#snippet renderEmptyMessagePromp()}
+	<div class="text-white text-xl md:text-2xl">
+		<h1 class="text-2xl">No messages</h1>
+		<p class="text-sm">You can start by sharing your link to your friends.</p>
+	</div>
+{/snippet}

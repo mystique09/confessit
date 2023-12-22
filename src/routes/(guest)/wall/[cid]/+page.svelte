@@ -1,31 +1,28 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
-	import Comment from '$lib/components/icons/comment.svelte';
 	import ListComments from '$lib/components/feature/wall/list_comments.svelte';
+	import Comment from '$lib/components/icons/comment.svelte';
+	import Show from '$lib/components/shared/show.svelte';
+	import { getContext } from 'svelte';
 	import type { ActionData, PageData } from './$types';
-	export let data: PageData;
-	export let form: ActionData;
 
-	let item: Post = data.post;
-	let comments: PostComment[] = data.comments;
-	let isLoading = false;
+	let { data, form } = $props<{ data: PageData; form: ActionData }>();
+	let ctx: { isAuthenticated: boolean } = getContext('userAuth');
+
+	let item = $state<Post>(data.post);
+	let comments = $state<PostComment[]>(data.comments);
+	let isLoading = $state(false);
 
 	const submitComment = () => {
 		isLoading = true;
 	};
 
-	$: if (form?.commentFailed) {
-		isLoading = false;
-	}
-
-	$: if (form?.commentSuccess) {
-		isLoading = false;
-		if (browser) {
-			location.reload();
+	$effect(() => {
+		if (form?.commentFailed || form.commentSuccess) {
+			isLoading = false;
 		}
-	}
+	});
 </script>
 
 <svelte:head>
@@ -70,17 +67,13 @@
 			<div class="px-4 bg-neutral w-full md:w-auto py-2 flex flex-col items-start gap-4">
 				<div class="divider" />
 				<form method="POST" action="?/newComment" class="new_comment h-24 w-full" use:enhance>
-					{#if data.authenticated}
+					<Show when={ctx.isAuthenticated} fallback={authRequiredToComment}>
 						<p class="text-sm text-white">Comment anonymously</p>
-					{:else}
-						<a href="/sign-in" class="text-sm underline text-white">Sign in to comment</a>
-					{/if}
-					{#if form?.commentFailed}
-						<p class="text-xs text-error">Comment is required</p>
-					{/if}
-					{#if form?.commentSuccess}
+					</Show>
+					<Show when={form?.commentSuccess} fallback={commentFailed}>
 						<p class="text-xs text-success">Comment added.</p>
-					{/if}
+					</Show>
+
 					<textarea
 						class:textarea-error={form?.commentFailed}
 						class="w-full h-full text-xs resize-none textarea textarea-primary textarea-bordered rounded-sm p-2"
@@ -91,19 +84,19 @@
 						rows="10"
 					/>
 					<div class="w-full flex items-center justify-end">
-						{#if data.authenticated}
+						<Show when={ctx.isAuthenticated}>
 							<button
 								on:click={submitComment}
 								class:btn-disabled={isLoading}
 								class:loading={isLoading}
 								class="btn btn-accent btn-sm normal-case gap-2 rounded-sm"
 							>
-								{#if !isLoading}
+								<Show when={!isLoading}>
 									<Comment />
-								{/if}
+								</Show>
 								Comment
 							</button>
-						{/if}
+						</Show>
 					</div>
 				</form>
 				<ListComments {comments} />
@@ -127,3 +120,12 @@
 		</div>
 	</div>
 </div>
+
+
+{#snippet authRequiredToComment()}
+	<a href="/sign-in" class="text-sm underline text-white">Sign in to comment</a>
+{/snippet}
+
+{#snippet commentFailed()}
+	<p class="text-xs text-error">Comment is required</p>
+{/snippet}

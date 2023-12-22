@@ -4,13 +4,22 @@
 	import EyeClose from '$lib/components/icons/eye_close.svelte';
 	import EyeOpen from '$lib/components/icons/eye_open.svelte';
 	import UserAvatar from '$lib/components/icons/user_avatar.svelte';
+	import Show from '$lib/components/shared/show.svelte';
 	import { slide } from 'svelte/transition';
 	import type { ActionData } from './$types';
 
-	export let form: ActionData;
+	let { form } = $props<{ form: ActionData }>();
 
-	let showPassword: boolean = false;
-	let submitForm: boolean = false;
+	let showPassword = $state(false);
+	let submitForm = $state(false);
+
+	let invalidInputs: boolean = $state(
+		form?.invalidUsernameLength ||
+			form?.invalidPasswordLength ||
+			form?.loginFailed ||
+			form?.missingCredentials
+	);
+	let successfullSubmission = $state(form?.success);
 
 	function togglePassword() {
 		showPassword = !showPassword;
@@ -20,18 +29,15 @@
 		submitForm = true;
 	}
 
-	$: if (form?.success) {
-		invalidateAll();
-	}
+	$effect(() => {
+		if (successfullSubmission) {
+			invalidateAll();
+		}
 
-	$: if (
-		form?.invalidUsernameLength ||
-		form?.invalidPasswordLength ||
-		form?.loginFailed ||
-		form?.missingCredentials
-	) {
-		submitForm = false;
-	}
+		if (invalidInputs) {
+			submitForm = false;
+		}
+	});
 </script>
 
 <svelte:head>
@@ -54,7 +60,7 @@
 			</div>
 		</div>
 		<div class="divider w-3/4 m-auto my-4 text-neutral">or</div>
-		{#if form?.invalidUsernameLength || form?.invalidPasswordLength || form?.loginFailed || form?.missingCredentials}
+		<Show when={invalidInputs}>
 			<div
 				in:slide|global={{ delay: 300 }}
 				tabindex="-1"
@@ -65,7 +71,7 @@
 					<p class="text-error">{form?.message}</p>
 				</div>
 			</div>
-		{/if}
+		</Show>
 		<form class="form-control w-full md:w-3/4 m-auto" method="POST" action="?/signIn" use:enhance>
 			<label for="username">
 				<span class="label-text text-neutral">Username</span>
@@ -84,11 +90,12 @@
 			</label>
 			<div class="input-group">
 				<button class="btn bg-white btn-ghost" type="button" on:click={togglePassword}>
-					{#if showPassword}
+					<Show when={showPassword}>
 						<EyeClose className="w-6 h-6 stroke-neutral" />
-					{:else}
+					</Show>
+					<Show when={!showPassword}>
 						<EyeOpen className="w-6 h-6 stroke-neutral" />
-					{/if}
+					</Show>
 				</button>
 				<input
 					class="input input-bordered w-full bg-white text-neutral"
