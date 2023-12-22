@@ -4,7 +4,7 @@ import { error } from '@sveltejs/kit';
 
 export const load = (async ({fetch, locals}) => {
 	if(locals.serverStatus === "offline") {
-		throw error(404, {message: "server is offline."});
+		error(404, {message: "server is offline."});
 	}
 	
 	try {
@@ -21,6 +21,6 @@ export const load = (async ({fetch, locals}) => {
 			messages: res.data ?? []
 		};
 	} catch (err) {
-		throw error(500, {message: "something went wrong."});
+		error(500, {message: "something went wrong."});
 	}
 }) satisfies PageServerLoad;

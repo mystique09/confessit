@@ -12,7 +12,7 @@ export const load = (async ({params, fetch, locals}) => {
 		const commentsReq = await fetch(`${VITE_BACKEND_URL}/api/v1/posts/${cid}/comments`);
 
 		if(req.status !== 200) {
-			throw error(req.status, {message: "not found"})
+			error(req.status, {message: "not found"});
 		}
 
 		const post = await req.json();
@@ -23,7 +23,7 @@ export const load = (async ({params, fetch, locals}) => {
 			comments: comments.data ?? []
 		};
 	} catch (err) {
-		throw error(404, {message: "not found"})
+		error(404, {message: "not found"});
 	}
 }) satisfies PageServerLoad;
 

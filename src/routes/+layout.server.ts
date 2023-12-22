@@ -1,4 +1,3 @@
-import { VITE_BACKEND_URL } from "$env/static/private";
 import { parseNonPOJO } from "$lib/helpers/parse_pojo";
 import type { LayoutServerLoad } from "./$types";
 

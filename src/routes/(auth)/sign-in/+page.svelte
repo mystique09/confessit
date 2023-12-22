@@ -55,7 +55,7 @@
 			form?.loginFailed ||
 			form?.missingCredentials}
 			<div
-				in:slide={{ delay: 300 }}
+				in:slide|global={{ delay: 300 }}
 				tabindex="-1"
 				class="collapse w-full md:w-3/4 m-auto collapse-open"
 			>

@@ -73,7 +73,7 @@ export async function interceptRoute(
 			)
 		) {
 			console.log("redirecting...");
-			throw redirect(301, "/sign-in");
+			redirect(301, "/sign-in");
 		}
 	}
 
@@ -88,7 +88,7 @@ export async function interceptRoute(
 			auth.user &&
 			auth.user_identity
 		) {
-			throw redirect(301, "/dashboard");
+			redirect(301, "/dashboard");
 		}
 	}
 }

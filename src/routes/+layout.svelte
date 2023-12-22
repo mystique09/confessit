@@ -1,13 +1,14 @@
 <script lang="ts">
-	import Navbar from '$lib/components/heading/navbar.svelte';
-	import '../app.css';
-	import '@fontsource/poppins';
-	import BackToTop from '$lib/components/back_to_top.svelte';
-	import toggleMenu from '$lib/store/menu';
-	import Menu from '$lib/components/heading/menu.svelte';
-	import { fade } from 'svelte/transition';
 	import { navigating, page } from '$app/stores';
 	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
+	import BackToTop from '$lib/components/back_to_top.svelte';
+	import Menu from '$lib/components/heading/menu.svelte';
+	import Navbar from '$lib/components/heading/navbar.svelte';
+	import toggleMenu from '$lib/store/menu';
+	import '@fontsource/poppins';
+	import { setContext } from 'svelte';
+	import { fade } from 'svelte/transition';
+	import '../app.css';
 
 	let yPos: number = 0;
 	let width: number = 0;
@@ -27,6 +28,8 @@
 			showLoadingScreen = false;
 		}
 	}
+
+	setContext('userAuth', { isAuthenticated: $page.data.isAuthenticated ?? false });
 </script>
 
 {#if $page.data.serverStatus === 'offline'}
@@ -35,7 +38,7 @@
 	</div>
 {/if}
 
-<Navbar isAuthenticated={$page.data.authenticated} />
+<Navbar />
 
 {#if showLoadingScreen}
 	<div class="fixed z-30 top-0 left-0 w-screen h-screen bg-neutral">
@@ -45,11 +48,11 @@
 		</div>
 	</div>
 {:else if !$toggleMenu}
-	<div in:fade={{ duration: 100, delay: 200 }}>
+	<div in:fade|global={{ duration: 100, delay: 200 }}>
 		<slot />
 	</div>
 {:else}
-	<Menu isAuthenticated={$page.data.authenticated} />
+	<Menu />
 {/if}
 
 <svelte:window bind:scrollY={yPos} bind:innerWidth={width} />

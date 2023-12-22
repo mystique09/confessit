@@ -3,7 +3,7 @@
 	import toggleMenu, { toggle } from '$lib/store/menu';
 	import { invalidateAll } from '$app/navigation';
 	import ArrowLeft from '../icons/arrow_left.svelte';
-	export let isAuthenticated: boolean = false;
+	import { getContext } from 'svelte';
 
 	const signoutHandler = async () => {
 		try {
@@ -18,6 +18,8 @@
 		}
 		$toggleMenu = false;
 	};
+
+	let ctx: { isAuthenticated: boolean } = getContext('userAuth');
 </script>
 
 <div class="navbar h-full px-4 max-w-6xl m-auto">
@@ -28,7 +30,7 @@
 			</a>
 		</div>
 	</div>
-	{#if !isAuthenticated}
+	{#if !ctx.isAuthenticated}
 		<div class="navbar-center flex-1 items-center justify-center">
 			<ul class="hidden md:flex md:flex-row justify-evenly w-3/4 font-bold text-white md:text-sm">
 				<li><a href="/wall">Wall</a></li>

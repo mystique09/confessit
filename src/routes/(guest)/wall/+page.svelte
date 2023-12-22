@@ -15,6 +15,8 @@
 	export let data: PageData;
 	export let form: ActionData;
 
+	let modalRef;
+
 	$: hasError = form?.postFailed;
 	$: message = form?.message;
 
@@ -25,6 +27,8 @@
 	const resetForm = () => {
 		message = '';
 		hasError = false;
+
+		modalRef?.close();
 	};
 
 	$: currentPage = Number($page.url.searchParams.get('page')) || 0;
@@ -45,7 +49,7 @@
 		}
 	}
 
-	$: if(form?.postFailed) {
+	$: if (form?.postFailed) {
 		isLoading = false;
 	}
 </script>
@@ -64,7 +68,7 @@
 	</label>
 
 	<input type="checkbox" id="create_modal" class="modal-toggle" />
-	<div class="modal">
+	<div bind:this={modalRef} class="modal">
 		<div class="modal-box h-full">
 			<h3 class="modal-title font-bold text-lg text-center">
 				Create new post, and let the public know.
@@ -92,14 +96,13 @@
 					rows="10"
 				/>
 				<div class="modal-action flex flex-row items-center justify-around">
-					<label
+					<button
 						on:click={resetForm}
 						on:keydown={resetForm}
-						for="create_modal"
 						class="btn btn-error normal-case gap-2"
 					>
 						<Delete /> Cancel
-					</label>
+					</button>
 					<button
 						on:click={handleSubmit}
 						class:loading={isLoading}

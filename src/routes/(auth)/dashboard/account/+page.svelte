@@ -61,14 +61,14 @@
 
 <div class="w-full h-screen bg-base py-6 px-4 max-w-md">
 	{#if form?.failedAccountUpdate}
-		<div in:slide={{ delay: 300 }} class="text-sm alert alert-error alert-sm my-8 flex flex-row">
+		<div in:slide|global={{ delay: 300 }} class="text-sm alert alert-error alert-sm my-8 flex flex-row">
 			<Info className="w-6 h-6 stroke-error-content" />
 			{form?.message}
 		</div>
 	{/if}
 	{#if form?.updateSuccess}
 		<div class="modal modal-open">
-			<div class="modal-box" in:slide={{ delay: 300 }}>
+			<div class="modal-box" in:slide|global={{ delay: 300 }}>
 				<h3 class="font-bold text-lg">{form?.message}</h3>
 				<p class="text-sm py-4">
 					Session ended, you need to login again after updating your account.

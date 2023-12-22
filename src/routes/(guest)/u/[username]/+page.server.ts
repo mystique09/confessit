@@ -7,7 +7,7 @@ export const load = (async ({ params, request, fetch, locals }) => {
     const { username } = params;
 
     if (locals.serverStatus === "offline") {
-        throw error(404, { message: "server is offline." });
+        error(404, { message: "server is offline." });
     }
 
     try {
@@ -22,7 +22,7 @@ export const load = (async ({ params, request, fetch, locals }) => {
 
         return { userId: data.id };
     } catch (e) {
-        throw error(404, { message: "User not found!" });
+        error(404, { message: "User not found!" });
     }
 }) satisfies PageServerLoad;
 

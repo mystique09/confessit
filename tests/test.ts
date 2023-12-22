@@ -7,5 +7,5 @@ test('index page has expected h1', async ({ page }) => {
 
 test('', async ({ page }) => {
   await page.goto('/login');
-  expect(await page.textContent('h1')).toBe('Login');
+    expect(await page.textContent('h1')).toBe('Login');
 });

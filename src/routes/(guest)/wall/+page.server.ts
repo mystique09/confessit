@@ -32,7 +32,7 @@ export const load = (async function({fetch, locals, url}) {
 			hasNext: !!nextPage.data,
 		};
 	} catch(err) {
-		throw error(500, "Internal Server Error")
+		error(500, "Internal Server Error");
 	}
 }) satisfies PageServerLoad;
 

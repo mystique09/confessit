@@ -85,7 +85,7 @@
 		<div class="divider w-3/4 m-auto my-4 text-neutral">or</div>
 		{#if form?.signUpFailed || form?.invalidPasswordLength || form?.invalidUsernameLength || form?.passwordsDoNotMatch || form?.missingCredentials || form?.invalidRecaptchaToken || form?.missingRecaptchaToken}
 			<div
-				in:slide={{ delay: 300 }}
+				in:slide|global={{ delay: 300 }}
 				tabindex="-1"
 				class="collapse w-full md:w-3/4 m-auto collapse-open"
 			>
@@ -120,7 +120,7 @@
 					{/if}
 				</button>
 				<input
-					class="input input-bordered  w-full bg-white text-neutral"
+					class="input input-bordered w-full bg-white text-neutral"
 					type={showPassword ? 'text' : 'password'}
 					name="password"
 					id="password"
@@ -132,7 +132,7 @@
 			<div class="input-group">
 				<span class="bg-white"><Key className="w-6 h-6 stroke-neutral" /></span>
 				<input
-					class="input input-bordered  w-full bg-white text-neutral"
+					class="input input-bordered w-full bg-white text-neutral"
 					type="password"
 					name="confirm-password"
 					id="confirm-password"
@@ -145,7 +145,6 @@
 						type="button"
 						id="g-recaptcha"
 						name="g-recaptcha"
-						aria-required="true"
 						on:click={onSubmitCaptcha}
 						class="g-recaptcha btn btn-ghost text-error text-xs font-light normal-case"
 						class:text-success={tokenAcquired}
@@ -160,7 +159,6 @@
 						type="button"
 						id="g-recaptcha"
 						name="g-recaptcha"
-						aria-required="true"
 						on:click={onSubmitCaptcha}
 						class="g-recaptcha btn btn-ghost text-neutral text-xs font-light normal-case"
 						class:text-success={tokenAcquired}

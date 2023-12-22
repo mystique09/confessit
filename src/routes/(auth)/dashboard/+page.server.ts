@@ -6,7 +6,7 @@ export const load = (async ({ parent, fetch, locals }) => {
 	const {user, user_identity } = await parent();
 
 	if(locals.serverStatus === "offline") {
-		throw error(404, {message: "server is offline."});
+		error(404, {message: "server is offline."});
 	}
 	
 	try {
@@ -23,6 +23,6 @@ export const load = (async ({ parent, fetch, locals }) => {
 			user, user_identity, messages: res.data ?? []
 		};
 	} catch(e) {
-		throw error(500, {message: "something went wrong."});
+		error(500, {message: "something went wrong."});
 	}
 }) satisfies PageServerLoad;

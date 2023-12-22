@@ -7,7 +7,7 @@ export const load = (async ({ parent, fetch }) => {
 	const {serverStatus} = await parent();
 
 	if(serverStatus === "offline") {
-		throw error(404, {message: "server is offline."});
+		error(404, {message: "server is offline."});
 	}
 }) satisfies PageServerLoad;
 
