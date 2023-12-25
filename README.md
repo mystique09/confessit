@@ -6,6 +6,7 @@ Welcome to CNFS - the place where you can send anonymous messages to anyone, any
 > The website is still a work in progress.
 
 ## Framework/Library used
+
 - Frontend
   - Sveltekit
   - html2canvas to generate image with html elements

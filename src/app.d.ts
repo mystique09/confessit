@@ -4,7 +4,7 @@
 // for information about these interfaces
 declare namespace App {
 	interface Locals {
-		serverStatus: "online" | "offline";
+		serverStatus: 'online' | 'offline';
 		session_id: string;
 		access_token: string;
 		refresh_token: string;

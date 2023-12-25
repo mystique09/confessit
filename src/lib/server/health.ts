@@ -1,4 +1,4 @@
-import { VITE_BACKEND_URL } from "$env/static/private";
+import { VITE_BACKEND_URL } from '$env/static/private';
 
 export async function checkServerHealth(): Promise<boolean> {
 	try {

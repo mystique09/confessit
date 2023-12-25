@@ -1,27 +1,27 @@
-import { VITE_BACKEND_URL } from "$env/static/private";
-import { error, fail } from "@sveltejs/kit";
-import type { Actions, PageServerLoad } from "./$types";
+import { VITE_BACKEND_URL } from '$env/static/private';
+import { error, fail } from '@sveltejs/kit';
+import type { Actions, PageServerLoad } from './$types';
 
-export const load = (async function({fetch, locals, url}) {
-	const page = Number(url.searchParams.get("page")) || 0;
+export const load = async function ({ fetch, locals, url }) {
+	const page = Number(url.searchParams.get('page')) || 0;
 
 	try {
 		const req = await fetch(`${VITE_BACKEND_URL}/api/v1/posts?page=${page}`, {
-			method: "GET",
+			method: 'GET',
 			headers: {
-				"Content-Type": "application/json",
+				'Content-Type': 'application/json'
 			}
 		});
 
 		const hasNextRequest = await fetch(`${VITE_BACKEND_URL}/api/v1/posts?page=${page + 1}`, {
-			method: "GET",
+			method: 'GET',
 			headers: {
-				"Content-Type": "application/json",
+				'Content-Type': 'application/json'
 			}
 		});
 
-		if(req.status !== 200) {
-			console.log(req.status)
+		if (req.status !== 200) {
+			console.log(req.status);
 		}
 
 		const posts = await req.json();
@@ -29,28 +29,28 @@ export const load = (async function({fetch, locals, url}) {
 
 		return {
 			posts: posts.data ?? [],
-			hasNext: !!nextPage.data,
+			hasNext: !!nextPage.data
 		};
-	} catch(err) {
-		error(500, "Internal Server Error");
+	} catch (err) {
+		error(500, 'Internal Server Error');
 	}
-}) satisfies PageServerLoad;
+} satisfies PageServerLoad;
 
 export const actions: Actions = {
-	createNewPost: async ({request, fetch, locals}) => {
+	createNewPost: async ({ request, fetch, locals }) => {
 		const data = await request.formData();
-		const content = data.get("content").toString();
+		const content = data.get('content').toString();
 
 		try {
-			if(!content) {
-				return fail(400, {postFailed: true, message: "Post content is required."});
+			if (!content) {
+				return fail(400, { postFailed: true, message: 'Post content is required.' });
 			}
 
 			const req = await fetch(`${VITE_BACKEND_URL}/api/v1/posts`, {
-				method: "POST",
+				method: 'POST',
 				headers: {
-					"Content-Type": "application/json",
-					"Authorization": `Bearer ${locals.access_token}`
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${locals.access_token}`
 				},
 				body: JSON.stringify({
 					content: content,
@@ -58,20 +58,19 @@ export const actions: Actions = {
 				})
 			});
 
-
-			if(req.status !== 200) {
-				return fail(400, {postFailed: true, message: "Unable to create post"});
+			if (req.status !== 200) {
+				return fail(400, { postFailed: true, message: 'Unable to create post' });
 			}
 
 			const res = await req.json();
 
-			if(req.status !== 200) {
-				return fail(400, {postFailed: true, message: res.message});
+			if (req.status !== 200) {
+				return fail(400, { postFailed: true, message: res.message });
 			}
 
-			return { newPostSuccess: true, message: "Post created successfully." };
-		} catch(err) {
-			return fail(400, {message: "Something went wrong."});
+			return { newPostSuccess: true, message: 'Post created successfully.' };
+		} catch (err) {
+			return fail(400, { message: 'Something went wrong.' });
 		}
 	}
 };

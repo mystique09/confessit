@@ -1,4 +1,4 @@
-import { writable } from "svelte/store";
+import { writable } from 'svelte/store';
 
 function newPostStore() {
 	const { subscribe, set, update } = writable<Post[]>([]);
@@ -24,7 +24,7 @@ function newPostStore() {
 		initPosts,
 		updatePost,
 		updateData,
-		deletePost,
+		deletePost
 	};
 }
 

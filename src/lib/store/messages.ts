@@ -1,4 +1,4 @@
-import { writable, type Writable } from "svelte/store";
+import { writable, type Writable } from 'svelte/store';
 
 function newMessageStore() {
 	const { subscribe, set, update }: Writable<Array<Message>> = writable([]);
@@ -39,7 +39,7 @@ function newMessageStore() {
 		updateData,
 		deleteMessage,
 		add: (message: Message) => update((messages) => [...messages, message]),
-		clear: () => set([]),
+		clear: () => set([])
 	};
 }
 

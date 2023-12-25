@@ -1,4 +1,4 @@
-import { writable, type Writable } from "svelte/store";
+import { writable, type Writable } from 'svelte/store';
 
 const toggleMenu: Writable<boolean> = writable(false);
 
