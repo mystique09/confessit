@@ -92,9 +92,10 @@
 				<button class="btn bg-white btn-ghost" type="button" on:click={togglePassword}>
 					<Show when={showPassword}>
 						<EyeClose className="w-6 h-6 stroke-neutral" />
-					</Show>
-					<Show when={!showPassword}>
-						<EyeOpen className="w-6 h-6 stroke-neutral" />
+
+						{#snippet fallback()}
+							<EyeOpen className="w-6 h-6 stroke-neutral" />
+						{/snippet}
 					</Show>
 				</button>
 				<input

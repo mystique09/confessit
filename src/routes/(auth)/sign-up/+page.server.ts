@@ -21,14 +21,14 @@ export const actions: Actions = {
 			});
 		}
 
-		if (username.length < 8) {
+		if (username.toString().length < 8) {
 			return fail(400, {
 				invalidUsernameLength: true,
 				message: "Username must be at least 8 characters long.",
 			});
 		}
 
-		if (password.length < 8) {
+		if (password.toString().length < 8) {
 			return fail(400, {
 				invalidPasswordLength: true,
 				message: "Password must be at least 8 characters long.",

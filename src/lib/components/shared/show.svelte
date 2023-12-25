@@ -7,7 +7,7 @@
 		fallback?: Snippet;
 	};
 
-	let { when: condition, children, fallback} = $props<Props>();
+	let { when: condition, children, fallback } = $props<Props>();
 </script>
 
 {#if condition}

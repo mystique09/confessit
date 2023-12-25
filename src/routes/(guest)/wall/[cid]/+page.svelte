@@ -67,11 +67,19 @@
 			<div class="px-4 bg-neutral w-full md:w-auto py-2 flex flex-col items-start gap-4">
 				<div class="divider" />
 				<form method="POST" action="?/newComment" class="new_comment h-24 w-full" use:enhance>
-					<Show when={ctx.isAuthenticated} fallback={authRequiredToComment}>
+					<Show when={ctx.isAuthenticated}>
 						<p class="text-sm text-white">Comment anonymously</p>
+
+						{#snippet fallback()}
+							<a href="/sign-in" class="text-sm underline text-white">Sign in to comment</a>
+						{/snippet}
 					</Show>
-					<Show when={form?.commentSuccess} fallback={commentFailed}>
+					<Show when={form?.commentSuccess}>
 						<p class="text-xs text-success">Comment added.</p>
+
+						{#snippet fallback()}
+							<p class="text-xs text-error">Comment is required</p>
+						{/snippet}
 					</Show>
 
 					<textarea
@@ -120,12 +128,3 @@
 		</div>
 	</div>
 </div>
-
-
-{#snippet authRequiredToComment()}
-	<a href="/sign-in" class="text-sm underline text-white">Sign in to comment</a>
-{/snippet}
-
-{#snippet commentFailed()}
-	<p class="text-xs text-error">Comment is required</p>
-{/snippet}

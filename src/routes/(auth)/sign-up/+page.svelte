@@ -119,9 +119,10 @@
 				<button class="btn bg-white btn-ghost" type="button" on:click={togglePassword}>
 					<Show when={showPassword}>
 						<EyeClose className="w-6 h-6 stroke-neutral" />
-					</Show>
-					<Show when={!showPassword}>
-						<EyeOpen className="w-6 h-6 stroke-neutral" />
+
+						{#snippet fallback()}
+							<EyeOpen className="w-6 h-6 stroke-neutral" />
+						{/snippet}
 					</Show>
 				</button>
 				<input
@@ -145,7 +146,38 @@
 			</div>
 			<input type="hidden" id="token" name="token" bind:value={token} />
 			<div class="flex-col items-start w-full gap-4 md:flex-row mt-2">
-				{@render renderCustomRecaptchaBtn(form?.missingRecaptchaToken)}
+				<Show when={form.missingRecaptchaToken}>
+					<button
+						type="button"
+						id="g-recaptcha"
+						name="g-recaptcha"
+						on:click={onSubmitCaptcha}
+						class="g-recaptcha btn btn-ghost text-error text-xs font-light normal-case"
+						class:text-success={tokenAcquired}
+						class:loading={isLoadingToken}
+					>
+							<Show when={!isLoadingToken}>
+								<Check className={`w-8 h-8 ${tokenAcquired ? 'stroke-success' : 'stroke-error'}`} />
+							</Show> human verification
+					</button>
+
+					{#snippet fallback()}
+						<button
+							type="button"
+							id="g-recaptcha"
+							name="g-recaptcha"
+							on:click={onSubmitCaptcha}
+							class="g-recaptcha btn btn-ghost text-neutral text-xs font-light normal-case"
+							class:text-success={tokenAcquired}
+							class:loading={isLoadingToken}
+						>
+								<Show when={!isLoadingToken}>
+									<Check className={`w-8 h-8 ${tokenAcquired ? 'stroke-success' : 'stroke-error'}`} />
+								</Show> human verification
+						</button>
+					{/snippet}
+				</Show>
+			
 				<div class="flex flex-col md:flex-row-reverse items-center gap-2 m-auto w-full mt-4">
 					<button
 						on:click={submitFormHandler}
@@ -162,43 +194,3 @@
 		</form>
 	</div>
 </div>
-
-{#snippet renderCustomRecaptchaBtn({success})}
-	<Show when={success} fallback={renderErrorCaptchaBtn}>
-		{@render renderNormalCaptchaBtn()}
-	</Show>
-{/snippet}
-
-{#snippet renderNormalCaptchaBtn()}
-	<button
-			type="button"
-			id="g-recaptcha"
-			name="g-recaptcha"
-			on:click={onSubmitCaptcha}
-			class="g-recaptcha btn btn-ghost text-error text-xs font-light normal-case"
-			class:text-success={tokenAcquired}
-			class:loading={isLoadingToken}
-		>
-			{@render renderCheckIcon()} human verification
-	</button>	
-{/snippet}
-
-{#snippet renderErrorCaptchaBtn()}
-<button
-		type="button"
-		id="g-recaptcha"
-		name="g-recaptcha"
-		on:click={onSubmitCaptcha}
-		class="g-recaptcha btn btn-ghost text-neutral text-xs font-light normal-case"
-		class:text-success={tokenAcquired}
-		class:loading={isLoadingToken}
-	>
-		{@render renderCheckIcon()} human verification
-	</button>
-{/snippet}
-
-{#snippet renderCheckIcon()}
-	<Show when={!isLoadingToken}>
-		<Check className={`w-8 h-8 ${tokenAcquired ? 'stroke-success' : 'stroke-error'}`} />
-	</Show>
-{/snippet}

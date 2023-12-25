@@ -19,12 +19,12 @@
 		<div class="absolute top-2 right-2">
 			<EllipsisVertical className="h-6 stroke-neutral" />
 		</div>
-		<Show when={isOpen} fallback={closeIcon}>
+		<Show when={isOpen}>
 			<EnvelopeOpen className="w-full h-full stroke-neutral" />
+
+			{#snippet fallback()}
+				<EnvelopeClose className="w-full h-full stroke-neutral" />
+			{/snippet}
 		</Show>
 	</div>
 </div>
-
-{#snippet closeIcon()}
-	<EnvelopeClose className="w-full h-full stroke-neutral" />
-{/snippet}

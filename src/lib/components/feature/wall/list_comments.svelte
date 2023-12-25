@@ -15,16 +15,16 @@
 			<input type="checkbox" name="comments" id="comments" />
 			<div class="collapse-title">Comments</div>
 			<div class="collapse-content">
-				<Show when={comments.length > 0} fallback={noCommentFallback}>
+				<Show when={comments.length > 0}>
 					{#each comments as postComment}
 						<CommentComponent data={postComment} />
 					{/each}
+
+					{#snippet fallback()}
+						<h1>No comments yet.</h1>
+					{/snippet}
 				</Show>
 			</div>
 		</div>
 	</div>
 </div>
-
-{#snippet noCommentFallback()}
-	<h1>No comments yet.</h1>
-{/snippet}

@@ -60,7 +60,7 @@
 		</button>
 	</div>
 	<div class="flex items-center justify-start flex-wrap gap-4 mt-8 max-w-2xl">
-		<Show when={$messageStore && $messageStore.length > 0} fallback={renderEmptyMessagePromp}>
+		<Show when={$messageStore && $messageStore.length > 0}>
 			{#each $messageStore as message (message.id + message.content)}
 				<MessageCard
 					content={message.content}
@@ -69,13 +69,13 @@
 					isOpen={!!message.seen}
 				/>
 			{/each}
+
+			{#snippet fallback()}
+				<div class="text-white text-xl md:text-2xl">
+					<h1 class="text-2xl">No messages</h1>
+					<p class="text-sm">You can start by sharing your link to your friends.</p>
+				</div>
+			{/snippet}
 		</Show>
 	</div>
 </div>
-
-{#snippet renderEmptyMessagePromp()}
-	<div class="text-white text-xl md:text-2xl">
-		<h1 class="text-2xl">No messages</h1>
-		<p class="text-sm">You can start by sharing your link to your friends.</p>
-	</div>
-{/snippet}

@@ -38,55 +38,50 @@
 	</div>
 </div>
 
-
 {#snippet renderNavLinks()}
-	<Show when={ctx.isAuthenticated} fallback={unAuthenticatedNav}>
-		{@render authenticatedNav()}
-	</Show>
-{/snippet}
-
-{#snippet unAuthenticatedNav()}
-	<div class="navbar-center flex-1 items-center justify-center">
-		<ul class="hidden md:flex md:flex-row justify-evenly w-3/4 font-bold text-white md:text-sm">
-			<li><a href="/wall">Wall</a></li>
-			<li><a href="/#whatiscnfs">What's CNFS</a></li>
-			<li><a href="/#guidelines">Guidelines</a></li>
-			<li><a href="/#faq">FAQ</a></li>
-			<li><a href="/#privacy-policy">Privacy policy</a></li>
-		</ul>
-	</div>
-	<div class="hidden md:flex md:flex-0">
-		<a
-			class="btn btn-error px-10 h-14 text-sm normal-case rounded-full font-bold hover:bg-transparent hover:text-error"
-			href="/sign-up">JOIN CNFS</a
-		>
-	</div>
-{/snippet}
-
-{#snippet authenticatedNav()}
-	<div class="navbar-end hidden md:flex md:flex-1">
-		<ul class="hidden md:flex md:flex-row justify-evenly w-1/2 font-bold text-white md:text-base">
-			<li><a href="/wall">Wall</a></li>
-			<li><a href="/#guidelines">Guidelines</a></li>
-			<li><a href="/#privacy-policy">Privacy policy</a></li>
-		</ul>
-		<div class="dropdown dropdown-end rounded-btn">
-			<label tabindex="-1" for="" class="btn btn-ghost btn-circle w-14 h-14">
-				<div class="avatar">
-					<div class="w-full rounded-full">
-						<img src="https://placeimg.com/192/192/people" alt="random people" />
-					</div>
-				</div>
-			</label>
-			<ul class="menu gap-2 dropdown-content p-2 shadow bg-base-200 w-56">
-				<li><a href="/dashboard">Messages</a></li>
-				<li><a href="/dashboard/account">Account</a></li>
-				<li class="mt-8">
-					<button on:click={signoutHandler} type="button" class="normal-case btn btn-accent">
-						<ArrowLeft /> Sign out
-					</button>
-				</li>
+	<Show when={ctx.isAuthenticated}>
+		<div class="navbar-end hidden md:flex md:flex-1">
+			<ul class="hidden md:flex md:flex-row justify-evenly w-1/2 font-bold text-white md:text-base">
+				<li><a href="/wall">Wall</a></li>
+				<li><a href="/#guidelines">Guidelines</a></li>
+				<li><a href="/#privacy-policy">Privacy policy</a></li>
 			</ul>
+			<div class="dropdown dropdown-end rounded-btn">
+				<label tabindex="-1" for="" class="btn btn-ghost btn-circle w-14 h-14">
+					<div class="avatar">
+						<div class="w-full rounded-full">
+							<img src="https://placeimg.com/192/192/people" alt="random people" />
+						</div>
+					</div>
+				</label>
+				<ul class="menu gap-2 dropdown-content p-2 shadow bg-base-200 w-56">
+					<li><a href="/dashboard">Messages</a></li>
+					<li><a href="/dashboard/account">Account</a></li>
+					<li class="mt-8">
+						<button on:click={signoutHandler} type="button" class="normal-case btn btn-accent">
+							<ArrowLeft /> Sign out
+						</button>
+					</li>
+				</ul>
+			</div>
 		</div>
-	</div>
+
+		{#snippet fallback()}
+			<div class="navbar-center flex-1 items-center justify-center">
+				<ul class="hidden md:flex md:flex-row justify-evenly w-3/4 font-bold text-white md:text-sm">
+					<li><a href="/wall">Wall</a></li>
+					<li><a href="/#whatiscnfs">What's CNFS</a></li>
+					<li><a href="/#guidelines">Guidelines</a></li>
+					<li><a href="/#faq">FAQ</a></li>
+					<li><a href="/#privacy-policy">Privacy policy</a></li>
+				</ul>
+			</div>
+			<div class="hidden md:flex md:flex-0">
+				<a
+					class="btn btn-error px-10 h-14 text-sm normal-case rounded-full font-bold hover:bg-transparent hover:text-error"
+					href="/sign-up">JOIN CNFS</a
+				>
+			</div>
+		{/snippet}
+	</Show>
 {/snippet}

@@ -138,9 +138,10 @@
 			<button on:click={togglePassword} type="button" class="btn btn-sm">
 				<Show when={showPassword}>
 					<EyeClose />
-				</Show>
-				<Show when={!showPassword}>
-					<EyeOpen />
+
+					{#snippet fallback()}
+						<EyeOpen />
+					{/snippet}
 				</Show>
 			</button>
 		</div>

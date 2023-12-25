@@ -131,15 +131,16 @@
 					<Post item={post} />
 				{/each}
 			</div>
+
+			{#snippet fallback()}
+				<div class="flex flex-col items-center justify-center h-full">
+					<h1 class="lg:text-sm">
+						It's either no one posted yet or you already reached the last post.
+					</h1>
+				</div>
+			{/snippet}
 		</Show>
 
-		<Show when={data.posts.length <= 0}>
-			<div class="flex flex-col items-center justify-center h-full">
-				<h1 class="lg:text-sm">
-					It's either no one posted yet or you already reached the last post.
-				</h1>
-			</div>
-		</Show>
 		<div class="w-1/4">
 			<div class="guidelines_card h-56 w-full bg-neutral hidden lg:flex lg:flex-col p-4">
 				<ul class="text-xs flex flex-col gap-2">

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ArrowUp from '$lib/components/icons/arrow_up.svelte';
 	import Delete from '$lib/components/icons/delete.svelte';
+	import Show from '$lib/components/shared/show.svelte';
 	import messageStore from '$lib/store/messages';
 	import html2canvas from 'html2canvas';
 
@@ -74,9 +75,9 @@
 			class:btn-disabled={isDeleting}
 			class:loading={isDeleting}
 		>
-			{#if !isDeleting}
+			<Show when={!isDeleting}>
 				<Delete />
-			{/if}
+			</Show>
 			Delete
 		</button>
 		<button
@@ -85,9 +86,9 @@
 			class:btn-disabled={isDownloading}
 			class:loading={isDownloading}
 		>
-			{#if !isDownloading}
+			<Show when={isDownloading}>
 				<ArrowUp className="w-6 h-6 rotate-180" />
-			{/if}
+			</Show>
 			Download
 		</button>
 	</div>
